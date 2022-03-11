@@ -1,9 +1,17 @@
-const express = require('express')
-const app = express()
-require('dotenv').config()
+const express = require('express');
 
-require('./startup/routes')(app)
-require('./startup/db')()
+const app = express();
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const port = process.env.PORT || 3000
-app.listen(port, () => console.log(`Listening on port ${port}...`))
+require('./routes')(app);
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on port ${port}...`));
+
+mongoose
+  .connect(process.env.DATABASE_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('MongoDB successfully connected...'));
