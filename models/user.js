@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const yup = require('yup')
+const mongoose = require('mongoose');
+const yup = require('yup');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -27,9 +27,9 @@ const userSchema = new mongoose.Schema({
       default: '',
     },
   ],
-})
+});
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
 const validator = yup.object().shape({
   name: yup
@@ -46,7 +46,7 @@ const validator = yup.object().shape({
     .min(8, 'The password should be at least 8 characters.')
     .max(128, 'The password should not have more than 128 characters.')
     .required('The password is a required field.'),
-})
+});
 
-exports.User = User
-exports.schema = validator
+exports.User = User;
+exports.schema = validator;
