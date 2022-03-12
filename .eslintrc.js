@@ -11,5 +11,6 @@ module.exports = {
   },
   rules: {
     'consistent-return': 'off',
+    'no-underscore-dangle': 'off',
   },
 };
