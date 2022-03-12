@@ -2,15 +2,15 @@ const mongoose = require('mongoose');
 const yup = require('yup');
 
 const entrySchema = new mongoose.Schema({
-  category: {
-    type: String,
-    default: 'Other',
-  },
-  expense: {
+  income: {
     type: Boolean,
   },
   amount: {
     type: Number,
+  },
+  category: {
+    type: String,
+    default: 'Other',
   },
   created: {
     type: Date,
@@ -19,30 +19,29 @@ const entrySchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Entry',
-    required: true,
   },
 });
 
 const Entry = mongoose.model('Entry', entrySchema);
 
-const incomes = ['Savings', 'Salary', 'Gift', 'Other'];
-
-const expenses = [
-  'Food & Drinks',
-  'Shopping',
-  'Groceries',
-  'Transport',
-  'Health',
-  'Life & Entertainment',
-  'Home',
-  'Gift',
-  'Other',
-];
-
 const schema = yup.object().shape({
-  category: yup.string().required().oneOf([incomes, expenses]),
-  expense: yup.boolean().required(),
+  income: yup.boolean().required(),
   amount: yup.number().required(),
+  category: yup.string().required().when('income', {
+    is: true,
+    then: yup.string().oneOf(['Savings', 'Salary', 'Gift', 'Other']),
+    otherwise: yup.string().oneOf([
+      'Food & Drinks',
+      'Shopping',
+      'Groceries',
+      'Transport',
+      'Health',
+      'Life & Entertainment',
+      'Home',
+      'Gift',
+      'Other',
+    ]),
+  }),
 });
 
 exports.Entry = Entry;
