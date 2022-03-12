@@ -13,7 +13,7 @@ router.get('/', auth, async (req, res) => {
     res.status(200).json({
       ok: true,
       msg: 'Users founded',
-      result: { user: [...users] },
+      result: { users: [...users] },
     });
   } catch (err) {
     res.status(404).json({
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id)
       .select('-password')
-      // .populate('entries')
+      .populate('entries')
       .exec();
     res.status(200).json({
       ok: true,
@@ -74,7 +74,11 @@ router.post('/register', async (req, res) => {
         ok: true,
         msg: 'User created',
       }));
-    });
+    }).catch((err) => res.status(400).json({
+      ok: false,
+      msg: 'Validation error',
+      result: err,
+    }));
   } catch (err) {
     res.status(500).json({
       ok: false,
@@ -113,7 +117,7 @@ router.post('/login', async (req, res) => {
       .json({
         ok: true,
         msg: 'User logged',
-        result: { token },
+        result: token,
       });
   } catch (err) {
     res.status(500).json({
