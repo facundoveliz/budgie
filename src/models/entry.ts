@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const yup = require('yup');
+import mongoose from 'mongoose'
+import * as Yup from 'yup'
 
 const entrySchema = new mongoose.Schema({
   income: {
@@ -18,19 +18,20 @@ const entrySchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Entry',
+    ref: 'User',
+    required: true,
   },
-});
+})
 
-const Entry = mongoose.model('Entry', entrySchema);
+export const Entry = mongoose.model('Entry', entrySchema)
 
-const schema = yup.object().shape({
-  income: yup.boolean().required(),
-  amount: yup.number().required(),
-  category: yup.string().required().when('income', {
+export const schema = Yup.object().shape({
+  income: Yup.boolean().required(),
+  amount: Yup.number().required(),
+  category: Yup.string().required().when('income', {
     is: true,
-    then: yup.string().oneOf(['Savings', 'Salary', 'Gift', 'Other']),
-    otherwise: yup.string().oneOf([
+    then: Yup.string().oneOf(['Savings', 'Salary', 'Gift', 'Other']),
+    otherwise: Yup.string().oneOf([
       'Food & Drinks',
       'Shopping',
       'Groceries',
@@ -42,7 +43,4 @@ const schema = yup.object().shape({
       'Other',
     ]),
   }),
-});
-
-exports.Entry = Entry;
-exports.schema = schema;
+})

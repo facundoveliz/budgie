@@ -1,30 +1,38 @@
-const express = require('express');
+import express from 'express'
+import { Request, Response } from '../types'
+import { Entry, schema } from '../models/entry'
+import { User } from '../models/user'
 
-const router = express.Router();
-const { Entry, schema } = require('../models/entry');
-const { User } = require('../models/user');
-const auth = require('../middleware/auth');
+const router = express.Router()
 
-router.get('/', auth, async (req, res) => {
+export const getEntries = async (req: Request, res: Response) => {
   try {
-    // get all entries and populate them with the User
-    // model, but bringing only name and email
-    const entries = await Entry.find().populate('user', 'name email').exec();
-    res.status(200).json({
-      ok: true,
-      msg: 'Entries founded',
-      result: { entries: [...entries] },
-    });
+    // get entries only from the current user
+    // NOTE: maybe take the id from the token?
+    const entries = await Entry.find({ user: req.user?._id })
+    if (entries) {
+      res.status(200).json({
+        ok: true,
+        msg: 'Entries founded',
+        result: { entries: [...entries] },
+      })
+    } else {
+      res.status(404).json({
+        ok: false,
+        msg: 'No entries founded',
+      })
+    }
   } catch (err) {
     res.status(404).json({
       ok: false,
       msg: 'No entries founded',
       result: err,
-    });
+    })
   }
-});
+}
 
-router.post('/', auth, async (req, res) => {
+// FIX: a user can only post an entry to his account
+export const postEntry = async (req: Request, res: Response) => {
   try {
     // checks for validation errors
     schema
@@ -34,15 +42,16 @@ router.post('/', auth, async (req, res) => {
           category: req.body.category,
           income: req.body.income,
           amount: req.body.amount,
-          user: req.body.user,
-        });
+          user: req.user?._id,
+        })
 
         // NOTE: income: plus, expense: minus
         // if the number is an expense, it will change the value to negative
         if (!entry.income) {
-          entry.amount = -Math.abs(entry.amount);
+          entry.amount = -Math.abs(entry.amount)
         }
 
+        // FIX: fix this to it can push it to users model
         await entry.save().then(
           // after the entry was created, we find the user
           // owner of the entry and change the balance
@@ -55,71 +64,71 @@ router.post('/', auth, async (req, res) => {
             msg: 'Entry created',
             result: entry,
           })),
-        );
+        )
       })
-      .catch((err) => res.status(400).json({
+      .catch((err: { errors?: string }) => res.status(400).json({
         ok: false,
         msg: 'Validation error',
-        result: err,
-      }));
+        result: err.errors,
+      }))
   } catch (err) {
     res.status(500).json({
       ok: false,
       msg: 'The entry could not be created',
       result: err,
-    });
+    })
   }
-});
+}
 
-router.put('/:id', auth, async (req, res) => {
+export const putEntry = async (req: Request, res: Response) => {
   try {
     schema.validate(req.body).then(async () => {
       const entry = {
         category: req.body.category,
         income: req.body.income,
         amount: req.body.amount,
-      };
+      }
 
       // NOTE: income: plus, expense: minus
       // if the number is an expense, it will change the value to negative
       if (!entry.income) {
-        entry.amount = -Math.abs(entry.amount);
+        entry.amount = -Math.abs(entry.amount)
       }
 
       await Entry.findByIdAndUpdate(req.params.id, entry).then(() => res.status(200).json({
         ok: true,
         msg: 'Entry updated',
         result: entry,
-      }));
-    }).catch((err) => res.status(400).json({
+      }))
+    }).catch((err: { errors?: string }) => res.status(400).json({
       ok: false,
       msg: 'Validation error',
-      result: err,
-    }));
+      result: err.errors,
+    }))
   } catch (err) {
     res.status(500).json({
       ok: false,
       msg: 'The entry could not be updated',
       result: err,
-    });
+    })
   }
-});
+}
 
-router.delete('/:id', auth, async (req, res) => {
+export const deleteEntry = async (req: Request, res: Response) => {
   try {
     await Entry.findByIdAndDelete(req.params.id).then(() => {
       res.status(200).json({
         ok: true,
         msg: 'Entry deleted',
-      });
-    });
+      })
+    })
   } catch (err) {
     res.status(500).json({
       ok: false,
       msg: 'The entry could not be deleted',
       result: err,
-    });
+    })
   }
-});
+}
 
-module.exports = router;
+export default router
