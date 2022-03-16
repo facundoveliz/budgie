@@ -8,7 +8,6 @@ interface Decoded {
   exp: Date;
 }
 
-// FIX: check if this works
 export default async (req: Request, res: Response, next: NextFunction) => {
   // checks if a token exists
   const token = req.cookies.jwtToken

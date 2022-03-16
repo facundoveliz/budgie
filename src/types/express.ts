@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request as Req, Response as Res, NextFunction as Next } from 'express'
 
-// FIX: better exports
-interface IGetUserAuthInfoRequest extends Request {
+// TODO: probably could do this better with more research
+interface User {
   user?: {
     _id: string
     name: string,
@@ -11,4 +11,6 @@ interface IGetUserAuthInfoRequest extends Request {
   },
 }
 
-export { IGetUserAuthInfoRequest as Request, Response, NextFunction }
+export type Request = Req & User
+export type Response = Res & User
+export type NextFunction = Next
