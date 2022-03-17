@@ -27,5 +27,5 @@ app.use(routes)
 app.use(notFound)
 app.use(errorHandler)
 
-// TODO: error handling
+// TODO: tests with supertest and jest
 // TODO: improve comments on all project

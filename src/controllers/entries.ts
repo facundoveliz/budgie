@@ -23,41 +23,39 @@ export const getEntries = async (req: Request, res: Response) => {
 
 export const postEntry = async (req: Request, res: Response) => {
   // checks for validation errors
-  schema
-    .validate(req.body)
-    .then(async () => {
-      const entry = new Entry({
-        category: req.body.category,
-        income: req.body.income,
-        amount: req.body.amount,
-        user: req.user?._id,
-      })
-
-      // NOTE: income: plus, expense: minus
-      // if the number is an expense, it will change the value to negative
-      if (!entry.income) {
-        entry.amount = -Math.abs(entry.amount)
-      }
-
-      await entry.save().then(
-        // after the entry was created, we find the user
-        // owner of the entry and change the balance
-        await User.findByIdAndUpdate(req.user?._id, {
-          $inc: {
-            balance: entry.amount,
-          },
-        }).then(() => res.status(200).json({
-          ok: true,
-          msg: 'Entry created',
-          result: entry,
-        })),
-      )
+  schema.validate(req.body).then(async () => {
+    const entry = new Entry({
+      category: req.body.category,
+      income: req.body.income,
+      amount: req.body.amount,
+      user: req.user?._id,
     })
-    .catch((err) => res.status(400).json({
-      ok: false,
-      msg: 'Validation error',
-      result: err,
-    }))
+
+    // NOTE: income: plus, expense: minus
+    // if the number is an expense, it will change the value to negative
+    // so it can rest the value of the user balance
+    if (!entry.income) {
+      entry.amount = -Math.abs(entry.amount)
+    }
+
+    await entry.save().then(
+      // after the entry was created, we find the user
+      // owner of the entry and change the balance
+      await User.findByIdAndUpdate(req.user?._id, {
+        $inc: {
+          balance: entry.amount,
+        },
+      }).then(() => res.status(200).json({
+        ok: true,
+        msg: 'Entry created',
+        result: entry,
+      })),
+    )
+  }).catch((err) => res.status(400).json({
+    ok: false,
+    msg: 'Validation error',
+    result: err,
+  }))
 }
 
 export const putEntry = async (req: Request, res: Response) => {
@@ -70,6 +68,7 @@ export const putEntry = async (req: Request, res: Response) => {
 
     // NOTE: income: plus, expense: minus
     // if the number is an expense, it will change the value to negative
+    // so it can rest the value of the user balance
     if (!entry.income) {
       entry.amount = -Math.abs(entry.amount)
     }

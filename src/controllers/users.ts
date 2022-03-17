@@ -6,13 +6,14 @@ import { User, schema } from '../models/user'
 
 const router = express.Router()
 
+// TODO: probably remove this and left only getUser use req.user?._id
 export const getUsers = async (req: Request, res: Response) => {
   const users = await User.find()
   if (users) {
     return res.status(200).json({
       ok: true,
       msg: 'Users founded',
-      result: { users: [...users] },
+      result: users,
     })
   }
   return res.status(404).json({
@@ -97,7 +98,7 @@ export const loginUser = async (req: Request, res: Response) => {
     })
   }
 
-  // generate token and set it to expire in 1 year
+  // generate token and set it to expire in 30 days
   const token = jwt.sign({ _id: user.id }, process.env.JWT_PRIVATE_KEY as string, {
     expiresIn: '30d',
   })
