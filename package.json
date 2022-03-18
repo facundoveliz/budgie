@@ -48,6 +48,6 @@
     "ts-node": "^10.7.0"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix"
+    "*.ts": "yarn lint"
   }
 }
