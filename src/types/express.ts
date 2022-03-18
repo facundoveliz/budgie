@@ -1,6 +1,5 @@
 import { Request as Req, Response as Res, NextFunction as Next } from 'express'
 
-// TODO: probably could do this better with more research
 interface User {
   user?: {
     _id: string

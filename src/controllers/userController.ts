@@ -1,40 +1,21 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-import { User, schema } from '../models/user'
+import { Request, Response } from '../types'
+import { User, schema } from '../models/userModel'
 
 const router = express.Router()
 
-// TODO: probably remove this and left only getUser use req.user?._id
-export const getUsers = async (req: Request, res: Response) => {
-  const users = await User.find()
-  if (users) {
-    return res.status(200).json({
-      ok: true,
-      msg: 'Users founded',
-      result: users,
-    })
-  }
-  return res.status(404).json({
-    ok: false,
-    msg: 'No users founded',
-  })
-}
-
 export const getUser = async (req: Request, res: Response) => {
-  const user = await User.findById(req.params.id).select('-password')
-  if (user) {
-    return res.status(200).json({
-      ok: true,
-      msg: 'User founded',
-      result: user,
-    })
-  }
-  return res.status(404).json({
-    ok: false,
-    msg: 'No users founded',
+  // get data only from the current user
+  const user = await User.findById(req.user?._id).select('-password')
+  return res.status(200).json({
+    ok: true,
+    msg: 'User founded',
+    result: user,
   })
+  // TODO: add not found
 }
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -81,7 +62,7 @@ export const loginUser = async (req: Request, res: Response) => {
   const user = await User.findOne({
     email: req.body.email,
   })
-  // if the email exists, the func ends here
+  // if the email doesn't exists, the func ends here
   if (!user) {
     return res.status(400).json({
       ok: false,
@@ -110,7 +91,7 @@ export const loginUser = async (req: Request, res: Response) => {
     .json({
       ok: true,
       msg: 'User logged',
-      result: token,
+      result: { ...user._doc, token },
     })
 }
 

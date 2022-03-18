@@ -1,6 +1,6 @@
 import jwt, { Secret } from 'jsonwebtoken'
 import { Request, Response, NextFunction } from '../types'
-import { User } from '../models/user'
+import { User } from '../models/userModel'
 
 interface Decoded {
   _id: string;

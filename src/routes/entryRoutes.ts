@@ -1,9 +1,9 @@
 import { Router } from 'express'
-import auth from '../middleware/auth'
+import auth from '../middleware/authMiddleware'
 import {
   getEntries, postEntry, putEntry, deleteEntry,
-} from '../controllers/entries'
-import { catchErrors } from '../middleware/errorHandler'
+} from '../controllers/entryController'
+import { catchErrors } from '../middleware/errorHandlerMiddleware'
 
 const router: Router = Router()
 

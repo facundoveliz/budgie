@@ -5,7 +5,7 @@ import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
 
 import routes from './routes'
-import { errorHandler, notFound } from './middleware/errorHandler'
+import { errorHandler, notFound } from './middleware/errorHandlerMiddleware'
 
 const app = express()
 
@@ -27,5 +27,4 @@ app.use(routes)
 app.use(notFound)
 app.use(errorHandler)
 
-// TODO: tests with supertest and jest
 // TODO: improve comments on all project

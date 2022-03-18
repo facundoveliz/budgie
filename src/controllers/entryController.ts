@@ -1,7 +1,7 @@
 import express from 'express'
 import { Request, Response } from '../types'
-import { Entry, schema } from '../models/entry'
-import { User } from '../models/user'
+import { Entry, schema } from '../models/entryModel'
+import { User } from '../models/userModel'
 
 const router = express.Router()
 
@@ -58,6 +58,7 @@ export const postEntry = async (req: Request, res: Response) => {
   }))
 }
 
+// TODO: check if the id trying to put/delete belongs to the user, and add the test too
 export const putEntry = async (req: Request, res: Response) => {
   schema.validate(req.body).then(async () => {
     const entry = {
@@ -104,7 +105,11 @@ export const deleteEntry = async (req: Request, res: Response) => {
       ok: true,
       msg: 'Entry deleted',
     })
-  })
+  }).catch((err) => res.status(400).json({
+    ok: false,
+    msg: 'Entry not founded',
+    result: err,
+  }))
 }
 
 export default router
