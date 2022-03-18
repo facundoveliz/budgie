@@ -15,7 +15,6 @@ export const getUser = async (req: Request, res: Response) => {
     msg: 'User founded',
     result: user,
   })
-  // TODO: add not found
 }
 
 export const registerUser = async (req: Request, res: Response) => {

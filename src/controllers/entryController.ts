@@ -58,7 +58,6 @@ export const postEntry = async (req: Request, res: Response) => {
   }))
 }
 
-// TODO: check if the id trying to put/delete belongs to the user, and add the test too
 export const putEntry = async (req: Request, res: Response) => {
   schema.validate(req.body).then(async () => {
     const entry = {
