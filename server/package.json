@@ -7,7 +7,7 @@
     "server": "nodemon --exec ts-node ./src/server.ts",
     "test": "jest --runInBand ./src/test",
     "lint": "eslint . --ext .ts",
-    "prepare": "husky install"
+    "prepare": "cd .. && husky install"
   },
   "keywords": [],
   "author": "",
