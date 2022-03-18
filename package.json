@@ -48,6 +48,6 @@
     "typescript": "^4.6.2"
   },
   "lint-staged": {
-    "*.ts": "yarn lint"
+    "*.ts": "yarn lint && yarn test"
   }
 }
