@@ -23,6 +23,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - name: Install dependencies
-      run: yarn
+      run: |
+        yarn
+        cd client
+        yarn
     - name: Run linter
-      run: yarn lint
+      run: |
+        yarn lint
+        cd client
+        yarn lint
