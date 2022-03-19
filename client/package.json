@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix"
+    "lint": "next lint --ext .tsx --fix"
   },
   "dependencies": {
     "next": "12.1.0",
