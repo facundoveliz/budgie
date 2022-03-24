@@ -3,18 +3,18 @@ module.exports = {
     browser: true,
     es2021: true,
   },
+  root: true,
   extends: [
     'plugin:react/recommended',
     'airbnb-typescript',
     'plugin:@next/next/recommended',
-    "plugin:import/recommended"
+    'plugin:import/recommended',
   ],
   parser: '@typescript-eslint/parser',
   plugins: [
     'react',
     '@typescript-eslint',
   ],
-  root: true,
   parserOptions: {
     project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
