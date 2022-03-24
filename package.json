@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon --exec ts-node ./src/server.ts",
-    "test": "jest --runInBand ./src/test",
-    "lint": "eslint ./src --ext .ts --fix"
+    "server": "nodemon --exec ts-node ./server.ts",
+    "test": "jest --runInBand ./test",
+    "lint": "eslint . --ext .ts --fix --ignore-pattern client"
   },
   "keywords": [],
   "author": "",
