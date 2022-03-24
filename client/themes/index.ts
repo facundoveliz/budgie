@@ -12,7 +12,7 @@ export const darkTheme = {
 
 export type ThemeType = {
   theme: typeof darkTheme
-}
+};
 
 export const GlobalStyle = createGlobalStyle<ThemeType>`
   body {
