@@ -1,8 +1,8 @@
 import mongoose from 'mongoose'
 import express from 'express'
 import dotenv from 'dotenv'
-import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
+import cors from 'cors'
 
 import routes from './routes'
 import { errorHandler, notFound } from './middleware/errorHandlerMiddleware'
@@ -12,8 +12,8 @@ const app = express()
 dotenv.config()
 
 app.use(express.json())
+app.use(cors({ credentials: true }))
 app.use(morgan('dev'))
-app.use(cookieParser())
 
 const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Listening on port ${port}...`))

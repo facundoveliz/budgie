@@ -7,7 +7,9 @@ const router = express.Router()
 
 export const getEntries = async (req: Request, res: Response) => {
   // get entries only from the current user
-  const entries = await Entry.find({ user: req.user?._id })
+  // WARNING: restore line after testing
+  // const entries = await Entry.find({ user: req.user?._id })
+  const entries = await Entry.find()
   if (entries) {
     return res.status(200).json({
       ok: true,

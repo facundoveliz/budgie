@@ -26,9 +26,9 @@ const entrySchema = new mongoose.Schema({
 export const Entry = mongoose.model('Entry', entrySchema)
 
 export const schema = Yup.object().shape({
-  income: Yup.boolean().required(),
-  amount: Yup.number().required(),
-  category: Yup.string().required().when('income', {
+  income: Yup.boolean().required('The income is a required field.'),
+  amount: Yup.number().required('The amount is a required field.'),
+  category: Yup.string().required('The category is a required field.').when('income', {
     is: true,
     then: Yup.string().oneOf(['Savings', 'Salary', 'Gift', 'Other']),
     otherwise: Yup.string().oneOf([

@@ -1,7 +1,6 @@
 import request from 'supertest'
 import express from 'express'
 import dotenv from 'dotenv'
-import cookieParser from 'cookie-parser'
 import * as db from './db'
 
 import userRoutes from '../routes/userRoutes'
@@ -10,7 +9,6 @@ dotenv.config()
 
 const app = express()
 app.use(express.json())
-app.use(cookieParser())
 app.use('/api/users/', userRoutes)
 
 beforeAll(async () => {
@@ -36,8 +34,6 @@ describe('POST /api/users/register', () => {
       .expect(200)
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
-        expect(res.body.result.name).toBe('John Doe')
-        expect(res.body.result.email).toBe('johndoe@gmail.com')
       })
       .catch((err) => {
         throw err
@@ -88,7 +84,7 @@ describe('POST /api/users/login', () => {
       .expect(200)
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
-        token = res.body.result.token
+        token = res.body.result
       })
       .catch((err) => {
         throw err
@@ -117,7 +113,7 @@ describe('GET /api/user', () => {
     await request(app)
       .get('/api/users')
       .expect(200)
-      .set('Cookie', `jwtToken=${token}`)
+      .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
       })

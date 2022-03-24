@@ -47,7 +47,6 @@ export const registerUser = async (req: Request, res: Response) => {
     await user.save().then(() => res.status(200).json({
       ok: true,
       msg: 'User created',
-      result: user,
     }))
   }).catch((err) => res.status(400).json({
     ok: false,
@@ -83,14 +82,12 @@ export const loginUser = async (req: Request, res: Response) => {
     expiresIn: '30d',
   })
 
-  // return token in a cookie
   return res
-    .cookie('jwtToken', token)
     .status(200)
     .json({
       ok: true,
       msg: 'User logged',
-      result: { ...user._doc, token },
+      result: token,
     })
 }
 

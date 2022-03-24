@@ -1,7 +1,6 @@
 import request from 'supertest'
 import express from 'express'
 import dotenv from 'dotenv'
-import cookieParser from 'cookie-parser'
 import * as db from './db'
 
 import entryRoutes from '../routes/entryRoutes'
@@ -11,7 +10,6 @@ dotenv.config()
 
 const app = express()
 app.use(express.json())
-app.use(cookieParser())
 app.use('/api/entries/', entryRoutes)
 app.use('/api/users/', userRoutes)
 
@@ -39,8 +37,6 @@ describe('POST /api/users/register and /api/users/login to get a jwtToken', () =
       .expect(200)
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
-        expect(res.body.result.name).toBe('John Doe')
-        expect(res.body.result.email).toBe('johndoe@gmail.com')
       })
       .catch((err) => {
         throw err
@@ -57,7 +53,7 @@ describe('POST /api/users/register and /api/users/login to get a jwtToken', () =
       .expect(200)
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
-        token = res.body.result.token
+        token = res.body.result
       })
       .catch((err) => {
         throw err
@@ -75,11 +71,9 @@ describe('POST /api/entries', () => {
         amount: 420,
       })
       .expect(200)
-      .set('Cookie', `jwtToken=${token}`)
+      .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
-        expect(res.body.result.category).toBe('Savings')
-        expect(res.body.result.amount).toBe(420)
         id = res.body.result._id
       })
       .catch((err) => {
@@ -96,7 +90,7 @@ describe('POST /api/entries', () => {
         amount: 420,
       })
       .expect(400)
-      .set('Cookie', `jwtToken=${token}`)
+      .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', false)
       })
@@ -116,11 +110,9 @@ describe('PUT /api/entries/:id', () => {
         amount: 420,
       })
       .expect(200)
-      .set('Cookie', `jwtToken=${token}`)
+      .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
-        expect(res.body.result.category).toBe('Shopping')
-        expect(res.body.result.amount).toBe(-420)
       })
       .catch((err) => {
         throw err
@@ -136,7 +128,7 @@ describe('PUT /api/entries/:id', () => {
         amount: 420,
       })
       .expect(400)
-      .set('Cookie', `jwtToken=${token}`)
+      .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', false)
       })
@@ -151,7 +143,7 @@ describe('DELETE /api/entries/:id', () => {
     await request(app)
       .delete(`/api/entries/${id}`)
       .expect(200)
-      .set('Cookie', `jwtToken=${token}`)
+      .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', true)
       })
@@ -164,7 +156,7 @@ describe('DELETE /api/entries/:id', () => {
     await request(app)
       .delete('/api/entries/wrongId')
       .expect(400)
-      .set('Cookie', `jwtToken=${token}`)
+      .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
         expect(res.body).toHaveProperty('ok', false)
       })

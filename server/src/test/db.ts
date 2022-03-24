@@ -5,7 +5,7 @@ const mongod = new MongoMemoryServer()
 
 // connect to mock memory db.
 export const connect = async () => {
-  await mongoose.connect(process.env.DATABASE_URI as string)
+  await mongoose.connect(process.env.DATABASE_URI_TEST as string)
 }
 
 // delete db collections

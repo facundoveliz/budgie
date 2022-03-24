@@ -1,5 +1,9 @@
-import type { AppProps } from 'next/app'
+import React from 'react';
+import type { AppProps } from 'next/app';
 
-const MyApp = ({ Component, pageProps }: AppProps) => <Component {...pageProps} />
+function MyApp({ Component, pageProps }: AppProps) {
+  // @ts-ignore, next-js stuff
+  return <Component pageProps={pageProps} />;
+}
 
-export default MyApp
+export default MyApp;
