@@ -1,0 +1,8 @@
+{
+  "name": "personal-budget",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/facundoveliz/personal-budget.git",
+  "author": "Facundo <facundoveliz9@gmail.com>",
+  "license": "MIT"
+}
