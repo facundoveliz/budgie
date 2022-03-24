@@ -24,11 +24,15 @@ jobs:
         cache: 'npm'
     - name: Install dependencies
       run: |
+        cd server
         yarn
+        cd ..
         cd client
         yarn
     - name: Run linter
       run: |
+        cd server
         yarn lint
+        cd ..
         cd client
         yarn lint
