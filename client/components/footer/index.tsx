@@ -6,15 +6,15 @@ const Main = styled.h1`
   display: flex;
   justify-content: center;
   padding: 12px;
-  font-size: 24px;
+  font-size: 14px;
 `;
 
-const Header: NextPage = function Header() {
+const Footer: NextPage = function Header() {
   return (
     <Main>
-      Header
+      Made with 🖤 by Facundo Veliz
     </Main>
   );
 };
 
-export default Header;
+export default Footer;
