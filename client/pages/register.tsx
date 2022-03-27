@@ -87,9 +87,9 @@ const Register: RegisterType = function Register() {
         <F.InputWrapper>
           <F.Label>Password</F.Label>
           {errors.password ? (
-            <F.Input error {...register('password')} />
+            <F.Input error {...register('password')} type="password" />
           ) : (
-            <F.Input {...register('password')} />
+            <F.Input {...register('password')} type="password" />
           )}
           <p>{errors.password?.message}</p>
         </F.InputWrapper>
@@ -97,9 +97,9 @@ const Register: RegisterType = function Register() {
         <F.InputWrapper>
           <F.Label>Confirm password</F.Label>
           {errors.passwordConfirm ? (
-            <F.Input error {...register('passwordConfirm')} />
+            <F.Input error {...register('passwordConfirm')} type="password" />
           ) : (
-            <F.Input {...register('passwordConfirm')} />
+            <F.Input {...register('passwordConfirm')} type="password" />
           )}
           <p>{errors.passwordConfirm?.message}</p>
         </F.InputWrapper>
