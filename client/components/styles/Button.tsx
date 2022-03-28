@@ -11,9 +11,13 @@ export const Button = styled.button<ButtonProps>`
       ? ({ theme }) => theme.secondary
       : ({ theme }) => theme.primary};
   color: ${({ theme }) => theme.background};
-  padding: 12px 20px;
+  padding: 0 20px;
+  height: 40px;
   border: none;
   border-radius: 4px;
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   font-size: 16px;
+  &:active {
+    color: none;
+  }
 `;
