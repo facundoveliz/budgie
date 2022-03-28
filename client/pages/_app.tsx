@@ -4,6 +4,7 @@ import Layout from '../components/layout';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyle, lightTheme } from '../themes/index';
 import { NextPage } from 'next';
+import './_app.css';
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
