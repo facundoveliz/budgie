@@ -2,18 +2,23 @@ import React from 'react';
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 
-const Main = styled.h1`
+const Wrapper = styled.footer`
   display: flex;
   justify-content: center;
-  padding: 12px;
-  font-size: 14px;
+  align-items: center;
+  font-size: 20px;
+  height: 10vh;
+  p {
+    font-weight: bold;
+    padding-left: 6px;
+  }
 `;
 
-const Footer: NextPage = function Header() {
+const Footer: NextPage = function Footer() {
   return (
-    <Main>
-      Made with 🖤 by Facundo Veliz
-    </Main>
+    <Wrapper>
+      Made with ❤️‍🩹 by <p>Facundo Veliz</p>
+    </Wrapper>
   );
 };
 

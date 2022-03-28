@@ -47,7 +47,7 @@ const Login: LoginType = function Login() {
 
   const onSubmit = (data: IFormInputs) => loginUser(data);
 
-  // TODO: retrieve email not found error, in register component too
+  // TODO: retrieve email not found error, probably with notifications
   return (
     <F.Wrapper>
       <h1>Login</h1>

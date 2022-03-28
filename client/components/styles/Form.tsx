@@ -5,7 +5,7 @@ export const Form = styled.form`
 `;
 
 type InputProps = {
-  readonly error?: boolean;
+  readonly error?: string;
 };
 
 export const Input = styled.input<InputProps>`

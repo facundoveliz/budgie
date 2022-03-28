@@ -3,7 +3,7 @@ import Footer from './footer';
 import Header from './header';
 
 type Children = {
-  children: ReactNode
+  children: ReactNode;
 };
 
 export default function Layout({ children }: Children) {

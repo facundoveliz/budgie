@@ -3,11 +3,12 @@ import type { NextPage } from 'next';
 import styled from 'styled-components';
 import { Button } from '../styles/Button';
 
-const Wrapper = styled.div`
+const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
+  height: 10vh;
   padding: 0 16px;
 `;
 
@@ -15,7 +16,8 @@ const OptionsWrapper = styled.div`
   display: flex;
   align-items: center;
   p {
-    padding-right: 20px;
+    margin-right: 20px;
+    cursor: pointer;
   }
 `;
 

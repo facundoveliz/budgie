@@ -14,6 +14,7 @@ export const Button = styled.button<ButtonProps>`
   padding: 0 20px;
   height: 40px;
   border: none;
+  cursor: pointer;
   border-radius: 4px;
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   font-size: 16px;
