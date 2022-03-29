@@ -5,12 +5,13 @@ export const Form = styled.form`
 `;
 
 type InputProps = {
-  readonly error?: string;
+  readonly error?: boolean;
 };
 
 export const Input = styled.input<InputProps>`
   width: 100%;
   background: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.foreground};
   border: 1px solid
     ${(props) =>
     props.error ? ({ theme }) => theme.error : ({ theme }) => theme.border};

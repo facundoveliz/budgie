@@ -1,12 +1,14 @@
 import React from 'react';
 import { NextPage } from 'next';
 import styled from 'styled-components';
+import dateFormat, { masks } from 'dateformat';
 
 type EntryPropContent = {
   _id: string;
   category: string;
   income: boolean;
   amount: number;
+  created: Date;
 };
 
 type EntryProps = {
@@ -22,7 +24,11 @@ const EntryWrapper = styled.div<EntryStyleProps>`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  width: 80vw;
+  padding: 10px 0;
+  width: 40vw;
+  @media (max-width: 1200px) {
+    width: 80vw;
+  }
   border-bottom: 1px solid ${({ theme }) => theme.border};
   &:last-of-type {
     border: 0;
@@ -30,12 +36,13 @@ const EntryWrapper = styled.div<EntryStyleProps>`
 `;
 
 const Paragraph = styled.p<EntryStyleProps>`
-  &:last-of-type {
-    letter-spacing: 1px;
-    color: ${(props) =>
+  color: ${(props) =>
     props.income
       ? ({ theme }) => theme.primary
       : ({ theme }) => theme.secondary};
+  &:last-of-type {
+    font-size: 14px;
+    color: ${({ theme }) => theme.foregroundSoft};
   }
 `;
 
@@ -44,8 +51,11 @@ const Entry: NextPage<EntryProps> = function Entry({ entries }: EntryProps) {
     <>
       {entries?.map((entry) => (
         <EntryWrapper key={entry._id}>
-          <Paragraph>{entry.category}</Paragraph>
-          <Paragraph income={entry.income}>${entry.amount},00</Paragraph>
+          <p>{entry.category}</p>
+          <div>
+            <Paragraph income={entry.income}>${entry.amount},00</Paragraph>
+            <Paragraph>{dateFormat(entry.created, 'HH:MM, mmmm d')}</Paragraph>
+          </div>
         </EntryWrapper>
       ))}
     </>

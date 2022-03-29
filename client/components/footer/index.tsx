@@ -2,12 +2,13 @@ import React from 'react';
 import type { NextPage } from 'next';
 import styled from 'styled-components';
 
+// FIX: stay always on bottom
 const Wrapper = styled.footer`
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 20px;
-  height: 10vh;
+  padding: 40px;
   p {
     font-weight: bold;
     padding-left: 6px;

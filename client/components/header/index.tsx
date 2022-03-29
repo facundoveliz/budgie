@@ -8,8 +8,7 @@ const Wrapper = styled.header`
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
-  height: 10vh;
-  padding: 0 16px;
+  padding: 4px 16px;
 `;
 
 const OptionsWrapper = styled.div`

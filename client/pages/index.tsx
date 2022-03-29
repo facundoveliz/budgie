@@ -10,13 +10,15 @@ type EntryProp = {
   category: string;
   income: boolean;
   amount: number;
+  created: Date;
 };
 
+// TODO: move styles to a dedicated folder?
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 80vh;
+  justify-content: center;
   padding: 0 16px;
   h1 {
     font-size: 24px;
@@ -24,12 +26,21 @@ const Wrapper = styled.div`
     width: 240px;
     text-align: center;
   }
+  button {
+    margin-bottom: 30px;
+  }
 `;
 
 const Balance = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 32px 0;
+  font-size: 18px;
+  p {
+    font-weight: bold;
+    font-size: 24px;
+  }
 `;
 
 const Home: NextPage = function Home() {
@@ -52,8 +63,9 @@ const Home: NextPage = function Home() {
   return (
     <Wrapper>
       <Balance>
-        Account balance <h1>$0.00</h1>
+        Account balance <p>$0.00</p>
       </Balance>
+      <Button>Add entry</Button>
       {loading ? (
         <p>Loading...</p>
       ) : entries.length <= 0 ? (
@@ -61,7 +73,6 @@ const Home: NextPage = function Home() {
       ) : (
         <Entry entries={entries} />
       )}
-      <Button>Add entry</Button>
     </Wrapper>
   );
 };

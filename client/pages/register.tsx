@@ -66,10 +66,11 @@ const Register: RegisterType = function Register() {
       <F.Form onSubmit={handleSubmit(onSubmit)}>
         <F.InputWrapper>
           <F.Label>Username</F.Label>
-          <F.Input
-            error={errors.name?.message?.length > 1}
-            {...register('name')}
-          />
+          {errors.name ? (
+            <F.Input error {...register('name')} />
+          ) : (
+            <F.Input {...register('name')} />
+          )}
           <p>{errors.name?.message}</p>
         </F.InputWrapper>
 
