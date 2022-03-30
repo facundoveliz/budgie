@@ -3,7 +3,14 @@ import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import * as F from '../styles/Form';
+import {
+  Form,
+  Input,
+  InputWrapper,
+  Label,
+  Select,
+  SubmitWrapper,
+} from '../styles/Form';
 import { Button } from '../styles/Button';
 import { postEntries } from '../../api/entries';
 import {
@@ -92,18 +99,18 @@ const Modal: NextPage<ModalProps> = function Modal({
             />
             <ModalContent>
               <h1>New entry</h1>
-              <F.Form onSubmit={handleSubmit(onSubmit)}>
-                <F.InputWrapper>
-                  <F.Label>Category</F.Label>
+              <Form onSubmit={handleSubmit(onSubmit)}>
+                <InputWrapper>
+                  <Label>Category</Label>
                   {income ? (
-                    <F.Select {...register('category')}>
+                    <Select {...register('category')}>
                       <option value="Other">Other</option>
                       <option value="Savings">Savings</option>
                       <option value="Salary">Salary</option>
                       <option value="Gift">Gift</option>
-                    </F.Select>
+                    </Select>
                   ) : (
-                    <F.Select {...register('category')}>
+                    <Select {...register('category')}>
                       <option value="Other">Other</option>
                       <option value="Food & Drinks">Food & Drinks</option>
                       <option value="Groceries">Groceries</option>
@@ -114,22 +121,21 @@ const Modal: NextPage<ModalProps> = function Modal({
                       </option>
                       <option value="Home">Home</option>
                       <option value="Gift">Gift</option>
-                    </F.Select>
+                    </Select>
                   )}
                   <p>{errors.category?.message}</p>
-                </F.InputWrapper>
+                </InputWrapper>
 
-                <F.InputWrapper>
-                  <F.Label>Amount</F.Label>
-                  <F.Input {...register('amount')} type="number" min="0" />
+                <InputWrapper>
+                  <Label>Amount</Label>
+                  <Input {...register('amount')} type="number" min="0" />
                   <p>{errors.amount?.message}</p>
-                </F.InputWrapper>
+                </InputWrapper>
 
-                <F.SubmitWrapper>
+                <SubmitWrapper>
                   <Button type="submit">Accept</Button>
-                </F.SubmitWrapper>
-              </F.Form>
-              <div></div>
+                </SubmitWrapper>
+              </Form>
             </ModalContent>
           </ModalWrapper>
         </Background>
