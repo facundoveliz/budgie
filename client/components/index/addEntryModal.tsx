@@ -3,14 +3,7 @@ import { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import {
-  Form,
-  Input,
-  InputWrapper,
-  Label,
-  Select,
-  SubmitWrapper,
-} from '../styles/Form';
+import { Form, Input, InputWrapper, Label, Select } from '../styles/Form';
 import { Button } from '../styles/Button';
 import { postEntries } from '../../api/entries';
 import {
