@@ -12,10 +12,11 @@ import {
   Select,
 } from '../styles/Form';
 import { Button } from '../styles/Button';
-import { putEntries } from '../../api/entries';
+import { putEntries, deleteEntries } from '../../api/entries';
 import {
   Background,
   CloseModalButton,
+  ModalButtons,
   ModalContent,
   ModalWrapper,
 } from './styles';
@@ -83,6 +84,14 @@ const Modal: NextPage<ModalProps> = function Modal({
     // FIX: add res = ... for makings sure is getting a response before closing modal
     data.income = selectedEdit.income;
     putEntries(selectedEdit.id, data).then(() => {
+      getEntryRequest().then(() => {
+        setShowModal(false);
+      });
+    });
+  };
+
+  const handleDelete = (id) => {
+    deleteEntries(id).then(() => {
       getEntryRequest().then(() => {
         setShowModal(false);
       });
@@ -193,10 +202,12 @@ const Modal: NextPage<ModalProps> = function Modal({
                 <p>{errors.amount?.message}</p>
               </InputWrapper>
 
-              <SubmitWrapper>
-                <Button secondary>Delete</Button>
+              <ModalButtons>
+                <Button secondary onClick={() => handleDelete(selectedEdit.id)}>
+                  Delete
+                </Button>
                 <Button type="submit">Accept</Button>
-              </SubmitWrapper>
+              </ModalButtons>
             </Form>
           </ModalContent>
         </ModalWrapper>

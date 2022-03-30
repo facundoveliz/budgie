@@ -16,6 +16,7 @@ import { postEntries } from '../../api/entries';
 import {
   Background,
   CloseModalButton,
+  ModalButtons,
   ModalContent,
   ModalWrapper,
 } from './styles';
@@ -132,9 +133,9 @@ const Modal: NextPage<ModalProps> = function Modal({
                   <p>{errors.amount?.message}</p>
                 </InputWrapper>
 
-                <SubmitWrapper>
+                <ModalButtons>
                   <Button type="submit">Accept</Button>
-                </SubmitWrapper>
+                </ModalButtons>
               </Form>
             </ModalContent>
           </ModalWrapper>

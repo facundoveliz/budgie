@@ -17,12 +17,19 @@ type EntryProps = {
   getEntryRequest: () => Promise<void>;
 };
 
+type SelectedEditProps = {
+  id: string;
+  category: string;
+  amount: number;
+  income: boolean;
+};
+
 const Entry: NextPage<EntryProps> = function Entry({
   entries,
   getEntryRequest,
 }: EntryProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedEdit, setSelectedEdit] = useState({});
+  const [selectedEdit, setSelectedEdit] = useState<SelectedEditProps>();
   return (
     <>
       {entries?.map((entry) => (

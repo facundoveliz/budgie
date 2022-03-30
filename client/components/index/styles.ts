@@ -15,7 +15,10 @@ export const Wrapper = styled.div`
     text-align: center;
   }
   button {
-    margin: 0 10px 30px;
+    margin-bottom: 30px;
+    &:first-of-type {
+      margin-right: 10px;
+    }
   }
 `;
 
@@ -107,11 +110,16 @@ export const ModalContent = styled.div`
   margin: 0 auto;
   align-items: center;
   width: 90%;
-  line-height: 1.8;
   color: #141414;
   p {
     margin-bottom: 1rem;
   }
+`;
+
+export const ModalButtons = styled.div`
+  display: flex;
+  justify-content: end;
+  margin-top: 24px;
 `;
 
 export const CloseModalButton = styled(MdClose)`

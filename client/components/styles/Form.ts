@@ -75,7 +75,6 @@ export const SubmitWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* TODO: Check if this works well in register/login forms */
   margin-top: 24px;
   p {
     margin-top: 12px;
