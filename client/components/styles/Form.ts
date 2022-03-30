@@ -78,6 +78,7 @@ export const SubmitWrapper = styled.div`
   /* TODO: Check if this works well in register/login forms */
   margin-top: 24px;
   p {
+    margin-top: 12px;
     text-align: center;
     cursor: pointer;
   }

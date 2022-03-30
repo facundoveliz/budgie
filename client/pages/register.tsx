@@ -7,7 +7,14 @@ import Link from 'next/link';
 
 import { registerUser } from '../api/users';
 import { Button } from '../components/styles/Button';
-import * as F from '../components/styles/Form';
+import {
+  Form,
+  Wrapper,
+  Input,
+  InputWrapper,
+  Label,
+  SubmitWrapper,
+} from '../components/styles/Form';
 
 type IFormInputs = {
   name: string;
@@ -61,57 +68,57 @@ const Register: RegisterType = function Register() {
   const onSubmit = (data: IFormInputs) => registerUser(data);
 
   return (
-    <F.Wrapper>
+    <Wrapper>
       <h1>Register</h1>
-      <F.Form onSubmit={handleSubmit(onSubmit)}>
-        <F.InputWrapper>
-          <F.Label>Username</F.Label>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <InputWrapper>
+          <Label>Username</Label>
           {errors.name ? (
-            <F.Input error {...register('name')} />
+            <Input error {...register('name')} />
           ) : (
-            <F.Input {...register('name')} />
+            <Input {...register('name')} />
           )}
           <p>{errors.name?.message}</p>
-        </F.InputWrapper>
+        </InputWrapper>
 
-        <F.InputWrapper>
-          <F.Label>Email Adress</F.Label>
+        <InputWrapper>
+          <Label>Email Adress</Label>
           {errors.email ? (
-            <F.Input error {...register('email')} />
+            <Input error {...register('email')} />
           ) : (
-            <F.Input {...register('email')} />
+            <Input {...register('email')} />
           )}
           <p>{errors.email?.message}</p>
-        </F.InputWrapper>
+        </InputWrapper>
 
-        <F.InputWrapper>
-          <F.Label>Password</F.Label>
+        <InputWrapper>
+          <Label>Password</Label>
           {errors.password ? (
-            <F.Input error {...register('password')} type="password" />
+            <Input error {...register('password')} type="password" />
           ) : (
-            <F.Input {...register('password')} type="password" />
+            <Input {...register('password')} type="password" />
           )}
           <p>{errors.password?.message}</p>
-        </F.InputWrapper>
+        </InputWrapper>
 
-        <F.InputWrapper>
-          <F.Label>Confirm password</F.Label>
+        <InputWrapper>
+          <Label>Confirm password</Label>
           {errors.passwordConfirm ? (
-            <F.Input error {...register('passwordConfirm')} type="password" />
+            <Input error {...register('passwordConfirm')} type="password" />
           ) : (
-            <F.Input {...register('passwordConfirm')} type="password" />
+            <Input {...register('passwordConfirm')} type="password" />
           )}
           <p>{errors.passwordConfirm?.message}</p>
-        </F.InputWrapper>
+        </InputWrapper>
 
-        <F.SubmitWrapper>
+        <SubmitWrapper>
           <Button type="submit">Register</Button>
           <Link passHref href="/login">
             <p>Create an account</p>
           </Link>
-        </F.SubmitWrapper>
-      </F.Form>
-    </F.Wrapper>
+        </SubmitWrapper>
+      </Form>
+    </Wrapper>
   );
 };
 

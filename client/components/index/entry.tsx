@@ -1,7 +1,7 @@
 import React from 'react';
 import { NextPage } from 'next';
-import styled from 'styled-components';
 import dateFormat, { masks } from 'dateformat';
+import { EntryWrapper, Paragraph } from './styles';
 
 type EntryPropContent = {
   _id: string;
@@ -14,37 +14,6 @@ type EntryPropContent = {
 type EntryProps = {
   entries: EntryPropContent[];
 };
-
-type EntryStyleProps = {
-  readonly income?: boolean;
-};
-
-const EntryWrapper = styled.div<EntryStyleProps>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 0;
-  width: 40vw;
-  @media (max-width: 1200px) {
-    width: 80vw;
-  }
-  border-bottom: 1px solid ${({ theme }) => theme.border};
-  &:last-of-type {
-    border: 0;
-  }
-`;
-
-const Paragraph = styled.p<EntryStyleProps>`
-  color: ${(props) =>
-    props.income
-      ? ({ theme }) => theme.primary
-      : ({ theme }) => theme.secondary};
-  &:last-of-type {
-    font-size: 14px;
-    color: ${({ theme }) => theme.foregroundSoft};
-  }
-`;
 
 const Entry: NextPage<EntryProps> = function Entry({ entries }: EntryProps) {
   return (

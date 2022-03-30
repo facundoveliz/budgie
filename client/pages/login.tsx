@@ -6,8 +6,15 @@ import * as yup from 'yup';
 
 import { loginUser } from '../api/users';
 import { Button } from '../components/styles/Button';
-import * as F from '../components/styles/Form';
 import Link from 'next/link';
+import {
+  Form,
+  Wrapper,
+  Input,
+  InputWrapper,
+  Label,
+  SubmitWrapper,
+} from '../components/styles/Form';
 
 interface IFormInputs {
   email: string;
@@ -49,37 +56,37 @@ const Login: LoginType = function Login() {
 
   // TODO: retrieve email not found error, probably with notifications
   return (
-    <F.Wrapper>
+    <Wrapper>
       <h1>Login</h1>
-      <F.Form onSubmit={handleSubmit(onSubmit)}>
-        <F.InputWrapper>
-          <F.Label>Email Adress</F.Label>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <InputWrapper>
+          <Label>Email Adress</Label>
           {errors.email ? (
-            <F.Input error {...register('email')} />
+            <Input error {...register('email')} />
           ) : (
-            <F.Input {...register('email')} />
+            <Input {...register('email')} />
           )}
           <p>{errors.email?.message}</p>
-        </F.InputWrapper>
+        </InputWrapper>
 
-        <F.InputWrapper>
-          <F.Label>Password</F.Label>
+        <InputWrapper>
+          <Label>Password</Label>
           {errors.password ? (
-            <F.Input error {...register('password')} type="password" />
+            <Input error {...register('password')} type="password" />
           ) : (
-            <F.Input {...register('password')} type="password" />
+            <Input {...register('password')} type="password" />
           )}
           <p>{errors.password?.message}</p>
-        </F.InputWrapper>
+        </InputWrapper>
 
-        <F.SubmitWrapper>
+        <SubmitWrapper>
           <Button type="submit">Submit</Button>
           <Link passHref href="/register">
             <p>I already have an account</p>
           </Link>
-        </F.SubmitWrapper>
-      </F.Form>
-    </F.Wrapper>
+        </SubmitWrapper>
+      </Form>
+    </Wrapper>
   );
 };
 

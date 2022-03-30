@@ -1,68 +1,17 @@
 import React, { useRef } from 'react';
-import styled from 'styled-components';
 import { NextPage } from 'next';
-import { MdClose } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import * as F from '../styles/Form';
 import { Button } from '../styles/Button';
 import { postEntries } from '../../api/entries';
-
-const Background = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ModalWrapper = styled.div`
-  width: 30%;
-  @media (max-width: 1200px) {
-    width: 40%;
-  }
-  @media (max-width: 850px) {
-    width: 60%;
-  }
-  @media (max-width: 600px) {
-    width: 90%;
-  }
-  height: auto;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
-  background: ${({ theme }) => theme.background};
-  color: #000;
-  position: relative;
-  z-index: 10;
-  border-radius: 10px;
-`;
-
-const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  align-items: center;
-  width: 90%;
-  line-height: 1.8;
-  color: #141414;
-  p {
-    margin-bottom: 1rem;
-  }
-`;
-
-const CloseModalButton = styled(MdClose)`
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  z-index: 10;
-`;
+import {
+  Background,
+  CloseModalButton,
+  ModalContent,
+  ModalWrapper,
+} from './styles';
 
 type IFormInputs = {
   category: string;
