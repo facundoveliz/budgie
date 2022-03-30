@@ -111,70 +111,23 @@ const Modal: NextPage<ModalProps> = function Modal({
               <InputWrapper>
                 <Label>Category</Label>
                 {selectedEdit.income ? (
-                  <Select {...register('category')}>
-                    <option
-                      selected={selectedEdit.category === 'Other'}
-                      value="Other"
-                    >
-                      Other
-                    </option>
-                    <option
-                      selected={selectedEdit.category === 'Savings'}
-                      value="Savings"
-                    >
-                      Savings
-                    </option>
-                    <option
-                      selected={selectedEdit.category === 'Salary'}
-                      value="Salary"
-                    >
-                      Salary
-                    </option>
-                    <option
-                      selected={selectedEdit.category === 'Gift'}
-                      value="Gift"
-                    >
-                      Gift
-                    </option>
+                  <Select
+                    {...register('category')}
+                    defaultValue={selectedEdit.category}
+                  >
+                    <option value="Other">Other</option>
+                    <option value="Savings">Savings</option>
+                    <option value="Salary">Salary</option>
+                    <option value="Gift">Gift</option>
                   </Select>
                 ) : (
                   <Select {...register('category')}>
-                    <option
-                      selected={selectedEdit.category === 'Other'}
-                      value="Other"
-                    >
-                      Other
-                    </option>
-                    <option
-                      selected={selectedEdit.category === 'Food & Drinks'}
-                      value="Food & Drinks"
-                    >
-                      Food & Drinks
-                    </option>
-                    <option
-                      selected={selectedEdit.category === 'Groceries'}
-                      value="Groceries"
-                    >
-                      Groceries
-                    </option>
-                    <option
-                      selected={selectedEdit.category === 'Transport'}
-                      value="Transport"
-                    >
-                      Transport
-                    </option>
-                    <option
-                      selected={selectedEdit.category === 'Health'}
-                      value="Health"
-                    >
-                      Health
-                    </option>
-                    <option
-                      selected={
-                        selectedEdit.category === 'Life & Entertainment'
-                      }
-                      value="Life & Entertainment"
-                    >
+                    <option value="Other">Other</option>
+                    <option value="Food & Drinks">Food & Drinks</option>
+                    <option value="Groceries">Groceries</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Health">Health</option>
+                    <option value="Life & Entertainment">
                       Life & Entertainment
                     </option>
                     <option value="Home">Home</option>
