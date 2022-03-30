@@ -4,6 +4,7 @@ import { getEntries } from '../api/entries';
 import styled from 'styled-components';
 import { Button } from '../components/styles/Button';
 import Entry from '../components/index/entry';
+import Modal from '../components/index/modal';
 
 type EntryProp = {
   _id: string;
@@ -13,13 +14,13 @@ type EntryProp = {
   created: Date;
 };
 
-// TODO: move styles to a dedicated folder?
+// TODO: move styles to a dedicated folder
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 0 16px;
+  padding: 0 20px;
   h1 {
     font-size: 24px;
     letter-spacing: 2px;
@@ -27,7 +28,7 @@ const Wrapper = styled.div`
     text-align: center;
   }
   button {
-    margin-bottom: 30px;
+    margin: 0 10px 30px;
   }
 `;
 
@@ -46,6 +47,8 @@ const Balance = styled.div`
 const Home: NextPage = function Home() {
   const [entries, setEntries] = useState<EntryProp[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [income, setIncome] = useState(false);
 
   const getEntryRequest = async () => {
     const res = await getEntries();
@@ -65,7 +68,31 @@ const Home: NextPage = function Home() {
       <Balance>
         Account balance <p>$0.00</p>
       </Balance>
-      <Button>Add entry</Button>
+      <div>
+        <Button
+          secondary
+          onClick={() => {
+            setIncome(false);
+            setShowModal((prev) => !prev);
+          }}
+        >
+          Expense
+        </Button>
+        <Button
+          onClick={() => {
+            setIncome(true);
+            setShowModal((prev) => !prev);
+          }}
+        >
+          Income
+        </Button>
+      </div>
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        getEntryRequest={getEntryRequest}
+        income={income}
+      />
       {loading ? (
         <p>Loading...</p>
       ) : entries.length <= 0 ? (

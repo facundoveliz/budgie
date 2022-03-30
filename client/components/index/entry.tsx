@@ -24,7 +24,7 @@ const EntryWrapper = styled.div<EntryStyleProps>`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+  padding: 16px 0;
   width: 40vw;
   @media (max-width: 1200px) {
     width: 80vw;
