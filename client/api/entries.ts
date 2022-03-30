@@ -6,7 +6,6 @@ type Data = {
   category: string;
   income: boolean;
   amount: number;
-  user: string;
 };
 
 export async function getEntries() {
