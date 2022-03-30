@@ -66,12 +66,14 @@ const Modal: NextPage<ModalProps> = function Modal({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IFormInputs) =>
+  const onSubmit = (data: IFormInputs) => {
+    data.income = income;
     postEntries(data).then(() => {
       getEntryRequest().then(() => {
         setShowModal(false);
       });
     });
+  };
 
   const closeModal = (e: React.MouseEvent<HTMLElement>) => {
     if (modalRef.current === e.target) {
