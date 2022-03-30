@@ -16,10 +16,10 @@ export async function postEntries(data: Data) {
   return axiosClient.post(entriesRoute, data);
 }
 
-export async function putEntries(id: string) {
-  return axiosClient.post(`entriesRoute${id}`);
+export async function putEntries(id: string, data: Data) {
+  return axiosClient.put(`${entriesRoute}${id}`, data);
 }
 
 export async function deleteEntries(id: string) {
-  return axiosClient.delete(`entriesRoute${id}`);
+  return axiosClient.delete(`${entriesRoute}${id}`);
 }

@@ -36,20 +36,26 @@ type EntryStyleProps = {
 };
 
 // entry
+// TODO: highlight background on hover
 export const EntryWrapper = styled.div<EntryStyleProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
   padding: 16px 0;
   width: 40vw;
+  border-bottom: 1px solid ${({ theme }) => theme.border} !important;
   @media (max-width: 1200px) {
     width: 80vw;
   }
-  border-bottom: 1px solid ${({ theme }) => theme.border};
   &:last-of-type {
     border: 0;
   }
+`;
+
+export const ParagraphWrapper = styled.div`
+  display: flex;
 `;
 
 export const Paragraph = styled.p<EntryStyleProps>`
@@ -70,6 +76,7 @@ export const Background = styled.div`
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,7 +93,6 @@ export const ModalWrapper = styled.div`
   @media (max-width: 600px) {
     width: 90%;
   }
-  height: auto;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: ${({ theme }) => theme.background};
   color: #000;

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
-import dateFormat, { masks } from 'dateformat';
-import { EntryWrapper, Paragraph } from './styles';
+import dateFormat from 'dateformat';
+import { EntryWrapper, Paragraph, ParagraphWrapper } from './styles';
+import Modal from './editEntryModal';
 
 type EntryPropContent = {
   _id: string;
@@ -13,20 +14,52 @@ type EntryPropContent = {
 
 type EntryProps = {
   entries: EntryPropContent[];
+  getEntryRequest: () => Promise<void>;
 };
 
-const Entry: NextPage<EntryProps> = function Entry({ entries }: EntryProps) {
+const Entry: NextPage<EntryProps> = function Entry({
+  entries,
+  getEntryRequest,
+}: EntryProps) {
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [selectedEdit, setSelectedEdit] = useState({});
   return (
     <>
       {entries?.map((entry) => (
-        <EntryWrapper key={entry._id}>
-          <p>{entry.category}</p>
-          <div>
-            <Paragraph income={entry.income}>${entry.amount},00</Paragraph>
-            <Paragraph>{dateFormat(entry.created, 'HH:MM, mmmm d')}</Paragraph>
-          </div>
-        </EntryWrapper>
+        <div key={entry._id}>
+          <EntryWrapper
+            onClick={() => {
+              setSelectedEdit({
+                id: entry._id,
+                category: entry.category,
+                amount: entry.amount,
+                income: entry.income,
+              });
+              setShowModal((prev) => !prev);
+            }}
+          >
+            <p>{entry.category}</p>
+            <ParagraphWrapper>
+              <div>
+                <Paragraph income={entry.income}>${entry.amount},00</Paragraph>
+                <Paragraph>
+                  {dateFormat(entry.created, 'HH:MM, mmmm d')}
+                </Paragraph>
+              </div>
+            </ParagraphWrapper>
+          </EntryWrapper>
+        </div>
       ))}
+      <>
+        {showModal ? (
+          <Modal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            selectedEdit={selectedEdit}
+            getEntryRequest={getEntryRequest}
+          />
+        ) : null}
+      </>
     </>
   );
 };

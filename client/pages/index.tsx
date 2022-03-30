@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import { getEntries } from '../api/entries';
 import { Button } from '../components/styles/Button';
 import Entry from '../components/index/entry';
-import Modal from '../components/index/modal';
+import Modal from '../components/index/addEntryModal';
 import { Balance, Wrapper } from '../components/index/styles';
 
 type EntryProp = {
@@ -68,7 +68,7 @@ const Home: NextPage = function Home() {
       ) : entries.length <= 0 ? (
         <h1>No entries were founded.</h1>
       ) : (
-        <Entry entries={entries} />
+        <Entry entries={entries} getEntryRequest={getEntryRequest} />
       )}
     </Wrapper>
   );
