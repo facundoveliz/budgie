@@ -21,8 +21,16 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  /* FIX: media queries */
-  width: 90%;
+  width: 30%;
+  @media (max-width: 1200px) {
+    width: 40%;
+  }
+  @media (max-width: 850px) {
+    width: 60%;
+  }
+  @media (max-width: 600px) {
+    width: 90%;
+  }
   height: auto;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: ${({ theme }) => theme.background};
