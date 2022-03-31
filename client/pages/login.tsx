@@ -82,7 +82,7 @@ const Login: LoginType = function Login() {
         <SubmitWrapper>
           <Button type="submit">Submit</Button>
           <Link passHref href="/register">
-            <p>I already have an account</p>
+            <p>Create an account</p>
           </Link>
         </SubmitWrapper>
       </Form>

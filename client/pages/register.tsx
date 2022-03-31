@@ -114,7 +114,7 @@ const Register: RegisterType = function Register() {
         <SubmitWrapper>
           <Button type="submit">Register</Button>
           <Link passHref href="/login">
-            <p>Create an account</p>
+            <p>I already have an account</p>
           </Link>
         </SubmitWrapper>
       </Form>
