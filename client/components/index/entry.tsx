@@ -15,6 +15,7 @@ type EntryPropContent = {
 type EntryProps = {
   entries: EntryPropContent[];
   getEntryRequest: () => Promise<void>;
+  getUserRequest: () => Promise<void>;
 };
 
 type SelectedEditProps = {
@@ -27,6 +28,7 @@ type SelectedEditProps = {
 const Entry: NextPage<EntryProps> = function Entry({
   entries,
   getEntryRequest,
+  getUserRequest,
 }: EntryProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedEdit, setSelectedEdit] = useState<SelectedEditProps>();
@@ -64,6 +66,7 @@ const Entry: NextPage<EntryProps> = function Entry({
             setShowModal={setShowModal}
             selectedEdit={selectedEdit}
             getEntryRequest={getEntryRequest}
+            getUserRequest={getUserRequest}
           />
         ) : null}
       </>

@@ -69,6 +69,7 @@ export const Paragraph = styled.p<EntryStyleProps>`
   &:last-of-type {
     font-size: 14px;
     color: ${({ theme }) => theme.foregroundSoft};
+    float: right;
   }
 `;
 

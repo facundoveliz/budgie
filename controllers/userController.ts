@@ -9,7 +9,6 @@ const router = express.Router()
 
 export const getUser = async (req: Request, res: Response) => {
   // get data only from the current user
-  console.log(req.user?._id)
   const user = await User.findById(req.user?._id).select('-password')
   return res.status(200).json({
     ok: true,

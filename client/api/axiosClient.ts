@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
+  // TODO: add .env url
   baseURL: 'http://localhost:3000',
   timeout: 2000,
 });

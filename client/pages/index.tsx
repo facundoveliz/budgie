@@ -5,6 +5,7 @@ import { Button } from '../components/styles/Button';
 import Entry from '../components/index/entry';
 import Modal from '../components/index/addEntryModal';
 import { Balance, Wrapper } from '../components/index/styles';
+import { getUser } from '../api/users';
 
 type EntryProp = {
   _id: string;
@@ -14,8 +15,17 @@ type EntryProp = {
   created: Date;
 };
 
+type UserProp = {
+  _id: string;
+  email: string;
+  name: string;
+  balance: number;
+  created: Date;
+};
+
 const Home: NextPage = function Home() {
   const [entries, setEntries] = useState<EntryProp[]>([]);
+  const [user, setUser] = useState<UserProp>();
   const [loading, setLoading] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [income, setIncome] = useState(false);
@@ -24,20 +34,31 @@ const Home: NextPage = function Home() {
     const res = await getEntries();
     if (res) {
       setEntries(res.data.result);
+    }
+  };
+
+  const getUserRequest = async () => {
+    const res = await getUser();
+    if (res) {
+      setUser(res.data.result);
       setLoading(false);
     }
   };
 
   useEffect(() => {
     getEntryRequest();
+    getUserRequest();
   }, []);
 
-  console.log();
   return (
     <Wrapper>
-      <Balance>
-        Account balance <p>$0.00</p>
-      </Balance>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <Balance>
+          Account balance <p>{`$${user.balance}.00 `}</p>
+        </Balance>
+      )}
       <div>
         <Button
           secondary
@@ -61,6 +82,7 @@ const Home: NextPage = function Home() {
         showModal={showModal}
         setShowModal={setShowModal}
         getEntryRequest={getEntryRequest}
+        getUserRequest={getUserRequest}
         income={income}
       />
       {loading ? (
@@ -68,7 +90,11 @@ const Home: NextPage = function Home() {
       ) : entries.length <= 0 ? (
         <h1>No entries were founded.</h1>
       ) : (
-        <Entry entries={entries} getEntryRequest={getEntryRequest} />
+        <Entry
+          entries={entries}
+          getEntryRequest={getEntryRequest}
+          getUserRequest={getUserRequest}
+        />
       )}
     </Wrapper>
   );

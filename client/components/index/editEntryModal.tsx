@@ -17,6 +17,7 @@ import {
 type IFormInputs = {
   category: string;
   amount: number;
+  oldAmount: number;
   income: boolean;
 };
 
@@ -32,6 +33,7 @@ type ModalProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedEdit: SelectedEditProps;
   getEntryRequest: () => Promise<void>;
+  getUserRequest: () => Promise<void>;
 };
 
 const schema = yup
@@ -62,6 +64,7 @@ const Modal: NextPage<ModalProps> = function Modal({
   setShowModal,
   selectedEdit,
   getEntryRequest,
+  getUserRequest,
 }: ModalProps) {
   const modalRef = useRef<any>();
 
@@ -74,17 +77,19 @@ const Modal: NextPage<ModalProps> = function Modal({
   });
 
   const onSubmit = (data: IFormInputs) => {
-    // FIX: add res = ... for makings sure is getting a response before closing modal
     data.income = selectedEdit.income;
+    data.oldAmount = selectedEdit.amount;
+
     putEntries(selectedEdit.id, data).then(() => {
-      getEntryRequest().then(() => {
+      getEntryRequest();
+      getUserRequest().then(() => {
         setShowModal(false);
       });
     });
   };
 
-  const handleDelete = (id) => {
-    deleteEntries(id).then(() => {
+  const handleDelete = () => {
+    deleteEntries(selectedEdit.id).then(() => {
       getEntryRequest().then(() => {
         setShowModal(false);
       });
@@ -149,7 +154,7 @@ const Modal: NextPage<ModalProps> = function Modal({
               </InputWrapper>
 
               <ModalButtons>
-                <Button secondary onClick={() => handleDelete(selectedEdit.id)}>
+                <Button secondary onClick={() => handleDelete()}>
                   Delete
                 </Button>
                 <Button type="submit">Accept</Button>
