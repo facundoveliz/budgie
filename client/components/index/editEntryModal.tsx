@@ -81,9 +81,10 @@ const Modal: NextPage<ModalProps> = function Modal({
     data.oldAmount = selectedEdit.amount;
 
     putEntries(selectedEdit.id, data).then(() => {
-      getEntryRequest();
-      getUserRequest().then(() => {
-        setShowModal(false);
+      getEntryRequest().then(() => {
+        getUserRequest().then(() => {
+          setShowModal(false);
+        });
       });
     });
   };
