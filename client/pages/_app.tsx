@@ -2,7 +2,9 @@ import React, { ReactElement, ReactNode } from 'react';
 import { AppProps } from 'next/app';
 import Layout from '../components/layout';
 import { ThemeProvider } from 'styled-components';
-import { darkTheme, GlobalStyle, lightTheme } from '../themes/index';
+// untill i make a theme switcher
+// eslint-disable-next-line
+import { darkTheme, GlobalStyle, lightTheme } from "../themes/index";
 import { NextPage } from 'next';
 import './_app.css';
 
