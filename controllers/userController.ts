@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 
 import { Request, Response } from '../types'
 import { User, schema } from '../models/userModel'
+import { Entry } from '../models/entryModel'
 
 const router = express.Router()
 
@@ -143,6 +144,10 @@ export const deleteUser = async (req: Request, res: Response) => {
     // one who's logged
     req.user?._id,
   )
+    // deletes all user entries
+    .then(async () => {
+      await Entry.deleteMany({ user: req.user?._id })
+    })
     .then(() => res.status(200).json({
       ok: true,
       msg: 'User deleted',
