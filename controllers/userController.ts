@@ -97,40 +97,44 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const putUser = async (req: Request, res: Response) => {
-  // checks if the email is valid
-  console.log({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-  })
-  const user = await User.findOne({
-    email: req.body.email,
-  })
-  // if the email exists, the func ends here
-  if (user) {
-    return res.status(400).json({
-      ok: false,
-      msg: 'Invalid email or password',
-    })
-  }
-
-  // hash the password
-  const salt = await bcrypt.genSalt(10)
-  user.password = await bcrypt.hash(user.password, salt)
-
+  // finds the user and saves the body to newUser for
+  // comparing them if they are the same or for email validation
+  const user = await User.findById(req.user?._id)
   const newUser = {
     name: user.name,
     email: user.email,
     password: user.password,
   }
-  if (req.body.name) newUser.name = req.body.name
-  if (req.body.email) newUser.email = req.body.email
-  if (req.body.password) newUser.password = req.body.password
 
-  await User.findByIdAndUpdate(req.user?._id, newUser).then(() => res.status(200).json({
-    ok: true,
-    msg: 'User created',
-  }))
+  if (req.body.name !== user.name) newUser.name = req.body.name
+  if (req.body.email !== user.email) {
+    // checks if the email is exists
+    const emailCheck = await User.findOne({
+      email: req.body.email,
+    })
+    // if the email exists, the func ends here
+    if (emailCheck !== null) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Invalid email or password',
+      })
+    }
+    newUser.email = req.body.email
+  }
+  if (req.body.password.length >= 1) {
+    newUser.password = req.body.password
+    // hash the password
+    const salt = await bcrypt.genSalt(10)
+    newUser.password = await bcrypt.hash(newUser.password, salt)
+  }
+
+  await User.findByIdAndUpdate(req.user?._id, newUser).then(() => {
+    res.status(200).json({
+      ok: true,
+      msg: 'User updated',
+    })
+  })
+}
 }
 
 export default router
