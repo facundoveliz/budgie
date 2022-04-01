@@ -4,8 +4,8 @@ const usersRoute = '/api/users';
 
 type Data = {
   name?: string;
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
 };
 
 export async function getUser() {
@@ -25,4 +25,8 @@ export async function loginUser(data: Data) {
     localStorage.setItem('x-auth-token', res.data.result);
     window.location.href = '/';
   }
+}
+
+export async function putUser(data: Data) {
+  return axiosClient.put(usersRoute, data);
 }

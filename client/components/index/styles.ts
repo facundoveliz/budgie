@@ -63,12 +63,10 @@ export const ParagraphWrapper = styled.div`
 
 export const Paragraph = styled.p<EntryStyleProps>`
   color: ${(props) =>
-    props.income
-      ? ({ theme }) => theme.primary
-      : ({ theme }) => theme.secondary};
+    props.income ? ({ theme }) => theme.primary : ({ theme }) => theme.danger};
   &:last-of-type {
     font-size: 14px;
-    color: ${({ theme }) => theme.foregroundSoft};
+    color: ${({ theme }) => theme.foreground};
     float: right;
   }
 `;
@@ -99,7 +97,7 @@ export const ModalWrapper = styled.div`
   }
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: ${({ theme }) => theme.background};
-  color: #000;
+  color: ${({ theme }) => theme.foreground};
   position: relative;
   z-index: 10;
   border-radius: 10px;
@@ -111,7 +109,7 @@ export const ModalContent = styled.div`
   margin: 0 auto;
   align-items: center;
   width: 90%;
-  color: #141414;
+  color: ${({ theme }) => theme.foreground};
   p {
     margin-bottom: 1rem;
   }

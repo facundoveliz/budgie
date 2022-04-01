@@ -4,22 +4,30 @@ export const Form = styled.form`
   width: 100%;
 `;
 
-type Props = {
+type InputProps = {
   readonly error?: boolean;
 };
 
+type SelectProps = {
+  readonly error?: boolean;
+};
+
+type SubmitProps = {
+  readonly direction: 'row' | 'column';
+};
+
 export const Label = styled.label`
-  padding: 8px 0;
+  padding: 12px 0;
   font-size: 17px;
 `;
 
-export const Input = styled.input<Props>`
+export const Input = styled.input<InputProps>`
   width: 100%;
   background: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.foreground};
   border: 1px solid
     ${(props) =>
-    props.error ? ({ theme }) => theme.error : ({ theme }) => theme.border};
+    props.error ? ({ theme }) => theme.danger : ({ theme }) => theme.border};
   border-radius: 4px;
   outline: none;
   box-sizing: border-box;
@@ -27,8 +35,9 @@ export const Input = styled.input<Props>`
   font-size: 16px;
 `;
 
-export const Select = styled.select<Props>`
+export const Select = styled.select<SelectProps>`
   background: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.foreground};
   padding: 14px;
   border-radius: 4px;
   appearance: none;
@@ -36,7 +45,7 @@ export const Select = styled.select<Props>`
   display: inline-block;
   border: 1px solid
     ${(props) =>
-    props.error ? ({ theme }) => theme.error : ({ theme }) => theme.border};
+    props.error ? ({ theme }) => theme.danger : ({ theme }) => theme.border};
   &:focus {
     outline: none;
   }
@@ -67,13 +76,15 @@ export const InputWrapper = styled.div`
   justify-content: center;
   width: 100%;
   p {
-    color: ${({ theme }) => theme.error};
+    color: ${({ theme }) => theme.danger};
+    margin-top: 10px;
+    font-size: 14px;
   }
 `;
 
-export const SubmitWrapper = styled.div`
+export const SubmitWrapper = styled.div<SubmitProps>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${(props) => props.direction};
   justify-content: space-between;
   margin-top: 24px;
   p {

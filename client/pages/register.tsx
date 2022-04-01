@@ -111,7 +111,7 @@ const Register: RegisterType = function Register() {
           <p>{errors.passwordConfirm?.message}</p>
         </InputWrapper>
 
-        <SubmitWrapper>
+        <SubmitWrapper direction="column">
           <Button type="submit">Register</Button>
           <Link passHref href="/login">
             <p>I already have an account</p>

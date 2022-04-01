@@ -19,5 +19,4 @@ export const OptionsWrapper = styled.div`
 
 export const Brand = styled.h1`
   font-size: 24px;
-  letter-spacing: 2px;
 `;

@@ -1,23 +1,26 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const lightTheme = {
-  background: '#f9f1db',
+  background: '#ffffff',
   backgroundSoft: '#f9f1db',
-  foreground: '#5f4b32',
-  foregroundSoft: '#8d8275',
-  primary: '#24ac6c',
-  secondary: '#e46a4e',
-  error: '#e46a4e',
-  border: '#d9ccad',
+  foreground: '#111827',
+  foregroundSoft: '#6b7280',
+  primary: '#30b27b',
+  secondary: '#2089ff',
+  danger: '#e24f44',
+  border: '#bdbdbd',
   divider: '#fff',
 };
 
 export const darkTheme = {
-  background: '#121620',
-  foreground: '#f1f1f1',
-  primary: '#c3341d',
-  secondary: '#ebb100',
-  border: '#fff',
+  background: '#16181c',
+  backgroundSoft: '#16181c',
+  foreground: '#ecf9fb',
+  foregroundSoft: '#ecf9fb',
+  primary: '#1bd96a',
+  secondary: '#74b6f3',
+  danger: '#e24f44',
+  border: '#404040',
   divider: '#fff',
 };
 
@@ -33,6 +36,9 @@ export const GlobalStyle = createGlobalStyle<ThemeType>`
     p {
       margin: 0;
       padding: 0;
+    }
+    h1 {
+      letter-spacing: 1px;
     }
     font-size: 20px;
     background: ${({ theme }) => theme.background};

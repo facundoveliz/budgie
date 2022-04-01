@@ -79,7 +79,7 @@ const Login: LoginType = function Login() {
           <p>{errors.password?.message}</p>
         </InputWrapper>
 
-        <SubmitWrapper>
+        <SubmitWrapper direction="column">
           <Button type="submit">Submit</Button>
           <Link passHref href="/register">
             <p>Create an account</p>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { getEntries } from '../api/entries';
-import { Button } from '../components/styles/Button';
+import { Button, SecondaryButton } from '../components/styles/Button';
 import Entry from '../components/index/entry';
 import Modal from '../components/index/addEntryModal';
 import { Balance, Wrapper } from '../components/index/styles';
@@ -60,15 +60,14 @@ const Home: NextPage = function Home() {
         </Balance>
       )}
       <div>
-        <Button
-          secondary
+        <SecondaryButton
           onClick={() => {
             setIncome(false);
             setShowModal((prev) => !prev);
           }}
         >
           Expense
-        </Button>
+        </SecondaryButton>
         <Button
           onClick={() => {
             setIncome(true);
