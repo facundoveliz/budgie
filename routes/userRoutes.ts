@@ -5,6 +5,7 @@ import {
   registerUser,
   loginUser,
   putUser,
+  deleteUser,
 } from '../controllers/userController'
 import { catchErrors } from '../middleware/errorHandlerMiddleware'
 
@@ -14,5 +15,6 @@ router.get('/', auth, catchErrors(getUser))
 router.post('/register', catchErrors(registerUser))
 router.post('/login', catchErrors(loginUser))
 router.put('/', auth, catchErrors(putUser))
+router.delete('/', auth, catchErrors(deleteUser))
 
 export default router

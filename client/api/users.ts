@@ -30,3 +30,7 @@ export async function loginUser(data: Data) {
 export async function putUser(data: Data) {
   return axiosClient.put(usersRoute, data);
 }
+
+export async function deleteUser() {
+  return axiosClient.delete(usersRoute);
+}

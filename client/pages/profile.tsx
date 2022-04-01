@@ -12,7 +12,7 @@ import {
   SubmitWrapper,
 } from '../components/styles/Form';
 import { Button, DangerButton } from '../components/styles/Button';
-import { getUser, putUser } from '../api/users';
+import { deleteUser, getUser, putUser } from '../api/users';
 
 type IFormInputs = {
   name: string;
@@ -21,24 +21,20 @@ type IFormInputs = {
   passwordConfirm: string;
 };
 
-const schema = yup
-  .object({
-    name: yup
-      .string()
-      .min(3, 'The name should be at least 3 characters.')
-      .max(128, 'The name should not have more than 128 characters.'),
-    email: yup.string().email('Email must be a valid email.'),
-    password: yup
-      .string()
-      .min(8, 'The password should be at least 8 characters.')
-      .max(128, 'The password should not have more than 128 characters.'),
-    passwordConfirm: yup
-      .string()
-      .min(8, 'The password should be at least 8 characters.')
-      .max(128, 'The password should not have more than 128 characters.')
-      .oneOf([yup.ref('password'), null], 'Passwords must match.'),
-  })
-  .required();
+const schema = yup.object({
+  name: yup
+    .string()
+    .min(3, 'The name should be at least 3 characters.')
+    .max(128, 'The name should not have more than 128 characters.'),
+  email: yup.string().email('Email must be a valid email.'),
+  password: yup
+    .string()
+    .max(128, 'The password should not have more than 128 characters.'),
+  passwordConfirm: yup
+    .string()
+    .max(128, 'The password should not have more than 128 characters.')
+    .oneOf([yup.ref('password'), null], 'Passwords must match.'),
+});
 
 const Profile: NextPage = function Profile() {
   const [user, setUser] = useState({});
@@ -65,6 +61,13 @@ const Profile: NextPage = function Profile() {
       });
       setLoading(false);
     }
+  };
+
+  const handleDelete = async () => {
+    deleteUser().then(() => {
+      localStorage.removeItem('x-auth-token');
+      window.location.href = '/login';
+    });
   };
 
   useEffect(() => {
@@ -120,7 +123,9 @@ const Profile: NextPage = function Profile() {
             </InputWrapper>
 
             <SubmitWrapper direction="row">
-              <DangerButton>Delete account</DangerButton>
+              <DangerButton onClick={() => handleDelete()}>
+                Delete account
+              </DangerButton>
               <Button type="submit">Register</Button>
             </SubmitWrapper>
           </Form>

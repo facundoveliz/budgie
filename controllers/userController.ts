@@ -135,6 +135,23 @@ export const putUser = async (req: Request, res: Response) => {
     })
   })
 }
+
+export const deleteUser = async (req: Request, res: Response) => {
+  await User.findOneAndDelete({
+    // ensures that the user that is trying
+    // to delete has the same user that the
+    // one who's logged
+    user: req.user?._id,
+  })
+    .then(() => res.status(200).json({
+      ok: true,
+      msg: 'User deleted',
+    }))
+    .catch((err) => res.status(400).json({
+      ok: false,
+      msg: 'User not founded',
+      result: err,
+    }))
 }
 
 export default router
