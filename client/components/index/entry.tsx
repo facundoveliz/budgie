@@ -32,6 +32,7 @@ const Entry: NextPage<EntryProps> = function Entry({
 }: EntryProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedEdit, setSelectedEdit] = useState<SelectedEditProps>();
+
   return (
     <>
       {entries?.map((entry) => (
