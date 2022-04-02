@@ -6,6 +6,7 @@ import Entry from '../components/index/entry';
 import Modal from '../components/index/addEntryModal';
 import { Balance, Wrapper } from '../components/index/styles';
 import { getUser } from '../api/users';
+import { Loading } from '../components/styles/Loading';
 
 type EntryProp = {
   _id: string;
@@ -51,51 +52,53 @@ const Home: NextPage = function Home() {
   }, []);
 
   return (
-    <Wrapper>
+    <>
       {loading ? (
-        <p>Loading...</p>
+        <Loading>Loading...</Loading>
       ) : (
-        <Balance>
-          Account balance <p>{`$${user.balance}.00 `}</p>
-        </Balance>
+        <Wrapper>
+          <Balance>
+            Account balance <p>{`$${user.balance}.00 `}</p>
+          </Balance>
+          <div>
+            <SecondaryButton
+              onClick={() => {
+                setIncome(false);
+                setShowModal((prev) => !prev);
+              }}
+            >
+              Expense
+            </SecondaryButton>
+            <Button
+              onClick={() => {
+                setIncome(true);
+                setShowModal((prev) => !prev);
+              }}
+            >
+              Income
+            </Button>
+          </div>
+          <Modal
+            showModal={showModal}
+            setShowModal={setShowModal}
+            getEntryRequest={getEntryRequest}
+            getUserRequest={getUserRequest}
+            income={income}
+          />
+          {loading ? (
+            <p>Loading...</p>
+          ) : entries.length <= 0 ? (
+            <h1>No entries were founded.</h1>
+          ) : (
+            <Entry
+              entries={entries}
+              getEntryRequest={getEntryRequest}
+              getUserRequest={getUserRequest}
+            />
+          )}
+        </Wrapper>
       )}
-      <div>
-        <SecondaryButton
-          onClick={() => {
-            setIncome(false);
-            setShowModal((prev) => !prev);
-          }}
-        >
-          Expense
-        </SecondaryButton>
-        <Button
-          onClick={() => {
-            setIncome(true);
-            setShowModal((prev) => !prev);
-          }}
-        >
-          Income
-        </Button>
-      </div>
-      <Modal
-        showModal={showModal}
-        setShowModal={setShowModal}
-        getEntryRequest={getEntryRequest}
-        getUserRequest={getUserRequest}
-        income={income}
-      />
-      {loading ? (
-        <p>Loading...</p>
-      ) : entries.length <= 0 ? (
-        <h1>No entries were founded.</h1>
-      ) : (
-        <Entry
-          entries={entries}
-          getEntryRequest={getEntryRequest}
-          getUserRequest={getUserRequest}
-        />
-      )}
-    </Wrapper>
+    </>
   );
 };
 

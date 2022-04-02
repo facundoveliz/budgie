@@ -71,13 +71,10 @@ const Modal: NextPage<ModalProps> = function Modal({
 
   const onSubmit = (data: IFormInputs) => {
     data.income = income;
-    // FIX: Find a better way to do this, PLEASE
     postEntries(data).then(() => {
-      getEntryRequest().then(() => {
-        getUserRequest().then(() => {
-          setShowModal(false);
-        });
-      });
+      getEntryRequest();
+      getUserRequest();
+      setShowModal(false);
     });
   };
 
