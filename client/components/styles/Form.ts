@@ -4,25 +4,14 @@ export const Form = styled.form`
   width: 100%;
 `;
 
-// TODO: better props management (put it inside components, google it)
-type InputProps = {
-  readonly error?: boolean;
-};
-
-type SelectProps = {
-  readonly error?: boolean;
-};
-
-type SubmitProps = {
-  readonly direction: 'row' | 'column';
-};
-
 export const Label = styled.label`
   padding: 12px 0;
   font-size: 17px;
 `;
 
-export const Input = styled.input<InputProps>`
+export const Input = styled.input<{
+  readonly error?: boolean;
+}>`
   width: 100%;
   background: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.foreground};
@@ -36,7 +25,9 @@ export const Input = styled.input<InputProps>`
   font-size: 16px;
 `;
 
-export const Select = styled.select<SelectProps>`
+export const Select = styled.select<{
+  readonly error?: boolean;
+}>`
   background: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.foreground};
   padding: 14px;
@@ -82,7 +73,9 @@ export const InputWrapper = styled.div`
   }
 `;
 
-export const SubmitWrapper = styled.div<SubmitProps>`
+export const SubmitWrapper = styled.div<{
+  readonly direction: 'row' | 'column';
+}>`
   display: flex;
   flex-direction: ${(props) => props.direction};
   justify-content: space-between;

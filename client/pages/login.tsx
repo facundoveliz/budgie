@@ -61,21 +61,17 @@ const Login: LoginType = function Login() {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <InputWrapper>
           <Label>Email Adress</Label>
-          {errors.email ? (
-            <Input error {...register('email')} />
-          ) : (
-            <Input {...register('email')} />
-          )}
+          <Input error={!!errors.email} {...register('email')} />
           <p>{errors.email?.message}</p>
         </InputWrapper>
 
         <InputWrapper>
           <Label>Password</Label>
-          {errors.password ? (
-            <Input error {...register('password')} type="password" />
-          ) : (
-            <Input {...register('password')} type="password" />
-          )}
+          <Input
+            error={!!errors.password}
+            {...register('password')}
+            type="password"
+          />
           <p>{errors.password?.message}</p>
         </InputWrapper>
 
