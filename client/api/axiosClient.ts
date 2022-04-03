@@ -1,7 +1,6 @@
 import axios from 'axios';
 
 const axiosClient = axios.create({
-  // TODO: add .env url
   baseURL: process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_LOCAL,
   timeout: 2000,
 });
