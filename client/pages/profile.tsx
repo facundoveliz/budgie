@@ -62,6 +62,7 @@ const Profile: NextPage = function Profile() {
   const onSubmit = (data: IFormInputs) => putUser(data);
 
   const getUserRequest = async () => {
+    setLoading(true);
     const res = await getUser();
     if (res) {
       reset({

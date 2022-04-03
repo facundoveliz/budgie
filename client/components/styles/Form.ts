@@ -4,6 +4,7 @@ export const Form = styled.form`
   width: 100%;
 `;
 
+// TODO: better props management (put it inside components, google it)
 type InputProps = {
   readonly error?: boolean;
 };
@@ -52,7 +53,6 @@ export const Select = styled.select<SelectProps>`
 `;
 
 export const Wrapper = styled.div`
-  height: 100vh;
   width: 30%;
   margin: 0 auto;
   display: flex;

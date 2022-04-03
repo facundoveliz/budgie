@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
 export const Loading = styled.div`
-  position: absolute;
   width: 100vw;
-  height: 80vw;
+  height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-shrink: 0;
 `;

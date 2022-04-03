@@ -39,6 +39,7 @@ const Home: NextPage = function Home() {
   };
 
   const getUserRequest = async () => {
+    setLoading(true);
     const res = await getUser();
     if (res) {
       setUser(res.data.result);

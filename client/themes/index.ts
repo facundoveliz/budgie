@@ -29,7 +29,7 @@ export type ThemeType = {
 };
 
 export const GlobalStyle = createGlobalStyle<ThemeType>`
-  body {
+  html, body {
     transition: background 0.2s ease-in, color 0.2s ease-in;
     margin: 0;
     padding: 0;
