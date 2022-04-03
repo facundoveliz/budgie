@@ -95,41 +95,33 @@ const Profile: NextPage = function Profile() {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <InputWrapper>
               <Label>Username</Label>
-              {errors.name ? (
-                <Input error {...register('name')} />
-              ) : (
-                <Input {...register('name')} />
-              )}
+              <Input error={!!errors.password} {...register('name')} />
               <p>{errors.name?.message}</p>
             </InputWrapper>
 
             <InputWrapper>
               <Label>Email Adress</Label>
-              {errors.email ? (
-                <Input error {...register('email')} />
-              ) : (
-                <Input {...register('email')} />
-              )}
+              <Input error={!!errors.email} {...register('email')} />
               <p>{errors.email?.message}</p>
             </InputWrapper>
 
             <InputWrapper>
               <Label>Password</Label>
-              {errors.password ? (
-                <Input error {...register('password')} type="password" />
-              ) : (
-                <Input {...register('password')} type="password" />
-              )}
+              <Input
+                error={!!errors.password}
+                {...register('password')}
+                type="password"
+              />
               <p>{errors.password?.message}</p>
             </InputWrapper>
 
             <InputWrapper>
               <Label>Confirm password</Label>
-              {errors.passwordConfirm ? (
-                <Input error {...register('passwordConfirm')} type="password" />
-              ) : (
-                <Input {...register('passwordConfirm')} type="password" />
-              )}
+              <Input
+                error={!!errors.passwordConfirm}
+                {...register('passwordConfirm')}
+                type="password"
+              />
               <p>{errors.passwordConfirm?.message}</p>
             </InputWrapper>
 
