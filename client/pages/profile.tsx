@@ -30,17 +30,24 @@ const schema = yup.object({
   email: yup.string().email('Email must be a valid email.'),
   password: yup
     .string()
-    .min(8, 'The password should be at least 8 characters.')
+    .notRequired()
+    .matches(/.{8,}/, {
+      excludeEmptyString: true,
+      message: 'The password should be at least 8 characters.',
+    })
     .max(128, 'The password should not have more than 128 characters.'),
   passwordConfirm: yup
     .string()
-    .min(8, 'The password should be at least 8 characters.')
+    .notRequired()
+    .matches(/.{8,}/, {
+      excludeEmptyString: true,
+      message: 'The password should be at least 8 characters.',
+    })
     .max(128, 'The password should not have more than 128 characters.')
     .oneOf([yup.ref('password'), null], 'Passwords must match.'),
 });
 
 const Profile: NextPage = function Profile() {
-  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
 
   const {
@@ -57,10 +64,11 @@ const Profile: NextPage = function Profile() {
   const getUserRequest = async () => {
     const res = await getUser();
     if (res) {
-      setUser(res.data.result);
       reset({
         name: res.data.result.name,
         email: res.data.result.email,
+        password: '',
+        passwordConfirm: '',
       });
       setLoading(false);
     }
@@ -83,61 +91,55 @@ const Profile: NextPage = function Profile() {
         <Loading>Loading...</Loading>
       ) : (
         <Wrapper>
-          <Wrapper>
-            <h1>Profile</h1>
-            <Form onSubmit={handleSubmit(onSubmit)}>
-              <InputWrapper>
-                <Label>Username</Label>
-                {errors.name ? (
-                  <Input error {...register('name')} defaultValue={user.name} />
-                ) : (
-                  <Input {...register('name')} />
-                )}
-                <p>{errors.name?.message}</p>
-              </InputWrapper>
+          <h1>Profile</h1>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <InputWrapper>
+              <Label>Username</Label>
+              {errors.name ? (
+                <Input error {...register('name')} />
+              ) : (
+                <Input {...register('name')} />
+              )}
+              <p>{errors.name?.message}</p>
+            </InputWrapper>
 
-              <InputWrapper>
-                <Label>Email Adress</Label>
-                {errors.email ? (
-                  <Input error {...register('email')} />
-                ) : (
-                  <Input {...register('email')} />
-                )}
-                <p>{errors.email?.message}</p>
-              </InputWrapper>
+            <InputWrapper>
+              <Label>Email Adress</Label>
+              {errors.email ? (
+                <Input error {...register('email')} />
+              ) : (
+                <Input {...register('email')} />
+              )}
+              <p>{errors.email?.message}</p>
+            </InputWrapper>
 
-              <InputWrapper>
-                <Label>Password</Label>
-                {errors.password ? (
-                  <Input error {...register('password')} type="password" />
-                ) : (
-                  <Input {...register('password')} type="password" />
-                )}
-                <p>{errors.password?.message}</p>
-              </InputWrapper>
+            <InputWrapper>
+              <Label>Password</Label>
+              {errors.password ? (
+                <Input error {...register('password')} type="password" />
+              ) : (
+                <Input {...register('password')} type="password" />
+              )}
+              <p>{errors.password?.message}</p>
+            </InputWrapper>
 
-              <InputWrapper>
-                <Label>Confirm password</Label>
-                {errors.passwordConfirm ? (
-                  <Input
-                    error
-                    {...register('passwordConfirm')}
-                    type="password"
-                  />
-                ) : (
-                  <Input {...register('passwordConfirm')} type="password" />
-                )}
-                <p>{errors.passwordConfirm?.message}</p>
-              </InputWrapper>
+            <InputWrapper>
+              <Label>Confirm password</Label>
+              {errors.passwordConfirm ? (
+                <Input error {...register('passwordConfirm')} type="password" />
+              ) : (
+                <Input {...register('passwordConfirm')} type="password" />
+              )}
+              <p>{errors.passwordConfirm?.message}</p>
+            </InputWrapper>
 
-              <SubmitWrapper direction="row">
-                <DangerButton onClick={() => handleDelete()}>
-                  Delete account
-                </DangerButton>
-                <Button type="submit">Register</Button>
-              </SubmitWrapper>
-            </Form>
-          </Wrapper>
+            <SubmitWrapper direction="row">
+              <DangerButton onClick={() => handleDelete()}>
+                Delete account
+              </DangerButton>
+              <Button type="submit">Register</Button>
+            </SubmitWrapper>
+          </Form>
         </Wrapper>
       )}
     </>
