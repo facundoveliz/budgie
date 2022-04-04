@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 
 export const lightTheme = {
   background: '#ffffff',
-  backgroundSoft: '#f9f1db',
+  backgroundSoft: '#f4f4f4',
   foreground: '#111827',
   foregroundSoft: '#6b7280',
   primary: '#30b27b',
@@ -14,7 +14,7 @@ export const lightTheme = {
 
 export const darkTheme = {
   background: '#16181c',
-  backgroundSoft: '#16181c',
+  backgroundSoft: '#191b1f',
   foreground: '#ecf9fb',
   foregroundSoft: '#ecf9fb',
   primary: '#1bd96a',

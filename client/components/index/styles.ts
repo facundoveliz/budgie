@@ -39,7 +39,6 @@ type EntryStyleProps = {
 };
 
 // entry
-// TODO: highlight background on hover
 export const EntryWrapper = styled.div<EntryStyleProps>`
   display: flex;
   flex-direction: row;
@@ -51,6 +50,9 @@ export const EntryWrapper = styled.div<EntryStyleProps>`
   border-bottom: 1px solid ${({ theme }) => theme.border} !important;
   @media (max-width: 1200px) {
     width: 80vw;
+  }
+  &:hover {
+    background: ${({ theme }) => theme.backgroundSoft};
   }
   &:last-of-type {
     border: 0;
