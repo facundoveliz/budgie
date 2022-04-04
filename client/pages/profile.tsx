@@ -27,7 +27,11 @@ const schema = yup.object({
     .string()
     .min(3, 'The name should be at least 3 characters.')
     .max(128, 'The name should not have more than 128 characters.'),
-  email: yup.string().email('Email must be a valid email.'),
+  email: yup
+    .string()
+    .min(1, 'The email is a required field')
+    .email('Email must be a valid email.')
+    .required(),
   password: yup
     .string()
     .notRequired()
@@ -49,17 +53,24 @@ const schema = yup.object({
 
 const Profile: NextPage = function Profile() {
   const [loading, setLoading] = useState(true);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
     reset,
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IFormInputs) => putUser(data);
+  const onSubmit = (data: IFormInputs) =>
+    putUser(data).then((res) => {
+      if (res === 'Invalid email or password') {
+        setError('email', {
+          message: 'Email already in use',
+        });
+      }
+    });
 
   const getUserRequest = async () => {
     setLoading(true);

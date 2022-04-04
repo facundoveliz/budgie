@@ -14,21 +14,26 @@ export async function getUser() {
 
 export async function registerUser(data: Data) {
   const res = await axiosClient.post(`${usersRoute}/register`, data);
-  if (res) {
-    return (window.location.href = '/login');
+  if (res === 'Invalid email or password') {
+    return res;
   }
+  return (window.location.href = '/login');
 }
 
 export async function loginUser(data: Data) {
   const res = await axiosClient.post(`${usersRoute}/login`, data);
-  if (res) {
-    localStorage.setItem('x-auth-token', res.data.result);
-    window.location.href = '/';
+  if (res === 'Invalid email or password') {
+    return res;
   }
+  localStorage.setItem('x-auth-token', res.data.result);
+  return (window.location.href = '/');
 }
 
 export async function putUser(data: Data) {
-  return axiosClient.put(usersRoute, data);
+  const res = await axiosClient.put(usersRoute, data);
+  if (res === 'Invalid email or password') {
+    return res;
+  }
 }
 
 export async function deleteUser() {

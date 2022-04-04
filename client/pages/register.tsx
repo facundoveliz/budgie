@@ -61,11 +61,19 @@ const Register: RegisterType = function Register() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IFormInputs) => registerUser(data);
+  const onSubmit = (data: IFormInputs) =>
+    registerUser(data).then((res) => {
+      if (res === 'Invalid email or password') {
+        setError('email', {
+          message: res,
+        });
+      }
+    });
 
   return (
     <Wrapper>

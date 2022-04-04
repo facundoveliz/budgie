@@ -107,8 +107,8 @@ export const putUser = async (req: Request, res: Response) => {
     password: user.password,
   }
 
-  if (req.body.name !== user.name) newUser.name = req.body.name
-  if (req.body.email !== user.email) {
+  if (req.body.name !== user.name && req.body.name.length >= 1) newUser.name = req.body.name
+  if (req.body.email !== user.email && req.body.name.length >= 1) {
     // checks if the email is exists
     const emailCheck = await User.findOne({
       email: req.body.email,

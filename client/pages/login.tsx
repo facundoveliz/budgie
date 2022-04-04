@@ -47,14 +47,25 @@ const Login: LoginType = function Login() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IFormInputs) => loginUser(data);
+  const onSubmit = (data: IFormInputs) =>
+    loginUser(data).then((res) => {
+      // NOTE: probably not the best choice, i made a lot of
+      // verifications of the same type to get to this, but
+      // for the moment i don't find another relatively easy
+      // way of make this
+      if (res === 'Invalid email or password') {
+        setError('email', {
+          message: res,
+        });
+      }
+    });
 
-  // TODO: retrieve email not found error, probably with notifications
   return (
     <Wrapper>
       <h1>Login</h1>

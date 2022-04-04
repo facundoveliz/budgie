@@ -24,7 +24,7 @@ axiosClient.interceptors.response.use(
         return (window.location.href = '/login');
       }
       if (error.response.data.msg === 'Invalid email or password') {
-        return console.log(error.response.data.msg);
+        return error.response.data.msg;
       }
     }
     return console.log(error);
