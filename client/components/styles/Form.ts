@@ -23,6 +23,7 @@ export const Input = styled.input<{
   box-sizing: border-box;
   padding: 12px 14px;
   font-size: 16px;
+  transition: background 0.2s ease-in, color 0.2s ease-in;
 `;
 
 export const Select = styled.select<{
