@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import type { NextPage } from 'next';
 import { Button } from '../styles/Button';
 import { Brand, OptionsWrapper, Wrapper } from './styles';
 import Link from 'next/link';
+import { ThemeContext } from '../userContext';
+import { darkTheme, lightTheme } from '../../themes';
 
 const Header: NextPage = function Header() {
+  const { currentTheme, setCurrentTheme } = useContext(ThemeContext);
+
   return (
     <Wrapper>
       <Brand>Personal Budget</Brand>
       <OptionsWrapper>
+        {currentTheme === lightTheme ? (
+          <p onClick={() => setCurrentTheme(darkTheme)}>🌕</p>
+        ) : (
+          <p onClick={() => setCurrentTheme(lightTheme)}>🌞</p>
+        )}
         <Link passHref href="/">
           <p>Budget</p>
         </Link>
