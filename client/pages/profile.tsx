@@ -141,7 +141,7 @@ const Profile: NextPage = function Profile() {
               <DangerButton onClick={() => handleDelete()}>
                 Delete account
               </DangerButton>
-              <Button type="submit">Register</Button>
+              <Button type="submit">Accept</Button>
             </SubmitWrapper>
           </Form>
         </Wrapper>
