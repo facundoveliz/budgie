@@ -70,7 +70,7 @@ const Register: RegisterType = function Register() {
     registerUser(data).then((res) => {
       if (res === 'Invalid email or password') {
         setError('email', {
-          message: res,
+          message: 'Email already in use',
         });
       }
     });
