@@ -1,11 +1,20 @@
 import styled from 'styled-components';
+import { MdViewHeadline } from 'react-icons/md';
 
 export const Wrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
-  padding: 4px 16px;
+  padding: 0 16px;
+  height: 70px;
+`;
+
+export const Brand = styled.h1`
+  font-size: 24px;
+  @media (max-width: 560px) {
+    display: none;
+  }
 `;
 
 export const OptionsWrapper = styled.div`
@@ -15,8 +24,39 @@ export const OptionsWrapper = styled.div`
     margin-right: 20px;
     cursor: pointer;
   }
+  @media (max-width: 560px) {
+    display: none;
+  }
 `;
 
-export const Brand = styled.h1`
-  font-size: 24px;
+export const Hamburguer = styled(MdViewHeadline)`
+  display: none;
+  @media (max-width: 560px) {
+    display: flex;
+    cursor: pointer;
+    height: 36px;
+    width: 36px;
+  }
+`;
+
+export const Menu = styled.div<{
+  open: boolean;
+}>`
+  display: ${({ open }) => (open ? 'flex' : 'none')};
+  flex-direction: column;
+  align-items: center;
+  background-color: ${({ theme }) => theme.background};
+  /* background-color: red; */
+  position: fixed;
+  padding-top: 50px;
+  top: 50px;
+  right: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+`;
+
+export const MenuItem = styled.p`
+  height: 70px;
+  cursor: pointer;
 `;
