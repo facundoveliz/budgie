@@ -5,12 +5,14 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon --exec ts-node ./server.ts",
+    "start": "node ./dist/server.js",
+    "build": "tsc",
     "test": "jest --runInBand ./test",
     "lint": "eslint . --ext .ts --fix --ignore-pattern client",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd ./client install && yarn --cwd ./client build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn build && yarn --cwd ./client install && yarn --cwd ./client build-ts && yarn --cwd ./client build"
   },
   "engines": {
-    "node": "17.8.0"
+    "node": "17.9.0"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +26,8 @@
     "jwt-decode": "^3.1.2",
     "mongoose": "^6.2.4",
     "morgan": "^1.10.0",
-    "yup": "^0.32.11"
+    "yup": "^0.32.11",
+    "typescript": "^4.6.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -45,7 +48,6 @@
     "mongodb-memory-server": "^8.4.1",
     "supertest": "^6.2.2",
     "ts-jest": "^27.1.3",
-    "ts-node": "^10.7.0",
-    "typescript": "^4.6.2"
+    "ts-node": "^10.7.0"
   }
 }
