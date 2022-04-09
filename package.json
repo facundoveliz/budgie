@@ -6,7 +6,8 @@
   "scripts": {
     "server": "nodemon --exec ts-node ./server.ts",
     "test": "jest --runInBand ./test",
-    "lint": "eslint . --ext .ts --fix --ignore-pattern client"
+    "lint": "eslint . --ext .ts --fix --ignore-pattern client",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn build --prefix client"
   },
   "keywords": [],
   "author": "",

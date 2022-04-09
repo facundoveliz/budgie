@@ -1,7 +1,14 @@
 import axios from 'axios';
 
+let url;
+if (process.env.NODE_ENV === 'production') {
+  url = process.env.HEROKU_URI;
+} else {
+  url = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_LOCAL;
+}
+
 const axiosClient = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_LOCAL,
+  baseURL: url,
   timeout: 2000,
 });
 
