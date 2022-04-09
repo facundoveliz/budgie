@@ -9,7 +9,7 @@
     "build": "tsc",
     "test": "jest --runInBand ./test",
     "lint": "eslint . --ext .ts --fix --ignore-pattern client",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn build && yarn --cwd ./client install && yarn --cwd ./client build-ts && yarn --cwd ./client build"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd ./client install && yarn --cwd ./client build"
   },
   "engines": {
     "node": "17.9.0"
