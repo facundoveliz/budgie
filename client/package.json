@@ -5,10 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "build-ts": "tsc",
     "start": "next start -p 3001",
-    "lint": "next lint --fix",
-    "build-ts": "tsc"
+    "lint": "next lint --fix"
   },
   "engines": {
     "node": "17.9.0"
