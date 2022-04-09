@@ -15,6 +15,8 @@ import { darkTheme, lightTheme } from '../../themes';
 
 const Header: NextPage = function Header() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  // FIX: this
+  // @ts-ignore
   const { currentTheme, setCurrentTheme } = useContext(ThemeContext);
 
   return (

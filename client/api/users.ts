@@ -14,6 +14,7 @@ export async function getUser() {
 
 export async function registerUser(data: Data) {
   const res = await axiosClient.post(`${usersRoute}/register`, data);
+  // @ts-ignore
   if (res === 'Invalid email or password') {
     return res;
   }
@@ -22,6 +23,7 @@ export async function registerUser(data: Data) {
 
 export async function loginUser(data: Data) {
   const res = await axiosClient.post(`${usersRoute}/login`, data);
+  // @ts-ignore
   if (res === 'Invalid email or password') {
     return res;
   }
@@ -31,6 +33,7 @@ export async function loginUser(data: Data) {
 
 export async function putUser(data: Data) {
   const res = await axiosClient.put(usersRoute, data);
+  // @ts-ignore
   if (res === 'Invalid email or password') {
     return res;
   }

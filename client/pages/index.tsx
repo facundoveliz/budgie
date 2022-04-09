@@ -59,7 +59,7 @@ const Home: NextPage = function Home() {
       ) : (
         <Wrapper>
           <Balance>
-            Account balance <p>{`$${user.balance}.00 `}</p>
+            Account balance <p>{`$${user!.balance}.00 `}</p>
           </Balance>
           <div>
             <SecondaryButton

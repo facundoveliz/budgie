@@ -65,6 +65,8 @@ const Entry: NextPage<EntryProps> = function Entry({
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}
+            // FIX: this
+            // @ts-ignore
             selectedEdit={selectedEdit}
             getEntryRequest={getEntryRequest}
             getUserRequest={getUserRequest}

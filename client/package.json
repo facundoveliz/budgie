@@ -6,10 +6,11 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start -p 3001",
-    "lint": "next lint --fix"
+    "lint": "next lint --fix",
+    "build-ts": "tsc"
   },
   "engines": {
-    "node": "17.8.0"
+    "node": "17.9.0"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.8",
