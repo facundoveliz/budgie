@@ -9,7 +9,7 @@
     "lint": "next lint --fix"
   },
   "engines": {
-    "node": "17.8.0"
+    "node": "17.9.0"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.8",
