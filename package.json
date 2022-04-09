@@ -5,12 +5,13 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon --exec ts-node ./server.ts",
+    "start": "node ./dist/server.js",
     "test": "jest --runInBand ./test",
     "lint": "eslint . --ext .ts --fix --ignore-pattern client",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn --cwd ./client install && yarn --cwd ./client build"
   },
   "engines": {
-    "node": "17.8.0"
+    "node": "17.9.0"
   },
   "keywords": [],
   "author": "",
