@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": "jest --runInBand ./test",
     "lint": "eslint . --ext .ts --fix --ignore-pattern client",
-    "heroku-postbuild": "yarn build && yarn --cwd ./client install && yarn --cwd ./client build"
+    "heroku-postbuild": "yarn build"
   },
   "engines": {
     "node": "17.9.0"
