@@ -1,26 +1,20 @@
-import axios from 'axios';
-
-let url;
-if (process.env.NODE_ENV === 'production') {
-  url = process.env.HEROKU_URI;
-} else {
-  url = process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_LOCAL;
-}
+import axios from "axios";
 
 const axiosClient = axios.create({
-  baseURL: url,
+  baseURL:
+    process.env.VERCEL_URL || process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_LOCAL,
   timeout: 2000,
 });
 
 axiosClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('x-auth-token');
+    const token = localStorage.getItem("x-auth-token");
     if (token) {
       config.headers!.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => console.log(error),
+  (error) => console.log(error)
 );
 
 axiosClient.interceptors.response.use(
@@ -28,14 +22,14 @@ axiosClient.interceptors.response.use(
   (error) => {
     if (error.response) {
       if (error.response.status === 401) {
-        return (window.location.href = '/login');
+        return (window.location.href = "/login");
       }
-      if (error.response.data.msg === 'Invalid email or password') {
+      if (error.response.data.msg === "Invalid email or password") {
         return error.response.data.msg;
       }
     }
     return console.log(error);
-  },
+  }
 );
 
 export default axiosClient;
