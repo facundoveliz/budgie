@@ -15,12 +15,13 @@ dotenv.config()
 app.use(express.json())
 app.use(cors({ credentials: true }))
 app.use(morgan('dev'))
+app.use(express.static(path.join(__dirname, 'client/.next')))
+app.use(routes)
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../client/.next'))
   app.get('*', (req, res) => {
     res.sendFile(
-      path.resolve(__dirname, '../client/.next/server/pages/index.html'),
+      path.join(__dirname, '../client/.next/server/pages/index.html'),
     )
   })
 }
@@ -34,8 +35,6 @@ mongoose
       || 'mongodb://127.0.0.1:27017/personal-budget',
   )
   .then(() => console.log('MongoDB successfully connected...'))
-
-app.use(routes)
 
 app.use(notFound)
 app.use(errorHandler)
