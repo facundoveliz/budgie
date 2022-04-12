@@ -3,11 +3,7 @@ import type { NextPage } from 'next';
 import { Wrapper } from './styles';
 
 const Footer: NextPage = function Footer() {
-  return (
-    <Wrapper>
-      Made with ❤️‍🩹 by <p>Facundo Veliz</p>
-    </Wrapper>
-  );
+  return <Wrapper>Made with ❤️ by Facundo Veliz</Wrapper>;
 };
 
 export default Footer;
