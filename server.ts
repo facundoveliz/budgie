@@ -19,7 +19,14 @@ app.use(morgan('dev'))
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static('./client/.next'))
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, 'client', '.next'))
+    res.sendFile(
+      path.resolve(
+        __dirname,
+        'client',
+        '.next',
+        '.next/server/pages/index.html',
+      ),
+    )
   })
 }
 
@@ -27,7 +34,10 @@ const port = process.env.PORT || 3000
 app.listen(port, () => console.log(`Listening on port ${port}... and ${process.env.NODE_ENV}`))
 
 mongoose
-  .connect(process.env.DATABASE_URI as string)
+  .connect(
+    (process.env.DATABASE_URI as string)
+      || 'mongodb://127.0.0.1:27017/personal-budget',
+  )
   .then(() => console.log('MongoDB successfully connected...'))
 
 app.use(routes)
