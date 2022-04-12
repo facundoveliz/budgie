@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "start": "node ./dist/server.js",
     "server": "nodemon --exec ts-node ./server.ts",
     "build": "tsc",
     "test": "jest --runInBand ./test",
