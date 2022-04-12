@@ -24,7 +24,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const port = process.env.PORT || 3000
-app.listen(port, () => console.log(`Listening on port ${port}...`))
+app.listen(port, () => console.log(`Listening on port ${port}... and ${process.env.NODE_ENV}`))
 
 mongoose
   .connect(process.env.DATABASE_URI as string)
