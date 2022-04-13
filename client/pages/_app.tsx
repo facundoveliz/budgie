@@ -7,8 +7,6 @@ import { NextPage } from 'next';
 import './_app.css';
 import { ThemeContext } from '../components/userContext';
 
-// FIX: server tests and git workflows (tests not running)
-
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
 };
@@ -18,7 +16,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const [currentTheme, setCurrentTheme] = useState(darkTheme);
+  const [currentTheme, setCurrentTheme] = useState<typeof darkTheme>(darkTheme);
 
   return (
     <ThemeContext.Provider value={{ currentTheme, setCurrentTheme }}>

@@ -31,7 +31,12 @@ const Entry: NextPage<EntryProps> = function Entry({
   getUserRequest,
 }: EntryProps) {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [selectedEdit, setSelectedEdit] = useState<SelectedEditProps>();
+  const [selectedEdit, setSelectedEdit] = useState<SelectedEditProps>({
+    id: '',
+    category: '',
+    amount: 0,
+    income: true,
+  });
 
   return (
     <>
@@ -65,8 +70,6 @@ const Entry: NextPage<EntryProps> = function Entry({
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}
-            // FIX: this
-            // @ts-ignore
             selectedEdit={selectedEdit}
             getEntryRequest={getEntryRequest}
             getUserRequest={getUserRequest}

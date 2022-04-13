@@ -1,9 +1,12 @@
 import { createContext } from 'react';
-import { lightTheme } from '../themes';
+import { darkTheme } from '../themes';
 
 type ContextType = {
-  currentTheme: typeof lightTheme;
-  setCurrentTheme: React.Dispatch<React.SetStateAction<typeof lightTheme>>;
+  currentTheme: typeof darkTheme;
+  setCurrentTheme: React.Dispatch<React.SetStateAction<typeof darkTheme>>;
 };
 
-export const ThemeContext = createContext<ContextType | null>(null);
+export const ThemeContext = createContext<ContextType>({
+  currentTheme: darkTheme,
+  setCurrentTheme: () => {},
+});
