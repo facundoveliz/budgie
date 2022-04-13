@@ -44,19 +44,20 @@ const Header: NextPage = function Header() {
       </OptionsWrapper>
 
       <Menu open={showMobileMenu}>
-        <Link passHref href="/">
-          <MenuItem onClick={() => setShowMobileMenu(!showMobileMenu)}>
-            <div>Budget</div>
-          </MenuItem>
-        </Link>
-        <Link passHref href="/profile">
-          <MenuItem onClick={() => setShowMobileMenu(!showMobileMenu)}>
-            <div>Profile</div>
-          </MenuItem>
-        </Link>
+        <MenuItem onClick={() => setShowMobileMenu(!showMobileMenu)}>
+          <Link passHref href="/">
+            <p>Budget</p>
+          </Link>
+        </MenuItem>
+        <MenuItem onClick={() => setShowMobileMenu(!showMobileMenu)}>
+          <Link passHref href="/profile">
+            <p>Profile</p>
+          </Link>
+        </MenuItem>
         <MenuItem onClick={() => setShowMobileMenu(!showMobileMenu)}>
           <Button
             onClick={() => {
+              setShowMobileMenu(!showMobileMenu);
               localStorage.removeItem('x-auth-token');
               window.location.href = '/login';
             }}

@@ -46,7 +46,6 @@ export const Menu = styled.div<{
   flex-direction: column;
   align-items: center;
   background-color: ${({ theme }) => theme.background};
-  /* background-color: red; */
   position: fixed;
   padding-top: 50px;
   top: 50px;
@@ -56,7 +55,7 @@ export const Menu = styled.div<{
   width: 100vw;
 `;
 
-export const MenuItem = styled.p`
-  height: 70px;
+export const MenuItem = styled.div`
+  padding-bottom: 70px;
   cursor: pointer;
 `;
