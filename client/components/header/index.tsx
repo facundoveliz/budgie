@@ -54,6 +54,13 @@ const Header: NextPage = function Header() {
             <p>Profile</p>
           </Link>
         </MenuItem>
+        <MenuItem>
+          {currentTheme === lightTheme ? (
+            <p onClick={() => setCurrentTheme(darkTheme)}>🌕</p>
+          ) : (
+            <p onClick={() => setCurrentTheme(lightTheme)}>🌞</p>
+          )}
+        </MenuItem>
         <MenuItem onClick={() => setShowMobileMenu(!showMobileMenu)}>
           <Button
             onClick={() => {
