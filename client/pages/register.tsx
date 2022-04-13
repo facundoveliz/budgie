@@ -68,7 +68,7 @@ const Register: RegisterType = function Register() {
 
   const onSubmit = (data: IFormInputs) =>
     registerUser(data).then((res) => {
-      if (res === 'Invalid email or password') {
+      if (res.toString() === 'Invalid email or password') {
         setError('email', {
           message: 'Email already in use',
         });

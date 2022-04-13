@@ -59,9 +59,9 @@ const Login: LoginType = function Login() {
       // verifications of the same type to get to this, but
       // for the moment i don't find another relatively easy
       // way of make this
-      if (res === 'Invalid email or password') {
+      if (res.toString() === 'Invalid email or password') {
         setError('email', {
-          message: res,
+          message: res.toString(),
         });
       }
     });

@@ -65,7 +65,7 @@ const Profile: NextPage = function Profile() {
 
   const onSubmit = (data: IFormInputs) =>
     putUser(data).then((res) => {
-      if (res === 'Invalid email or password') {
+      if (res?.toString() === 'Invalid email or password') {
         setError('email', {
           message: 'Email already in use',
         });
