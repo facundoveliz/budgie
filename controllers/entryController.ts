@@ -108,7 +108,11 @@ export const deleteEntry = async (req: Request, res: Response) => {
   const entry = await Entry.findOne({
     _id: req.params.id,
     user: req.user?._id,
-  })
+  }).catch((err) => res.status(400).json({
+    ok: false,
+    msg: 'Entry not founded',
+    result: err,
+  }))
   if (entry) {
     await Entry.findOneAndDelete({
       // ensures that the entry that is trying
@@ -125,15 +129,10 @@ export const deleteEntry = async (req: Request, res: Response) => {
           },
         }).then(() => res.status(200).json({
           ok: true,
-          msg: 'Entry updated',
+          msg: 'Entry deleted',
           result: entry,
         }))
       })
-      .catch((err) => res.status(400).json({
-        ok: false,
-        msg: 'Entry not founded',
-        result: err,
-      }))
   }
 }
 

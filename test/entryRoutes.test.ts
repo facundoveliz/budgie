@@ -105,9 +105,10 @@ describe('PUT /api/entries/:id', () => {
     await request(app)
       .put(`/api/entries/${id}`)
       .send({
-        category: 'Shopping',
-        income: false,
-        amount: 420,
+        category: 'Salary',
+        income: true,
+        amount: 5000,
+        oldAmount: 420,
       })
       .expect(200)
       .set({ Authorization: `Bearer ${token}` })
@@ -154,7 +155,7 @@ describe('DELETE /api/entries/:id', () => {
 
   it('should throw bad request error', async () => {
     await request(app)
-      .delete('/api/entries/wrongId')
+      .delete('/api/entries/62478cd6f33256ab42165e1z')
       .expect(400)
       .set({ Authorization: `Bearer ${token}` })
       .then(async (res) => {
