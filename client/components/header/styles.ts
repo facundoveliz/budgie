@@ -44,6 +44,7 @@ export const Menu = styled.div<{
 }>`
   display: ${({ open }) => (open ? 'flex' : 'none')};
   flex-direction: column;
+  transition: background 0.2s ease-in, color 0.2s ease-in;
   align-items: center;
   background-color: ${({ theme }) => theme.background};
   position: fixed;
