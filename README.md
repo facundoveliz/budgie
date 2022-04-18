@@ -5,6 +5,7 @@ This is a fullstack application made with NextJS/styled-components in the front 
 ### Features
 
 - Authentication and validation system, both in the back and the front end
+- Unit tests for all backend endpoints
 - Profile viewing/editing
 - Theme switcher
 - Entry creator with category and amount inputs
@@ -26,6 +27,6 @@ But please, feel free to register and test the app.
 
     yarn server
 
-    cd client && yarn dev
+    cd client && yarn client
 
-Remember to make .env
+Remember to make the .env file following .env.example
