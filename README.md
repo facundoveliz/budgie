@@ -14,7 +14,11 @@ This is a fullstack application made with NextJS/styled-components in the front 
 
 You can visit the website by clicking [here](https://personal-budget.burki.club), keep in mind that the server is in heroku, so you have to wait aprox. 10-15 seconds and then reload.
 
-Feel free to register and test the app.
+You can use this example account:
+
+    johndoe@gmail.com:johndoepassword
+
+But please, feel free to register and test the app.
 
 # 📦 Installation
 
