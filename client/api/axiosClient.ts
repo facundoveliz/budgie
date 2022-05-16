@@ -4,7 +4,7 @@ const axiosClient = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION ||
     process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_LOCAL,
-  timeout: 2000,
+  timeout: 60000,
 });
 
 axiosClient.interceptors.request.use(
