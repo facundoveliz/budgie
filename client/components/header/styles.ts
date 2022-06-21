@@ -34,8 +34,8 @@ export const Hamburguer = styled(MdViewHeadline)`
   @media (max-width: 560px) {
     display: flex;
     cursor: pointer;
-    height: 12px;
-    width: 12px;
+    height: 32px;
+    width: 32px;
   }
 `;
 
