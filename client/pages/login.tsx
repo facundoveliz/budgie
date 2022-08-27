@@ -38,12 +38,6 @@ const schema = yup
 type LoginType = NextPage & { getLayout: any };
 
 const Login: LoginType = function Login() {
-  useEffect(() => {
-    if (localStorage.getItem('x-auth-token')) {
-      window.location.href = '/';
-    }
-  }, []);
-
   const {
     register,
     handleSubmit,
@@ -69,6 +63,12 @@ const Login: LoginType = function Login() {
         });
       }
     });
+
+  useEffect(() => {
+    if (localStorage.getItem('x-auth-token')) {
+      window.location.href = '/';
+    }
+  }, []);
 
   return (
     <Wrapper>
