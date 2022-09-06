@@ -13,7 +13,7 @@ This is a fullstack application made with NextJS/styled-components in the front 
 
 ### Demo
 
-You can visit the website by clicking [here](https://personal-budget.burki.club), keep in mind that the server is in heroku, so you have to wait aprox. 10-15 seconds and then reload.
+You can visit the website by clicking [here](https://personal-budget.facundoveliz.club).
 
 You can use this example account:
 
