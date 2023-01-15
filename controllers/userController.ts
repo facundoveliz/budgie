@@ -152,7 +152,7 @@ export const deleteUser = async (req: Request, res: Response) => {
       ok: true,
       msg: 'User deleted',
     }))
-    .catch((err) => res.status(400).json({
+    .catch((err) => res.status(404).json({
       ok: false,
       msg: 'User not founded',
       result: err,
