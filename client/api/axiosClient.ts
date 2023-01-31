@@ -4,7 +4,7 @@ const axiosClient = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION ||
     process.env.NEXT_PUBLIC_REACT_APP_BASE_URL_LOCAL,
-  timeout: 60000,
+  timeout: 1200000,
 });
 
 axiosClient.interceptors.request.use(
@@ -28,7 +28,7 @@ axiosClient.interceptors.response.use(
           window.location.href = "/login";
         }
       }
-      if (error.response.data.msg === "Invalid email or password") {
+      if (error.response.data.msg) {
         return error.response.data.msg;
       }
     }

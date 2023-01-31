@@ -22,6 +22,12 @@ export const Wrapper = styled.div`
   }
 `;
 
+export const PieWrapper = styled.div`
+  width: 80vw;
+  display: flex;
+  justify-content: space-around;
+`;
+
 export const Balance = styled.div`
   display: flex;
   flex-direction: column;
@@ -46,7 +52,7 @@ export const EntryWrapper = styled.div<EntryStyleProps>`
   justify-content: space-between;
   cursor: pointer;
   padding: 16px 0;
-  width: 40vw;
+  width: 80vw;
   border-bottom: 1px solid ${({ theme }) => theme.border} !important;
   @media (max-width: 1200px) {
     width: 80vw;

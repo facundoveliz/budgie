@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 import { getEntries } from '../api/entries';
 import { Button, SecondaryButton } from '../components/styles/Button';
 import Entry from '../components/index/entry';
 import Modal from '../components/index/addEntryModal';
-import { Balance, Wrapper } from '../components/index/styles';
+import { Balance, PieWrapper, Wrapper } from '../components/index/styles';
 import { getUser } from '../api/users';
 import { Loading } from '../components/styles/Loading';
 
@@ -24,12 +26,108 @@ type UserProp = {
   created: Date;
 };
 
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 const Home: NextPage = function Home() {
   const [entries, setEntries] = useState<EntryProp[]>([]);
   const [user, setUser] = useState<UserProp>();
   const [loading, setLoading] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [income, setIncome] = useState(false);
+  const [categoriesExpenseAmount, setCategoriesExpenseAmount] = useState([]);
+  const [categoriesIncomeAmount, setCategoriesIncomeAmount] = useState([]);
+
+  const categoriesIncomeList = ['Savings', 'Salary', 'Gift', 'Other'];
+  const categoriesExpenseList = [
+    'Food & Drinks',
+    'Shopping',
+    'Groceries',
+    'Transport',
+    'Health',
+    'Life & Entertainment',
+    'Home',
+    'Gift',
+    'Other',
+  ];
+
+  const dataExpense = {
+    labels: categoriesExpenseList,
+    datasets: [
+      {
+        label: '# of Votes',
+        data: categoriesExpenseAmount,
+        backgroundColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+        weight: 4,
+      },
+    ],
+  };
+
+  const dataIncome = {
+    labels: categoriesIncomeList,
+    datasets: [
+      {
+        label: '# of Votes',
+        data: categoriesIncomeAmount,
+        backgroundColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const getCategoriesNumber = (entry: EntryProp) => {
+    let finalIncome = Array(categoriesIncomeList.length).fill(0);
+    let finalExpense = Array(categoriesExpenseList.length).fill(0);
+
+    for (let i = 0; i < entry.length; i++) {
+      let category = entry[i].category;
+      let amount = entry[i].amount;
+      if (categoriesIncomeList.includes(category)) {
+        let index = categoriesIncomeList.indexOf(category);
+        finalIncome[index] += amount;
+      } else if (categoriesExpenseList.includes(category)) {
+        let index = categoriesExpenseList.indexOf(category);
+        finalExpense[index] += amount;
+      }
+    }
+
+    const results = {
+      finalIncome,
+      finalExpense,
+    };
+
+    return results;
+  };
 
   const getEntryRequest = async () => {
     const res = await getEntries();
@@ -51,6 +149,12 @@ const Home: NextPage = function Home() {
     getEntryRequest();
     getUserRequest();
   }, []);
+
+  useEffect(() => {
+    const amountData = getCategoriesNumber(entries);
+    setCategoriesExpenseAmount(amountData.finalExpense);
+    setCategoriesIncomeAmount(amountData.finalIncome);
+  }, [entries]);
 
   return (
     <>
@@ -79,6 +183,16 @@ const Home: NextPage = function Home() {
               Income
             </Button>
           </div>
+          <PieWrapper>
+            <div>
+              <h3>Expenses</h3>
+              <Doughnut data={dataExpense} />
+            </div>
+            <div>
+              <h3>Incomes</h3>
+              <Doughnut data={dataIncome} />
+            </div>
+          </PieWrapper>
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}

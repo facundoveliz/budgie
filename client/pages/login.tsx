@@ -53,11 +53,7 @@ const Login: LoginType = function Login() {
 
   const onSubmit = (data: IFormInputs) =>
     loginUser(data).then((res) => {
-      // NOTE: probably not the best choice, i made a lot of
-      // verifications of the same type to get to this, but
-      // for the moment i don't find another relatively easy
-      // way of make this
-      if (res.toString() === 'Invalid email or password') {
+      if (res.toString().length >= 2) {
         setError('email', {
           message: res.toString(),
         });
