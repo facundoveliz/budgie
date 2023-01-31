@@ -8,7 +8,7 @@ It also provides with a register and login system, which includes private routes
 
 https://user-images.githubusercontent.com/68577124/215869602-13871d2a-101e-465c-8809-4803ca259a00.mp4
 
-You can visit the website by clicking [here](https://personal-budget.facundoveliz.monster).
+You can visit the website by clicking [here](https://budgie.facundoveliz.monster).
 
 You can use this example account:
 
