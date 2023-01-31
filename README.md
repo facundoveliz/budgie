@@ -1,17 +1,10 @@
 # 🗒️ Description
 
-This is a fullstack application made with NextJS/styled-components in the front and Express/MongoDB on the back.
+Vendo is an e-commerce solution that I developed using React. I created a dynamic and responsive user interface that provides users with an intuitive and seamless shopping experience. The application also utilizes Sass for styling, Node for server-side logic, and MongoDB for data storage.
 
-### Features
+One of the key features of this app is the admin panel, which allows for easy management of users, products, and orders. This includes the ability to perform CRUD operations on these entities, providing full control over the content of the website. Additionally, the app features a cart system, allowing users to add products to their cart and proceed to checkout. Users are able to create an account, sign in, and update their profile.
 
-- Authentication and validation system, both in the back and the front end
-- Unit tests for all backend endpoints
-- Profile viewing/editing
-- Theme switcher
-- Entry creator with category and amount inputs
-- Entry editor
-
-### Demo
+# Demo
 
 https://user-images.githubusercontent.com/68577124/215869602-13871d2a-101e-465c-8809-4803ca259a00.mp4
 
