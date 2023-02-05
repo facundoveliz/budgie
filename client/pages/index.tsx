@@ -36,28 +36,39 @@ const Home: NextPage = function Home() {
   const [type, setType] = useState(false);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
-  const [categoriesExpenseAmount, setCategoriesExpenseAmount] = useState([]);
-  const [categoriesIncomeAmount, setCategoriesIncomeAmount] = useState([]);
+  const [expenseData, setExpenseData] = useState([]);
+  const [incomeData, setIncomeData] = useState([]);
 
-  const categoriesIncomeList = ['Savings', 'Salary', 'Gift', 'Other'];
-  const categoriesExpenseList = [
-    'Food & Drinks',
-    'Shopping',
-    'Groceries',
-    'Transport',
-    'Health',
-    'Life & Entertainment',
-    'Home',
-    'Gift',
-    'Other',
-  ];
+  const categories = {
+    income: ['Savings', 'Salary', 'Gift', 'Other'],
+    expense: [
+      'Food & Drinks',
+      'Shopping',
+      'Groceries',
+      'Transport',
+      'Health',
+      'Life & Entertainment',
+      'Home',
+      'Gift',
+      'Other',
+    ],
+  };
+
+  const options = {
+    plugins: {
+      legend: {
+        position: 'bottom',
+        align: 'start',
+      },
+    },
+  };
 
   const dataExpense = {
-    labels: categoriesExpenseList,
+    labels: categories.expense,
     datasets: [
       {
         label: '# of Votes',
-        data: categoriesExpenseAmount,
+        data: expenseData,
         backgroundColor: [
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
@@ -66,26 +77,19 @@ const Home: NextPage = function Home() {
           'rgba(153, 102, 255, 1)',
           'rgba(255, 159, 64, 1)',
         ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
+        borderWidth: 0,
         weight: 4,
+        cutout: '70%',
       },
     ],
   };
 
   const dataIncome = {
-    labels: categoriesIncomeList,
+    labels: categories.income,
     datasets: [
       {
         label: '# of Votes',
-        data: categoriesIncomeAmount,
+        data: incomeData,
         backgroundColor: [
           'rgba(255, 99, 132, 1)',
           'rgba(54, 162, 235, 1)',
@@ -94,15 +98,9 @@ const Home: NextPage = function Home() {
           'rgba(153, 102, 255, 1)',
           'rgba(255, 159, 64, 1)',
         ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
+        borderWidth: 0,
+        weight: 4,
+        cutout: '70%',
       },
     ],
   };
@@ -111,8 +109,8 @@ const Home: NextPage = function Home() {
     // Inits the variables copying the default values of the
     // categories, then it resets them to 0 so it can have
     // the empty values so chart.js recognizes them
-    let finalIncome = Array(categoriesIncomeList.length).fill(0);
-    let finalExpense = Array(categoriesExpenseList.length).fill(0);
+    let finalIncome = Array(categories.income.length).fill(0);
+    let finalExpense = Array(categories.expense.length).fill(0);
 
     // Loops through the entire entries
     for (let i = 0; i < entry.length; i++) {
@@ -125,11 +123,11 @@ const Home: NextPage = function Home() {
       // in the incomes list and if is indeed an income,
       // if not, checks if is an expense and then adds the
       // amount to the array
-      if (categoriesIncomeList.includes(category) && income) {
-        let index = categoriesIncomeList.indexOf(category);
+      if (categories.income.includes(category) && income) {
+        let index = categories.income.indexOf(category);
         finalIncome[index] += amount;
-      } else if (categoriesExpenseList.includes(category)) {
-        let index = categoriesExpenseList.indexOf(category);
+      } else if (categories.expense.includes(category)) {
+        let index = categories.expense.indexOf(category);
         finalExpense[index] += amount;
       }
     }
@@ -161,7 +159,7 @@ const Home: NextPage = function Home() {
     let inc = 0;
     let exp = 0;
     entries.map((entry) => {
-      if (entry.income) {
+      if (entry.type) {
         inc += entry.amount;
       } else {
         exp += entry.amount;
@@ -177,9 +175,9 @@ const Home: NextPage = function Home() {
   }, []);
 
   useEffect(() => {
-    const amountData = getCategoriesNumber(entries);
-    setCategoriesExpenseAmount(amountData.finalExpense);
-    setCategoriesIncomeAmount(amountData.finalIncome);
+    const res = getCategoriesNumber(entries);
+    setExpenseData(res.finalExpense);
+    setIncomeData(res.finalIncome);
     getPrices();
   }, [entries]);
 

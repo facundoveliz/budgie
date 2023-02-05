@@ -23,9 +23,13 @@ export const Wrapper = styled.div`
 `;
 
 export const PieWrapper = styled.div`
-  width: 80vw;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  width: 400px;
+  background: ${({ theme }) => theme.backgroundSoft};
+  border-radius: 8px;
+  padding: 8px;
 `;
 
 export const Balance = styled.div`
