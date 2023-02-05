@@ -7,7 +7,7 @@ import Modal from './editEntryModal';
 type EntryPropContent = {
   _id: string;
   category: string;
-  income: boolean;
+  type: boolean;
   amount: number;
   created: Date;
 };
@@ -22,7 +22,7 @@ type SelectedEditProps = {
   id: string;
   category: string;
   amount: number;
-  income: boolean;
+  type: boolean;
 };
 
 const Entry: NextPage<EntryProps> = function Entry({
@@ -35,7 +35,7 @@ const Entry: NextPage<EntryProps> = function Entry({
     id: '',
     category: '',
     amount: 0,
-    income: true,
+    type: true,
   });
 
   return (
@@ -48,7 +48,7 @@ const Entry: NextPage<EntryProps> = function Entry({
                 id: entry._id,
                 category: entry.category,
                 amount: entry.amount,
-                income: entry.income,
+                type: entry.income,
               });
               setShowModal((prev) => !prev);
             }}

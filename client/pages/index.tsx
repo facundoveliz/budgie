@@ -13,7 +13,7 @@ import { Loading } from '../components/styles/Loading';
 type EntryProp = {
   _id: string;
   category: string;
-  income: boolean;
+  type: boolean;
   amount: number;
   created: Date;
 };
@@ -33,7 +33,9 @@ const Home: NextPage = function Home() {
   const [user, setUser] = useState<UserProp>();
   const [loading, setLoading] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [income, setIncome] = useState(false);
+  const [type, setType] = useState(false);
+  const [income, setIncome] = useState(0);
+  const [expense, setExpense] = useState(0);
   const [categoriesExpenseAmount, setCategoriesExpenseAmount] = useState([]);
   const [categoriesIncomeAmount, setCategoriesIncomeAmount] = useState([]);
 
@@ -145,6 +147,22 @@ const Home: NextPage = function Home() {
     }
   };
 
+  const getPrices = async () => {
+    let inc = 0;
+    let exp = 0;
+    entries.map((entry) => {
+      if (entry.income) {
+        inc += entry.amount;
+      } else {
+        exp += entry.amount;
+        setExpense(exp);
+      }
+      setIncome(inc);
+      setExpense(exp);
+      console.log(income, expense, entry.category);
+    });
+  };
+
   useEffect(() => {
     getEntryRequest();
     getUserRequest();
@@ -168,7 +186,7 @@ const Home: NextPage = function Home() {
           <div>
             <SecondaryButton
               onClick={() => {
-                setIncome(false);
+                setType(false);
                 setShowModal((prev) => !prev);
               }}
             >
@@ -176,7 +194,7 @@ const Home: NextPage = function Home() {
             </SecondaryButton>
             <Button
               onClick={() => {
-                setIncome(true);
+                setType(true);
                 setShowModal((prev) => !prev);
               }}
             >
@@ -186,11 +204,13 @@ const Home: NextPage = function Home() {
           <PieWrapper>
             <div>
               <h3>Expenses</h3>
-              <Doughnut data={dataExpense} />
+              <p>${expense}</p>
+              <Doughnut options={options} data={dataExpense} />
             </div>
             <div>
               <h3>Incomes</h3>
-              <Doughnut data={dataIncome} />
+              <p>${income}</p>
+              <Doughnut options={options} data={dataIncome} />
             </div>
           </PieWrapper>
           <Modal
@@ -198,7 +218,7 @@ const Home: NextPage = function Home() {
             setShowModal={setShowModal}
             getEntryRequest={getEntryRequest}
             getUserRequest={getUserRequest}
-            income={income}
+            type={type}
           />
           {loading ? (
             <p>Loading...</p>

@@ -25,7 +25,7 @@ type ModalProps = {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
   getEntryRequest: () => Promise<void>;
   getUserRequest: () => Promise<void>;
-  income: boolean;
+  type: boolean;
 };
 
 const schema = yup
@@ -57,7 +57,7 @@ const Modal: NextPage<ModalProps> = function Modal({
   setShowModal,
   getEntryRequest,
   getUserRequest,
-  income,
+  type,
 }: ModalProps) {
   const modalRef = useRef<any>();
 
@@ -70,7 +70,7 @@ const Modal: NextPage<ModalProps> = function Modal({
   });
 
   const onSubmit = (data: IFormInputs) => {
-    data.income = income;
+    data.income = type;
     postEntries(data).then(() => {
       getEntryRequest();
       getUserRequest();
@@ -98,7 +98,7 @@ const Modal: NextPage<ModalProps> = function Modal({
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <InputWrapper>
                   <Label>Category</Label>
-                  {income ? (
+                  {type ? (
                     <Select {...register('category')}>
                       <option value="Other">Other</option>
                       <option value="Savings">Savings</option>
