@@ -114,7 +114,9 @@ const Home: NextPage = function Home() {
     for (let i = 0; i < entry.length; i++) {
       let category = entry[i].category;
       let amount = entry[i].amount;
-      if (categoriesIncomeList.includes(category)) {
+      let income = entry[i].income;
+
+      if (categoriesIncomeList.includes(category) && income) {
         let index = categoriesIncomeList.indexOf(category);
         finalIncome[index] += amount;
       } else if (categoriesExpenseList.includes(category)) {
@@ -155,12 +157,10 @@ const Home: NextPage = function Home() {
         inc += entry.amount;
       } else {
         exp += entry.amount;
-        setExpense(exp);
       }
-      setIncome(inc);
-      setExpense(exp);
-      console.log(income, expense, entry.category);
     });
+    setIncome(inc);
+    setExpense(exp);
   };
 
   useEffect(() => {
@@ -172,6 +172,7 @@ const Home: NextPage = function Home() {
     const amountData = getCategoriesNumber(entries);
     setCategoriesExpenseAmount(amountData.finalExpense);
     setCategoriesIncomeAmount(amountData.finalIncome);
+    getPrices();
   }, [entries]);
 
   return (
