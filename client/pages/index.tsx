@@ -108,14 +108,23 @@ const Home: NextPage = function Home() {
   };
 
   const getCategoriesNumber = (entry: EntryProp) => {
+    // Inits the variables copying the default values of the
+    // categories, then it resets them to 0 so it can have
+    // the empty values so chart.js recognizes them
     let finalIncome = Array(categoriesIncomeList.length).fill(0);
     let finalExpense = Array(categoriesExpenseList.length).fill(0);
 
+    // Loops through the entire entries
     for (let i = 0; i < entry.length; i++) {
+      // Variable naming for less typing and more readability
       let category = entry[i].category;
       let amount = entry[i].amount;
       let income = entry[i].income;
 
+      // Checks if the current looped category matches one
+      // in the incomes list and if is indeed an income,
+      // if not, checks if is an expense and then adds the
+      // amount to the array
       if (categoriesIncomeList.includes(category) && income) {
         let index = categoriesIncomeList.indexOf(category);
         finalIncome[index] += amount;
@@ -129,7 +138,6 @@ const Home: NextPage = function Home() {
       finalIncome,
       finalExpense,
     };
-
     return results;
   };
 
