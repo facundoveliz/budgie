@@ -48,7 +48,7 @@ const Entry: NextPage<EntryProps> = function Entry({
                 id: entry._id,
                 category: entry.category,
                 amount: entry.amount,
-                type: entry.income,
+                type: entry.type,
               });
               setShowModal((prev) => !prev);
             }}
@@ -56,7 +56,7 @@ const Entry: NextPage<EntryProps> = function Entry({
             <p>{entry.category}</p>
             <ParagraphWrapper>
               <div>
-                <Paragraph income={entry.income}>${entry.amount},00</Paragraph>
+                <Paragraph type={entry.type}>${entry.amount},00</Paragraph>
                 <Paragraph>
                   {dateFormat(entry.created, 'HH:MM, mmmm d')}
                 </Paragraph>

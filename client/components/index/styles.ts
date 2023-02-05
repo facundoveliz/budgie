@@ -45,7 +45,7 @@ export const Balance = styled.div`
 `;
 
 type EntryStyleProps = {
-  readonly income?: boolean;
+  readonly type?: boolean;
 };
 
 // entry
@@ -75,7 +75,7 @@ export const ParagraphWrapper = styled.div`
 
 export const Paragraph = styled.p<EntryStyleProps>`
   color: ${(props) =>
-    props.income ? ({ theme }) => theme.primary : ({ theme }) => theme.danger};
+    props.type ? ({ theme }) => theme.primary : ({ theme }) => theme.danger};
   &:last-of-type {
     font-size: 14px;
     color: ${({ theme }) => theme.foreground};

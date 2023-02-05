@@ -67,7 +67,7 @@ describe('POST /api/entries', () => {
       .post('/api/entries')
       .send({
         category: 'Savings',
-        income: true,
+        type: true,
         amount: 420,
       })
       .expect(200)
@@ -86,7 +86,7 @@ describe('POST /api/entries', () => {
       .post('/api/entries')
       .send({
         category: '',
-        income: true,
+        type: true,
         amount: 420,
       })
       .expect(400)
@@ -106,7 +106,7 @@ describe('PUT /api/entries/:id', () => {
       .put(`/api/entries/${id}`)
       .send({
         category: 'Salary',
-        income: true,
+        type: true,
         amount: 5000,
         oldAmount: 420,
       })
@@ -125,7 +125,7 @@ describe('PUT /api/entries/:id', () => {
       .put(`/api/entries/${id}`)
       .send({
         category: '',
-        income: true,
+        type: true,
         amount: 420,
       })
       .expect(400)

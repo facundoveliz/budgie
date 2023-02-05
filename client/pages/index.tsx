@@ -54,15 +54,6 @@ const Home: NextPage = function Home() {
     ],
   };
 
-  const options = {
-    plugins: {
-      legend: {
-        position: 'bottom',
-        align: 'start',
-      },
-    },
-  };
-
   const dataExpense = {
     labels: categories.expense,
     datasets: [
@@ -105,7 +96,17 @@ const Home: NextPage = function Home() {
     ],
   };
 
-  const getCategoriesNumber = (entry: EntryProp) => {
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom' as const,
+        align: 'start',
+      },
+    },
+  };
+
+  const setCategoriesData = (entry: EntryProp) => {
     // Inits the variables copying the default values of the
     // categories, then it resets them to 0 so it can have
     // the empty values so chart.js recognizes them
@@ -117,13 +118,13 @@ const Home: NextPage = function Home() {
       // Variable naming for less typing and more readability
       let category = entry[i].category;
       let amount = entry[i].amount;
-      let income = entry[i].income;
+      let type = entry[i].type;
 
       // Checks if the current looped category matches one
       // in the incomes list and if is indeed an income,
       // if not, checks if is an expense and then adds the
       // amount to the array
-      if (categories.income.includes(category) && income) {
+      if (categories.income.includes(category) && type) {
         let index = categories.income.indexOf(category);
         finalIncome[index] += amount;
       } else if (categories.expense.includes(category)) {
@@ -175,7 +176,7 @@ const Home: NextPage = function Home() {
   }, []);
 
   useEffect(() => {
-    const res = getCategoriesNumber(entries);
+    const res = setCategoriesData(entries);
     setExpenseData(res.finalExpense);
     setIncomeData(res.finalIncome);
     getPrices();

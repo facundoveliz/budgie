@@ -16,7 +16,7 @@ import {
 
 type IFormInputs = {
   category: string;
-  income: boolean;
+  type: boolean;
   amount: number;
 };
 
@@ -70,7 +70,7 @@ const Modal: NextPage<ModalProps> = function Modal({
   });
 
   const onSubmit = (data: IFormInputs) => {
-    data.income = type;
+    data.type = type;
     postEntries(data).then(() => {
       getEntryRequest();
       getUserRequest();
