@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const lightTheme = {
-  background: '#ffffff',
-  backgroundSoft: '#f4f4f4',
+  background: '#dadada',
+  backgroundSoft: '#cecece',
   foreground: '#111827',
   foregroundSoft: '#6b7280',
   primary: '#30b27b',
@@ -10,6 +10,14 @@ export const lightTheme = {
   danger: '#e24f44',
   border: '#bdbdbd',
   divider: '#fff',
+  fonts: {},
+  paddings: {
+    dashboard: '8px',
+  },
+  margins: {},
+  borders: {
+    radius: '8px',
+  },
 };
 
 export const darkTheme = {
@@ -20,8 +28,16 @@ export const darkTheme = {
   primary: '#1bd96a',
   secondary: '#74b6f3',
   danger: '#e24f44',
-  border: '#404040',
+  border: '#242424',
   divider: '#fff',
+  fonts: {},
+  paddings: {
+    dashboard: '32px',
+  },
+  margins: {},
+  borders: {
+    radius: '16px',
+  },
 };
 
 export type ThemeType = {

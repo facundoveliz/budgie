@@ -1,145 +1,67 @@
-import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
 
-// index
 export const Wrapper = styled.div`
+  width: 95%;
+  margin: 0 auto;
+`;
+
+export const Grid1 = styled.div`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0 20px;
-  h1 {
-    font-size: 24px;
-    letter-spacing: 2px;
-    width: 240px;
-    text-align: center;
-  }
-  button {
-    margin-bottom: 30px;
-    &:first-of-type {
-      margin-right: 10px;
-    }
+  height: 380px;
+  gap: 24px;
+  @media (max-width: 1160px) {
   }
 `;
 
-export const PieWrapper = styled.div`
+export const BalanceWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  width: 400px;
-  background: ${({ theme }) => theme.backgroundSoft};
-  border-radius: 8px;
-  padding: 8px;
+  width: 30%;
+  gap: 24px;
 `;
 
 export const Balance = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 32px 0;
+  justify-content: center;
   font-size: 18px;
+  height: 100%;
+  padding: ${({ theme }) => theme.paddings.dashboard};
+  border-radius: ${({ theme }) => theme.borders.radius};
+  background: ${({ theme }) => theme.backgroundSoft};
   p {
     font-weight: bold;
     font-size: 24px;
   }
+  button {
+    margin-top: 10px;
+    &:first-of-type {
+      margin-right: 10px;
+    }
+  }
 `;
 
-type EntryStyleProps = {
-  readonly type?: boolean;
-};
-
-// entry
-export const EntryWrapper = styled.div<EntryStyleProps>`
+export const DoughtnutWrapper = styled.div`
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  padding: 16px 0;
-  width: 80vw;
-  border-bottom: 1px solid ${({ theme }) => theme.border} !important;
-  @media (max-width: 1200px) {
-    width: 80vw;
-  }
-  &:hover {
+  width: 70%;
+  gap: 24px;
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     background: ${({ theme }) => theme.backgroundSoft};
-  }
-  &:last-of-type {
-    border: 0;
-  }
-`;
-
-export const ParagraphWrapper = styled.div`
-  display: flex;
-`;
-
-export const Paragraph = styled.p<EntryStyleProps>`
-  color: ${(props) =>
-    props.type ? ({ theme }) => theme.primary : ({ theme }) => theme.danger};
-  &:last-of-type {
-    font-size: 14px;
-    color: ${({ theme }) => theme.foreground};
-    float: right;
+    border-radius: ${({ theme }) => theme.borders.radius};
+    padding: ${({ theme }) => theme.paddings.dashboard};
   }
 `;
 
-// modal
-export const Background = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const ModalWrapper = styled.div`
-  width: 30%;
-  @media (max-width: 1200px) {
-    width: 40%;
-  }
-  @media (max-width: 850px) {
-    width: 60%;
-  }
-  @media (max-width: 600px) {
-    width: 90%;
-  }
-  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
-  background: ${({ theme }) => theme.background};
-  color: ${({ theme }) => theme.foreground};
-  position: relative;
-  z-index: 10;
-  border-radius: 10px;
-`;
-
-export const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  align-items: center;
-  width: 90%;
-  color: ${({ theme }) => theme.foreground};
-  p {
-    margin-bottom: 1rem;
-  }
-`;
-
-export const ModalButtons = styled.div`
-  display: flex;
-  justify-content: end;
-  margin-top: 24px;
-`;
-
-export const CloseModalButton = styled(MdClose)`
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  z-index: 10;
+export const Empty = styled.div`
+  margin: 24px 0;
+  height: 280px;
+  background: ${({ theme }) => theme.backgroundSoft};
+  border-radius: ${({ theme }) => theme.borders.radius};
+  padding: ${({ theme }) => theme.paddings.dashboard};
 `;

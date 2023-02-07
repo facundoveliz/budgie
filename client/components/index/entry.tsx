@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { NextPage } from 'next';
 import dateFormat from 'dateformat';
-import { EntryWrapper, Paragraph, ParagraphWrapper } from './styles';
-import Modal from './editEntryModal';
+import Modal from '../modals/editEntry';
+import styled from 'styled-components';
 
 type EntryPropContent = {
   _id: string;
@@ -39,7 +39,7 @@ const Entry: NextPage<EntryProps> = function Entry({
   });
 
   return (
-    <>
+    <EntriesWrapper>
       {entries?.map((entry) => (
         <div key={entry._id}>
           <EntryWrapper
@@ -76,8 +76,45 @@ const Entry: NextPage<EntryProps> = function Entry({
           />
         ) : null}
       </>
-    </>
+    </EntriesWrapper>
   );
 };
 
 export default Entry;
+
+type EntryStyleProps = {
+  readonly type?: boolean;
+};
+
+// FIX: make a softer bg
+const EntryWrapper = styled.div<EntryStyleProps>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: ${({ theme }) => theme.paddings.dashboard};
+  border-radius: ${({ theme }) => theme.borders.radius};
+  border-bottom: 1px solid ${({ theme }) => theme.border} !important;
+  &:hover {
+    background: ${({ theme }) => theme.background};
+  }
+`;
+
+const EntriesWrapper = styled.div<EntryStyleProps>`
+  background: ${({ theme }) => theme.backgroundSoft};
+`;
+
+export const ParagraphWrapper = styled.div`
+  display: flex;
+`;
+
+export const Paragraph = styled.p<EntryStyleProps>`
+  color: ${(props) =>
+    props.type ? ({ theme }) => theme.primary : ({ theme }) => theme.danger};
+  &:last-of-type {
+    font-size: 14px;
+    color: ${({ theme }) => theme.foreground};
+    float: right;
+  }
+`;

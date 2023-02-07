@@ -18,7 +18,7 @@ export const Input = styled.input<{
   border: 1px solid
     ${(props) =>
     props.error ? ({ theme }) => theme.danger : ({ theme }) => theme.border};
-  border-radius: 4px;
+  border-radius: ${({ theme }) => theme.borders.radius};
   outline: none;
   box-sizing: border-box;
   padding: 12px 14px;
@@ -32,7 +32,7 @@ export const Select = styled.select<{
   background: ${({ theme }) => theme.background};
   color: ${({ theme }) => theme.foreground};
   padding: 14px;
-  border-radius: 4px;
+  border-radius: ${({ theme }) => theme.borders.radius};
   appearance: none;
   cursor: pointer;
   display: inline-block;

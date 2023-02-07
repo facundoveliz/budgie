@@ -6,13 +6,7 @@ import * as yup from 'yup';
 import { Form, InputWrapper, Input, Label, Select } from '../styles/Form';
 import { Button, DangerButton } from '../styles/Button';
 import { putEntries, deleteEntries } from '../../api/entries';
-import {
-  Background,
-  CloseModalButton,
-  ModalButtons,
-  ModalContent,
-  ModalWrapper,
-} from './styles';
+import * as S from './styles';
 
 type IFormInputs = {
   category: string;
@@ -103,13 +97,13 @@ const Modal: NextPage<ModalProps> = function Modal({
 
   return (
     <>
-      <Background onClick={closeModal} ref={modalRef}>
-        <ModalWrapper>
-          <CloseModalButton
+      <S.Background onClick={closeModal} ref={modalRef}>
+        <S.ModalWrapper>
+          <S.CloseModalButton
             aria-label="Close modal"
             onClick={() => setShowModal((prev) => !prev)}
           />
-          <ModalContent>
+          <S.ModalContent>
             <h1>Edit entry</h1>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <InputWrapper>
@@ -152,16 +146,16 @@ const Modal: NextPage<ModalProps> = function Modal({
                 <p>{errors.amount?.message}</p>
               </InputWrapper>
 
-              <ModalButtons>
+              <S.ModalButtons>
                 <DangerButton onClick={() => handleDelete()}>
                   Delete
                 </DangerButton>
                 <Button type="submit">Accept</Button>
-              </ModalButtons>
+              </S.ModalButtons>
             </Form>
-          </ModalContent>
-        </ModalWrapper>
-      </Background>
+          </S.ModalContent>
+        </S.ModalWrapper>
+      </S.Background>
     </>
   );
 };

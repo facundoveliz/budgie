@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+import ReactEcharts from 'echarts-for-react';
 import { getEntries } from '../api/entries';
-import { Button, SecondaryButton } from '../components/styles/Button';
-import Entry from '../components/index/entry';
-import Modal from '../components/index/addEntryModal';
-import { Balance, PieWrapper, Wrapper } from '../components/index/styles';
 import { getUser } from '../api/users';
+import Entry from '../components/index/entry';
+import Modal from '../components/modals/addEntry';
+import { Button, SecondaryButton } from '../components/styles/Button';
+import * as S from '../components/index/styles';
 import { Loading } from '../components/styles/Loading';
 
 type EntryProp = {
@@ -69,8 +70,7 @@ const Home: NextPage = function Home() {
           'rgba(255, 159, 64, 1)',
         ],
         borderWidth: 0,
-        weight: 4,
-        cutout: '70%',
+        cutout: '80%',
       },
     ],
   };
@@ -90,8 +90,7 @@ const Home: NextPage = function Home() {
           'rgba(255, 159, 64, 1)',
         ],
         borderWidth: 0,
-        weight: 4,
-        cutout: '70%',
+        cutout: '80%',
       },
     ],
   };
@@ -100,10 +99,26 @@ const Home: NextPage = function Home() {
     responsive: true,
     plugins: {
       legend: {
-        position: 'bottom' as const,
-        align: 'start',
+        position: 'right' as const,
+        align: 'center',
       },
     },
+  };
+
+  const option = {
+    xAxis: {
+      type: 'category',
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    },
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        data: [120, 200, 150, 80, 70, 110, 130],
+        type: 'bar',
+      },
+    ],
   };
 
   const setCategoriesData = (entry: EntryProp) => {
@@ -187,40 +202,55 @@ const Home: NextPage = function Home() {
       {loading ? (
         <Loading>Loading...</Loading>
       ) : (
-        <Wrapper>
-          <Balance>
-            Account balance <p>{`$${user!.balance}.00 `}</p>
-          </Balance>
-          <div>
-            <SecondaryButton
-              onClick={() => {
-                setType(false);
-                setShowModal((prev) => !prev);
-              }}
-            >
-              Expense
-            </SecondaryButton>
-            <Button
-              onClick={() => {
-                setType(true);
-                setShowModal((prev) => !prev);
-              }}
-            >
-              Income
-            </Button>
-          </div>
-          <PieWrapper>
-            <div>
-              <h3>Expenses</h3>
-              <p>${expense}</p>
-              <Doughnut options={options} data={dataExpense} />
-            </div>
-            <div>
-              <h3>Incomes</h3>
-              <p>${income}</p>
-              <Doughnut options={options} data={dataIncome} />
-            </div>
-          </PieWrapper>
+        <S.Wrapper>
+          <S.Grid1>
+            <S.BalanceWrapper>
+              <S.Balance>
+                Account balance <p>{`$${user!.balance}.00 `}</p>
+                <div>
+                  <SecondaryButton
+                    onClick={() => {
+                      setType(false);
+                      setShowModal((prev) => !prev);
+                    }}
+                  >
+                    Expense
+                  </SecondaryButton>
+                  <Button
+                    onClick={() => {
+                      setType(true);
+                      setShowModal((prev) => !prev);
+                    }}
+                  >
+                    Income
+                  </Button>
+                </div>
+              </S.Balance>
+              <S.Balance>
+                Savings <p>{`$${user!.balance}.00 `}</p>
+              </S.Balance>
+            </S.BalanceWrapper>
+            <S.DoughtnutWrapper>
+              <div>
+                <h3>Total Expenses</h3>
+                {/*
+                  <p>${expense}</p>
+                */}
+                <Doughnut options={options} data={dataExpense} />
+              </div>
+              <div>
+                <h3>Total Income</h3>
+                {/*
+                <p>${income}</p>
+                */}
+                <Doughnut options={options} data={dataIncome} />
+              </div>
+            </S.DoughtnutWrapper>
+          </S.Grid1>
+          <S.Empty>
+            Balance history
+            <ReactEcharts option={option} />
+          </S.Empty>
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}
@@ -239,7 +269,7 @@ const Home: NextPage = function Home() {
               getUserRequest={getUserRequest}
             />
           )}
-        </Wrapper>
+        </S.Wrapper>
       )}
     </>
   );
