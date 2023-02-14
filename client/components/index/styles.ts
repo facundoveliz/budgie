@@ -3,14 +3,14 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   width: 95%;
   margin: 0 auto;
+  margin-top: 24px;
 `;
 
 export const Grid1 = styled.div`
   display: flex;
-  height: 380px;
+  height: 430px;
   gap: 24px;
-  @media (max-width: 1160px) {
-  }
+  margin: 24px 0;
 `;
 
 export const BalanceWrapper = styled.div`
@@ -44,17 +44,15 @@ export const Balance = styled.div`
 
 export const DoughtnutWrapper = styled.div`
   display: flex;
-  width: 70%;
   gap: 24px;
-  div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    background: ${({ theme }) => theme.backgroundSoft};
-    border-radius: ${({ theme }) => theme.borders.radius};
-    padding: ${({ theme }) => theme.paddings.dashboard};
+  width: 100%;
+`;
+export const Doughtnut = styled.div`
+  width: 100%;
+  text-align: center;
+  background: ${({ theme }) => theme.backgroundSoft};
+  border-radius: ${({ theme }) => theme.borders.radius};
+  p {
   }
 `;
 

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
 import ReactEcharts from 'echarts-for-react';
 import { getEntries } from '../api/entries';
 import { getUser } from '../api/users';
@@ -10,6 +9,7 @@ import Modal from '../components/modals/addEntry';
 import { Button, SecondaryButton } from '../components/styles/Button';
 import * as S from '../components/index/styles';
 import { Loading } from '../components/styles/Loading';
+import { format } from 'date-fns';
 
 type EntryProp = {
   _id: string;
@@ -39,6 +39,7 @@ const Home: NextPage = function Home() {
   const [expense, setExpense] = useState(0);
   const [expenseData, setExpenseData] = useState([]);
   const [incomeData, setIncomeData] = useState([]);
+  const [lineData, setLineData] = useState({});
 
   const categories = {
     income: ['Savings', 'Salary', 'Gift', 'Other'],
@@ -55,104 +56,202 @@ const Home: NextPage = function Home() {
     ],
   };
 
-  const dataExpense = {
-    labels: categories.expense,
-    datasets: [
-      {
-        label: '# of Votes',
-        data: expenseData,
-        backgroundColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 0,
-        cutout: '80%',
-      },
-    ],
-  };
-
-  const dataIncome = {
-    labels: categories.income,
-    datasets: [
-      {
-        label: '# of Votes',
-        data: incomeData,
-        backgroundColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 0,
-        cutout: '80%',
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'right' as const,
-        align: 'center',
-      },
+  const optionLine = {
+    title: {
+      text: 'Balance history',
     },
-  };
-
-  const option = {
+    tooltip: {
+      trigger: 'axis',
+    },
+    legend: {
+      data: ['Income', 'Expense'],
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true,
+    },
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      boundaryGap: false,
+      data: lineData.created,
     },
     yAxis: {
       type: 'value',
     },
     series: [
       {
-        data: [120, 200, 150, 80, 70, 110, 130],
-        type: 'bar',
+        name: 'Income',
+        type: 'line',
+        smooth: true,
+        stack: 'Total',
+        data: lineData.income,
+      },
+      {
+        name: 'Expense',
+        type: 'line',
+        smooth: true,
+        stack: 'Total',
+        data: lineData.expense,
       },
     ],
   };
 
-  const setCategoriesData = (entry: EntryProp) => {
-    // Inits the variables copying the default values of the
-    // categories, then it resets them to 0 so it can have
-    // the empty values so chart.js recognizes them
-    let finalIncome = Array(categories.income.length).fill(0);
-    let finalExpense = Array(categories.expense.length).fill(0);
+  // FIX: merge this into one
+  const optionIncome = {
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      align: 'right',
+      bottom: '0',
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['60%', '80%'],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          fontSize: 0,
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+        },
+        data: incomeData,
+      },
+    ],
+  };
+
+  const optionExpense = {
+    tooltip: {
+      trigger: 'item',
+    },
+    legend: {
+      align: 'right',
+      bottom: '0',
+    },
+    series: [
+      {
+        name: 'Access From',
+        type: 'pie',
+        radius: ['60%', '80%'],
+        avoidLabelOverlap: false,
+        label: {
+          show: false,
+          fontSize: 0,
+        },
+        emphasis: {
+          label: {
+            show: false,
+          },
+        },
+        data: expenseData,
+      },
+    ],
+  };
+
+  const setLineDataFunc = () => {
+    const day = entries.reduce(
+      (acc, entry) => {
+        const dt = new Date(entry.created);
+        const dtDateOnly = new Date(
+          dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000,
+        );
+
+        const date = format(dtDateOnly, 'd/M/yy');
+        const index = acc.created.indexOf(date);
+        if (index === -1) {
+          acc.created.push(date);
+          acc.income.push(entry.type ? entry.amount : 0);
+          acc.expense.push(!entry.type ? entry.amount : 0);
+        } else {
+          acc.income[index] += entry.type ? entry.amount : 0;
+          acc.expense[index] += !entry.type ? entry.amount : 0;
+        }
+        return acc;
+      },
+      { created: [], income: [], expense: [] },
+    );
+    return day;
+  };
+
+  const setCategoriesData = (e: EntryProp[]) => {
+    let finalIncome = [];
+    let finalExpense = [];
 
     // Loops through the entire entries
-    for (let i = 0; i < entry.length; i++) {
+    for (let i = 0; i < e.length; i++) {
       // Variable naming for less typing and more readability
-      let category = entry[i].category;
-      let amount = entry[i].amount;
-      let type = entry[i].type;
+      let category = e[i].category;
+      let amount = e[i].amount;
 
-      // Checks if the current looped category matches one
-      // in the incomes list and if is indeed an income,
-      // if not, checks if is an expense and then adds the
-      // amount to the array
-      if (categories.income.includes(category) && type) {
-        let index = categories.income.indexOf(category);
-        finalIncome[index] += amount;
-      } else if (categories.expense.includes(category)) {
-        let index = categories.expense.indexOf(category);
-        finalExpense[index] += amount;
+      // Checks if the current category is an income of an expense
+      if (e[i].type) {
+        // Checks if the category is matched and it doesnt repeat
+        if (
+          categories.income.includes(category) &&
+          finalIncome.map((c) => c.name).indexOf(category) === -1
+        ) {
+          finalIncome.push({ value: amount, name: category });
+        } else {
+          // If is repeted it will push the current value to the
+          // existent entry
+          finalIncome.find((o, x) => {
+            if (o.name === category) {
+              finalIncome[x] = { value: o.value + amount, name: category };
+              return true; // Stop searching
+            }
+          });
+        }
+        // Does the same but with expenses
+      } else {
+        if (
+          categories.expense.includes(category) &&
+          finalExpense.map((c) => c.name).indexOf(category) === -1
+        ) {
+          finalExpense.push({
+            // Use Math.abs() for making the number positive, echarts
+            // like it this way
+            value: Math.abs(amount),
+            name: category,
+          });
+        } else {
+          finalExpense.find((o, x) => {
+            if (o.name === category) {
+              finalExpense[x] = {
+                value: Math.abs(o.value - amount),
+                name: category,
+              };
+              return true; // Stop searching
+            }
+          });
+        }
       }
     }
 
-    const results = {
+    return {
       finalIncome,
       finalExpense,
     };
-    return results;
+  };
+
+  const getPrices = async (e: EntryProp) => {
+    let inc = 0;
+    let exp = 0;
+    e.map((en) => {
+      if (en.type) {
+        inc += en.amount;
+      } else {
+        exp += en.amount;
+      }
+    });
+    setIncome(inc);
+    setExpense(exp);
   };
 
   const getEntryRequest = async () => {
@@ -171,20 +270,6 @@ const Home: NextPage = function Home() {
     }
   };
 
-  const getPrices = async () => {
-    let inc = 0;
-    let exp = 0;
-    entries.map((entry) => {
-      if (entry.type) {
-        inc += entry.amount;
-      } else {
-        exp += entry.amount;
-      }
-    });
-    setIncome(inc);
-    setExpense(exp);
-  };
-
   useEffect(() => {
     getEntryRequest();
     getUserRequest();
@@ -194,7 +279,10 @@ const Home: NextPage = function Home() {
     const res = setCategoriesData(entries);
     setExpenseData(res.finalExpense);
     setIncomeData(res.finalIncome);
-    getPrices();
+    // FIX: executing two times
+    getPrices(entries); // TODO: <- merge this and setLineData into one object
+    const resLine = setLineDataFunc(entries);
+    setLineData(resLine);
   }, [entries]);
 
   return (
@@ -203,19 +291,14 @@ const Home: NextPage = function Home() {
         <Loading>Loading...</Loading>
       ) : (
         <S.Wrapper>
+          <S.Empty>
+            <ReactEcharts option={optionLine} />
+          </S.Empty>
           <S.Grid1>
             <S.BalanceWrapper>
               <S.Balance>
                 Account balance <p>{`$${user!.balance}.00 `}</p>
                 <div>
-                  <SecondaryButton
-                    onClick={() => {
-                      setType(false);
-                      setShowModal((prev) => !prev);
-                    }}
-                  >
-                    Expense
-                  </SecondaryButton>
                   <Button
                     onClick={() => {
                       setType(true);
@@ -224,6 +307,14 @@ const Home: NextPage = function Home() {
                   >
                     Income
                   </Button>
+                  <SecondaryButton
+                    onClick={() => {
+                      setType(false);
+                      setShowModal((prev) => !prev);
+                    }}
+                  >
+                    Expense
+                  </SecondaryButton>
                 </div>
               </S.Balance>
               <S.Balance>
@@ -231,26 +322,18 @@ const Home: NextPage = function Home() {
               </S.Balance>
             </S.BalanceWrapper>
             <S.DoughtnutWrapper>
-              <div>
-                <h3>Total Expenses</h3>
-                {/*
-                  <p>${expense}</p>
-                */}
-                <Doughnut options={options} data={dataExpense} />
-              </div>
-              <div>
+              <S.Doughtnut>
                 <h3>Total Income</h3>
-                {/*
                 <p>${income}</p>
-                */}
-                <Doughnut options={options} data={dataIncome} />
-              </div>
+                <ReactEcharts option={optionIncome} />
+              </S.Doughtnut>
+              <S.Doughtnut>
+                <h3>Total Expenses</h3>
+                <p>${expense}</p>
+                <ReactEcharts option={optionExpense} />
+              </S.Doughtnut>
             </S.DoughtnutWrapper>
           </S.Grid1>
-          <S.Empty>
-            Balance history
-            <ReactEcharts option={option} />
-          </S.Empty>
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}

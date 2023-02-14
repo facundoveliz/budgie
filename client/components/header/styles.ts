@@ -8,6 +8,7 @@ export const Wrapper = styled.header`
   font-size: 18px;
   padding: 0 16px;
   height: 70px;
+  background-color: ${({ theme }) => theme.backgroundSoft};
 `;
 
 export const Brand = styled.h1`
@@ -46,7 +47,7 @@ export const Menu = styled.div<{
   flex-direction: column;
   transition: background 0.2s ease-in, color 0.2s ease-in;
   align-items: center;
-  background-color: ${({ theme }) => theme.background};
+  background-color: ${({ theme }) => theme.backgroundSoft};
   position: fixed;
   padding-top: 50px;
   top: 50px;

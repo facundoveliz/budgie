@@ -1,8 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const lightTheme = {
-  background: '#dadada',
-  backgroundSoft: '#cecece',
+  background: '#cecece',
+  backgroundSoft: '#dadada',
   foreground: '#111827',
   foregroundSoft: '#6b7280',
   primary: '#30b27b',
@@ -12,7 +12,7 @@ export const lightTheme = {
   divider: '#fff',
   fonts: {},
   paddings: {
-    dashboard: '8px',
+    dashboard: '32px',
   },
   margins: {},
   borders: {
@@ -22,9 +22,9 @@ export const lightTheme = {
 
 export const darkTheme = {
   background: '#16181c',
-  backgroundSoft: '#191b1f',
+  backgroundSoft: '#26292f',
   foreground: '#ecf9fb',
-  foregroundSoft: '#ecf9fb',
+  foregroundSoft: '#929aa3',
   primary: '#1bd96a',
   secondary: '#74b6f3',
   danger: '#e24f44',
