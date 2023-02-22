@@ -41,154 +41,153 @@ const Home: NextPage = function Home() {
   const [incomeData, setIncomeData] = useState([]);
   const [lineData, setLineData] = useState({});
 
-  const categories = {
-    income: ['Savings', 'Salary', 'Gift', 'Other'],
-    expense: [
-      'Food & Drinks',
-      'Shopping',
-      'Groceries',
-      'Transport',
-      'Health',
-      'Life & Entertainment',
-      'Home',
-      'Gift',
-      'Other',
-    ],
-  };
-
-  const optionLine = {
-    title: {
-      text: 'Balance history',
-    },
-    tooltip: {
-      trigger: 'axis',
-    },
-    legend: {
-      data: ['Income', 'Expense'],
-    },
-    grid: {
-      left: '3%',
-      right: '4%',
-      bottom: '3%',
-      containLabel: true,
-    },
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: lineData.created,
-    },
-    yAxis: {
-      type: 'value',
-    },
-    series: [
-      {
-        name: 'Income',
-        type: 'line',
-        smooth: true,
-        stack: 'Total',
-        data: lineData.income,
+  const options = [
+    {
+      title: {
+        text: 'Balance history',
       },
-      {
-        name: 'Expense',
-        type: 'line',
-        smooth: true,
-        stack: 'Total',
-        data: lineData.expense,
+      tooltip: {
+        trigger: 'axis',
       },
-    ],
-  };
-
-  // FIX: merge this into one
-  const optionIncome = {
-    tooltip: {
-      trigger: 'item',
-    },
-    legend: {
-      align: 'right',
-      bottom: '0',
-    },
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: ['60%', '80%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          fontSize: 0,
+      legend: {
+        data: ['Income', 'Expense'],
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true,
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: lineData.created,
+      },
+      yAxis: {
+        type: 'value',
+      },
+      series: [
+        {
+          name: 'Income',
+          type: 'line',
+          smooth: 'true',
+          data: lineData.income,
         },
-        emphasis: {
+        {
+          name: 'Expense',
+          type: 'line',
+          smooth: 'true',
+          data: lineData.expense,
+        },
+      ],
+    },
+    {
+      tooltip: {
+        trigger: 'item',
+      },
+      legend: {
+        align: 'right',
+        bottom: '0',
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['60%', '80%'],
+          avoidLabelOverlap: false,
           label: {
             show: false,
+            fontSize: 0,
           },
+          emphasis: {
+            label: {
+              show: false,
+            },
+          },
+          data: incomeData,
         },
-        data: incomeData,
+      ],
+    },
+    {
+      tooltip: {
+        trigger: 'item',
       },
-    ],
-  };
-
-  const optionExpense = {
-    tooltip: {
-      trigger: 'item',
-    },
-    legend: {
-      align: 'right',
-      bottom: '0',
-    },
-    series: [
-      {
-        name: 'Access From',
-        type: 'pie',
-        radius: ['60%', '80%'],
-        avoidLabelOverlap: false,
-        label: {
-          show: false,
-          fontSize: 0,
-        },
-        emphasis: {
+      legend: {
+        align: 'right',
+        bottom: '0',
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['60%', '80%'],
+          avoidLabelOverlap: false,
           label: {
             show: false,
+            fontSize: 0,
           },
+          emphasis: {
+            label: {
+              show: false,
+            },
+          },
+          data: expenseData,
         },
-        data: expenseData,
-      },
-    ],
-  };
+      ],
+    },
+  ];
 
   const setLineDataFunc = () => {
-    const day = entries.reduce(
-      (acc, entry) => {
+    const data = entries.reduce(
+      (accumulator, entry) => {
         const dt = new Date(entry.created);
         const dtDateOnly = new Date(
           dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000,
         );
-
         const date = format(dtDateOnly, 'd/M/yy');
-        const index = acc.created.indexOf(date);
+
+        const index = accumulator.created.indexOf(date);
         if (index === -1) {
-          acc.created.push(date);
-          acc.income.push(entry.type ? entry.amount : 0);
-          acc.expense.push(!entry.type ? entry.amount : 0);
+          accumulator.created.push(date);
+          accumulator.income.push(entry.type ? entry.amount : 0);
+          accumulator.expense.push(!entry.type ? Math.abs(entry.amount) : 0);
         } else {
-          acc.income[index] += entry.type ? entry.amount : 0;
-          acc.expense[index] += !entry.type ? entry.amount : 0;
+          accumulator.income[index] += entry.type ? entry.amount : 0;
+          accumulator.expense[index] += !entry.type
+            ? Math.abs(entry.amount)
+            : 0;
         }
-        return acc;
+        return accumulator;
       },
       { created: [], income: [], expense: [] },
     );
-    return day;
+    setLineData(data);
   };
 
   const setCategoriesData = (e: EntryProp[]) => {
     let finalIncome = [];
     let finalExpense = [];
 
+    const categories = {
+      income: ['Savings', 'Salary', 'Gift', 'Other'],
+      expense: [
+        'Food & Drinks',
+        'Shopping',
+        'Groceries',
+        'Transport',
+        'Health',
+        'Life & Entertainment',
+        'Home',
+        'Gift',
+        'Other',
+      ],
+    };
+
     // Loops through the entire entries
     for (let i = 0; i < e.length; i++) {
       // Variable naming for less typing and more readability
       let category = e[i].category;
-      let amount = e[i].amount;
+      let amount = Math.abs(e[i].amount);
 
       // Checks if the current category is an income of an expense
       if (e[i].type) {
@@ -217,14 +216,14 @@ const Home: NextPage = function Home() {
           finalExpense.push({
             // Use Math.abs() for making the number positive, echarts
             // like it this way
-            value: Math.abs(amount),
+            value: amount,
             name: category,
           });
         } else {
           finalExpense.find((o, x) => {
             if (o.name === category) {
               finalExpense[x] = {
-                value: Math.abs(o.value - amount),
+                value: o.value + amount,
                 name: category,
               };
               return true; // Stop searching
@@ -234,21 +233,15 @@ const Home: NextPage = function Home() {
       }
     }
 
-    return {
-      finalIncome,
-      finalExpense,
-    };
+    setExpenseData(finalExpense);
+    setIncomeData(finalIncome);
   };
 
   const getPrices = async (e: EntryProp) => {
     let inc = 0;
     let exp = 0;
-    e.map((en) => {
-      if (en.type) {
-        inc += en.amount;
-      } else {
-        exp += en.amount;
-      }
+    e.forEach((en) => {
+      en.type ? (inc += en.amount) : (exp += Math.abs(en.amount));
     });
     setIncome(inc);
     setExpense(exp);
@@ -276,13 +269,11 @@ const Home: NextPage = function Home() {
   }, []);
 
   useEffect(() => {
-    const res = setCategoriesData(entries);
-    setExpenseData(res.finalExpense);
-    setIncomeData(res.finalIncome);
-    // FIX: executing two times
-    getPrices(entries); // TODO: <- merge this and setLineData into one object
-    const resLine = setLineDataFunc(entries);
-    setLineData(resLine);
+    setCategoriesData(entries);
+    setLineDataFunc(entries);
+    getPrices(entries);
+    console.log(entries);
+    console.log(lineData);
   }, [entries]);
 
   return (
@@ -292,7 +283,7 @@ const Home: NextPage = function Home() {
       ) : (
         <S.Wrapper>
           <S.Empty>
-            <ReactEcharts option={optionLine} />
+            <ReactEcharts option={options[0]} />
           </S.Empty>
           <S.Grid1>
             <S.BalanceWrapper>
@@ -325,12 +316,12 @@ const Home: NextPage = function Home() {
               <S.Doughtnut>
                 <h3>Total Income</h3>
                 <p>${income}</p>
-                <ReactEcharts option={optionIncome} />
+                <ReactEcharts option={options[1]} />
               </S.Doughtnut>
               <S.Doughtnut>
                 <h3>Total Expenses</h3>
                 <p>${expense}</p>
-                <ReactEcharts option={optionExpense} />
+                <ReactEcharts option={options[2]} />
               </S.Doughtnut>
             </S.DoughtnutWrapper>
           </S.Grid1>
