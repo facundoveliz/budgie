@@ -137,7 +137,7 @@ const Home: NextPage = function Home() {
     },
   ];
 
-  const setLineDataFunc = () => {
+  const handleLineData = (entries) => {
     const data = entries.reduce(
       (accumulator, entry) => {
         const dt = new Date(entry.created);
@@ -164,7 +164,7 @@ const Home: NextPage = function Home() {
     setLineData(data);
   };
 
-  const setCategoriesData = (e: EntryProp[]) => {
+  const handleCategoriesData = (e: EntryProp[]) => {
     let finalIncome = [];
     let finalExpense = [];
 
@@ -237,7 +237,7 @@ const Home: NextPage = function Home() {
     setIncomeData(finalIncome);
   };
 
-  const getPrices = async (e: EntryProp) => {
+  const handlePrices = async (e: EntryProp) => {
     let inc = 0;
     let exp = 0;
     e.forEach((en) => {
@@ -269,9 +269,9 @@ const Home: NextPage = function Home() {
   }, []);
 
   useEffect(() => {
-    setCategoriesData(entries);
-    setLineDataFunc(entries);
-    getPrices(entries);
+    handleCategoriesData(entries);
+    handleLineData(entries);
+    handlePrices(entries);
     console.log(entries);
     console.log(lineData);
   }, [entries]);
