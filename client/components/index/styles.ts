@@ -4,13 +4,19 @@ export const Wrapper = styled.div`
   width: 95%;
   margin: 0 auto;
   margin-top: 24px;
+  @media (max-width: 830px) {
+    width: 90%;
+  }
 `;
 
 export const Grid1 = styled.div`
   display: flex;
-  height: 430px;
+  height: auto;
   gap: 24px;
   margin: 24px 0;
+  @media (max-width: 900px) {
+    flex-direction: column;
+  }
 `;
 
 export const BalanceWrapper = styled.div`
@@ -18,6 +24,9 @@ export const BalanceWrapper = styled.div`
   flex-direction: column;
   width: 30%;
   gap: 24px;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
 `;
 
 export const Balance = styled.div`
@@ -46,19 +55,28 @@ export const DoughtnutWrapper = styled.div`
   display: flex;
   gap: 24px;
   width: 100%;
+  @media (max-width: 900px) {
+    width: 100%;
+  }
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
 `;
 export const Doughtnut = styled.div`
   width: 100%;
   text-align: center;
   background: ${({ theme }) => theme.backgroundSoft};
   border-radius: ${({ theme }) => theme.borders.radius};
-  p {
-  }
+  padding-bottom: 24px;
 `;
 
-export const Empty = styled.div`
-  margin: 24px 0;
-  height: 280px;
+export const LineWrapper = styled.div`
+  margin-bottom: 24px;
+  height: 350px;
+  h3 {
+    margin-top: 0;
+    text-align: center;
+  }
   background: ${({ theme }) => theme.backgroundSoft};
   border-radius: ${({ theme }) => theme.borders.radius};
   padding: ${({ theme }) => theme.paddings.dashboard};

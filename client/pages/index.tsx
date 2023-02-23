@@ -43,9 +43,6 @@ const Home: NextPage = function Home() {
 
   const options = [
     {
-      title: {
-        text: 'Balance history',
-      },
       tooltip: {
         trigger: 'axis',
       },
@@ -86,8 +83,10 @@ const Home: NextPage = function Home() {
         trigger: 'item',
       },
       legend: {
-        align: 'right',
-        bottom: '0',
+        bottom: '-2%',
+        type: 'scroll',
+        icon: 'circle',
+        width: '80%',
       },
       series: [
         {
@@ -113,11 +112,14 @@ const Home: NextPage = function Home() {
         trigger: 'item',
       },
       legend: {
-        align: 'right',
-        bottom: '0',
+        bottom: '-2%',
+        type: 'scroll',
+        icon: 'circle',
+        width: '80%',
       },
       series: [
         {
+          backgroundColor: 'rgba(255, 34, 34, 1)',
           name: 'Access From',
           type: 'pie',
           radius: ['60%', '80%'],
@@ -272,8 +274,6 @@ const Home: NextPage = function Home() {
     handleCategoriesData(entries);
     handleLineData(entries);
     handlePrices(entries);
-    console.log(entries);
-    console.log(lineData);
   }, [entries]);
 
   return (
@@ -282,9 +282,6 @@ const Home: NextPage = function Home() {
         <Loading>Loading...</Loading>
       ) : (
         <S.Wrapper>
-          <S.Empty>
-            <ReactEcharts option={options[0]} />
-          </S.Empty>
           <S.Grid1>
             <S.BalanceWrapper>
               <S.Balance>
@@ -325,6 +322,10 @@ const Home: NextPage = function Home() {
               </S.Doughtnut>
             </S.DoughtnutWrapper>
           </S.Grid1>
+          <S.LineWrapper>
+            <h3>Balance history</h3>
+            <ReactEcharts option={options[0]} />
+          </S.LineWrapper>
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}
@@ -335,6 +336,7 @@ const Home: NextPage = function Home() {
           {loading ? (
             <p>Loading...</p>
           ) : entries.length <= 0 ? (
+            // TODO: improve loading system, research
             <h1>No entries were founded.</h1>
           ) : (
             <Entry
