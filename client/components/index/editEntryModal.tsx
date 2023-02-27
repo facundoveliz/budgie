@@ -18,14 +18,14 @@ type IFormInputs = {
   category: string;
   amount: number;
   oldAmount: number;
-  income: boolean;
+  type: boolean;
 };
 
 type SelectedEditProps = {
   id: string;
   category: string;
   amount: number;
-  income: boolean;
+  type: boolean;
 };
 
 type ModalProps = {
@@ -77,7 +77,7 @@ const Modal: NextPage<ModalProps> = function Modal({
   });
 
   const onSubmit = (data: IFormInputs) => {
-    data.income = selectedEdit.income;
+    data.type = selectedEdit.type;
     data.oldAmount = selectedEdit.amount;
 
     putEntries(selectedEdit.id, data).then(() => {
@@ -114,7 +114,7 @@ const Modal: NextPage<ModalProps> = function Modal({
             <Form onSubmit={handleSubmit(onSubmit)}>
               <InputWrapper>
                 <Label>Category</Label>
-                {selectedEdit.income ? (
+                {selectedEdit.type ? (
                   <Select
                     {...register('category')}
                     defaultValue={selectedEdit.category}
@@ -146,7 +146,7 @@ const Modal: NextPage<ModalProps> = function Modal({
                 <Input
                   {...register('amount')}
                   type="number"
-                  min={selectedEdit.income ? '0' : ''}
+                  min={selectedEdit.type ? '0' : ''}
                   defaultValue={selectedEdit.amount}
                 />
                 <p>{errors.amount?.message}</p>

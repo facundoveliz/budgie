@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import * as Yup from 'yup'
 
 const entrySchema = new mongoose.Schema({
-  income: {
+  type: {
     type: Boolean,
   },
   amount: {
@@ -25,11 +25,11 @@ const entrySchema = new mongoose.Schema({
 export const Entry = mongoose.model('Entry', entrySchema)
 
 export const schema = Yup.object().shape({
-  income: Yup.boolean().required('The income is a required field.'),
+  type: Yup.boolean().required('The type is a required field.'),
   amount: Yup.number().required('The amount is a required field.'),
   category: Yup.string()
     .required('The category is a required field.')
-    .when('income', {
+    .when('type', {
       is: true,
       then: Yup.string().oneOf(['Savings', 'Salary', 'Gift', 'Other']),
       otherwise: Yup.string().oneOf([

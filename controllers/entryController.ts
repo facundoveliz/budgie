@@ -28,12 +28,12 @@ export const postEntry = async (req: Request, res: Response) => {
     .then(async () => {
       const entry = new Entry({
         category: req.body.category,
-        income: req.body.income,
+        type: req.body.type,
         amount: req.body.amount,
         user: req.user?._id,
       })
 
-      // NOTE: income: plus, expense: minus
+      // NOTE: type: plus, expense: minus
       // if the number is an expense, it will change the value to negative
       // so it can rest the value of the user balance
       if (!entry.type) {
@@ -63,12 +63,12 @@ export const putEntry = async (req: Request, res: Response) => {
     .then(async () => {
       const entry = {
         category: req.body.category,
-        income: req.body.income,
+        type: req.body.type,
         amount: req.body.amount,
         oldAmount: req.body.oldAmount,
       }
 
-      // NOTE: income: plus, expense: minus
+      // NOTE: type: plus, expense: minus
       // if the number is an expense, it will change the value to negative
       // so it can rest the value of the user balance
       if (!entry.type) {

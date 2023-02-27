@@ -11,7 +11,7 @@ import { Loading } from '../components/styles/Loading';
 type EntryProp = {
   _id: string;
   category: string;
-  income: boolean;
+  type: boolean;
   amount: number;
   created: Date;
 };
@@ -29,7 +29,7 @@ const Home: NextPage = function Home() {
   const [user, setUser] = useState<UserProp>();
   const [loading, setLoading] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
-  const [income, setIncome] = useState(false);
+  const [type, setType] = useState(false);
 
   const getEntryRequest = async () => {
     const res = await getEntries();
@@ -64,7 +64,7 @@ const Home: NextPage = function Home() {
           <div>
             <SecondaryButton
               onClick={() => {
-                setIncome(false);
+                setType(false);
                 setShowModal((prev) => !prev);
               }}
             >
@@ -72,11 +72,11 @@ const Home: NextPage = function Home() {
             </SecondaryButton>
             <Button
               onClick={() => {
-                setIncome(true);
+                setType(true);
                 setShowModal((prev) => !prev);
               }}
             >
-              Income
+              Type
             </Button>
           </div>
           <Modal
@@ -84,7 +84,7 @@ const Home: NextPage = function Home() {
             setShowModal={setShowModal}
             getEntryRequest={getEntryRequest}
             getUserRequest={getUserRequest}
-            income={income}
+            type={type}
           />
           {loading ? (
             <p>Loading...</p>

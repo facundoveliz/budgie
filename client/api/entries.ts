@@ -4,7 +4,7 @@ const entriesRoute = '/api/entries/';
 
 type Data = {
   category: string;
-  income: boolean;
+  type: boolean;
   amount: number;
 };
 
