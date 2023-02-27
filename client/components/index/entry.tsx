@@ -7,7 +7,7 @@ import Modal from './editEntryModal';
 type EntryPropContent = {
   _id: string;
   category: string;
-  income: boolean;
+  type: boolean;
   amount: number;
   created: Date;
 };
@@ -48,7 +48,7 @@ const Entry: NextPage<EntryProps> = function Entry({
                 id: entry._id,
                 category: entry.category,
                 amount: entry.amount,
-                income: entry.income,
+                income: entry.type,
               });
               setShowModal((prev) => !prev);
             }}
@@ -56,7 +56,7 @@ const Entry: NextPage<EntryProps> = function Entry({
             <p>{entry.category}</p>
             <ParagraphWrapper>
               <div>
-                <Paragraph income={entry.income}>${entry.amount},00</Paragraph>
+                <Paragraph income={entry.type}>${entry.amount},00</Paragraph>
                 <Paragraph>
                   {dateFormat(entry.created, 'HH:MM, mmmm d')}
                 </Paragraph>
