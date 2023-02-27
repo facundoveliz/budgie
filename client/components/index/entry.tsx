@@ -3,8 +3,16 @@ import { NextPage } from 'next';
 import dateFormat from 'dateformat';
 import Modal from '../modals/editEntry';
 import styled from 'styled-components';
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  getSortedRowModel,
+  getPaginationRowModel,
+} from '@tanstack/react-table';
 
-type EntryPropContent = {
+type EntryType = {
   _id: string;
   category: string;
   type: boolean;
@@ -13,7 +21,7 @@ type EntryPropContent = {
 };
 
 type EntryProps = {
-  entries: EntryPropContent[];
+  entries: EntryType[];
   getEntryRequest: () => Promise<void>;
   getUserRequest: () => Promise<void>;
 };
@@ -24,6 +32,23 @@ type SelectedEditProps = {
   amount: number;
   type: boolean;
 };
+
+const columnHelper = createColumnHelper<EntryType>();
+
+const columns = [
+  columnHelper.accessor('category', {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor('type', {
+    cell: (info) => info.getValue().toString(),
+  }),
+  columnHelper.accessor('amount', {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor('created', {
+    cell: (info) => info.getValue(),
+  }),
+];
 
 const Entry: NextPage<EntryProps> = function Entry({
   entries,
@@ -38,33 +63,124 @@ const Entry: NextPage<EntryProps> = function Entry({
     type: true,
   });
 
+  const [sorting, setSorting] = React.useState([]);
+  const table = useReactTable({
+    data: entries,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      sorting,
+    },
+    onSortingChange: setSorting,
+  });
+
   return (
     <EntriesWrapper>
-      {entries?.map((entry) => (
-        <div key={entry._id}>
-          <EntryWrapper
-            onClick={() => {
-              setSelectedEdit({
-                id: entry._id,
-                category: entry.category,
-                amount: entry.amount,
-                type: entry.type,
-              });
-              setShowModal((prev) => !prev);
-            }}
-          >
-            <p>{entry.category}</p>
-            <ParagraphWrapper>
-              <div>
-                <Paragraph type={entry.type}>${entry.amount},00</Paragraph>
-                <Paragraph>
-                  {dateFormat(entry.created, 'HH:MM, mmmm d')}
-                </Paragraph>
-              </div>
-            </ParagraphWrapper>
-          </EntryWrapper>
-        </div>
-      ))}
+      <table>
+        <thead>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <th key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder ? null : (
+                      <div
+                        {...{
+                          className: header.column.getCanSort()
+                            ? 'cursor-pointer select-none'
+                            : '',
+                          onClick: header.column.getToggleSortingHandler(),
+                        }}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                        {{
+                          asc: ' 🔼',
+                          desc: ' 🔽',
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                    )}
+                  </th>
+                );
+              })}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table
+            .getRowModel()
+            .rows.slice(0, 10)
+            .map((row) => {
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => {
+                    return (
+                      <td key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
+      <div className="flex items-center gap-2">
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(0)}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          {'<'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>'}
+        </button>
+        <button
+          className="border rounded p-1"
+          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+          disabled={!table.getCanNextPage()}
+        >
+          {'>>'}
+        </button>
+        <span className="flex items-center gap-1">
+          <div>Page</div>
+          <strong>
+            {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount()}
+          </strong>
+        </span>
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+        >
+          {[10, 20, 30, 40, 50].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              Show {pageSize}
+            </option>
+          ))}
+        </select>
+      </div>
       <>
         {showModal ? (
           <Modal
