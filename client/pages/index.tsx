@@ -76,7 +76,7 @@ const Home: NextPage = function Home() {
                 setShowModal((prev) => !prev);
               }}
             >
-              Type
+              Income
             </Button>
           </div>
           <Modal
