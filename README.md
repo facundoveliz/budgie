@@ -1,19 +1,14 @@
 # 🗒️ Description
 
-This is a fullstack application made with NextJS/styled-components in the front and Express/MongoDB on the back.
+Budgie is a budget management website developed using NextJS, styled-components, NodeJS, MongoDB, and Typescript. This website offers users a comprehensive set of tools to help them manage their finances effectively. The user can perform CRUD operations on budget entries, which can be classified as expenses or incomes and assigned to different common categories for better organization. This allows users to keep track of their financial situation in a detailed and organized way.
 
-### Features
+It also provides with a register and login system, which includes private routes to ensure the security of user data. Also I implemented a set of unit tests that I plan to expand using Jest and Supertest. The website includes a Day and Night mode switcher. Additionally, users can edit their profiles, allowing them to update their personal information and preferences.
 
-- Authentication and validation system, both in the back and the front end
-- Unit tests for all backend endpoints
-- Profile viewing/editing
-- Theme switcher
-- Entry creator with category and amount inputs
-- Entry editor
+# Demo
 
-### Demo
+https://user-images.githubusercontent.com/68577124/215869602-13871d2a-101e-465c-8809-4803ca259a00.mp4
 
-You can visit the website by clicking [here](https://personal-budget.facundoveliz.monster).
+You can visit the website by clicking [here](https://budgie.facundoveliz.monster).
 
 You can use this example account:
 
