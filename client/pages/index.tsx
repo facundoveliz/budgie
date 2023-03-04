@@ -326,6 +326,11 @@ const Home: NextPage = function Home() {
             <h3>Balance history</h3>
             <ReactEcharts option={options[0]} />
           </S.LineWrapper>
+          <Entry
+            entries={entries}
+            getEntryRequest={getEntryRequest}
+            getUserRequest={getUserRequest}
+          />
           <Modal
             showModal={showModal}
             setShowModal={setShowModal}
@@ -333,18 +338,6 @@ const Home: NextPage = function Home() {
             getUserRequest={getUserRequest}
             type={type}
           />
-          {loading ? (
-            <p>Loading...</p>
-          ) : entries.length <= 0 ? (
-            // TODO: improve loading system, research
-            <h1>No entries were founded.</h1>
-          ) : (
-            <Entry
-              entries={entries}
-              getEntryRequest={getEntryRequest}
-              getUserRequest={getUserRequest}
-            />
-          )}
         </S.Wrapper>
       )}
     </>

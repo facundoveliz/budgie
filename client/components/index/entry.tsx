@@ -37,15 +37,19 @@ const columnHelper = createColumnHelper<EntryType>();
 
 const columns = [
   columnHelper.accessor('category', {
+    header: 'CATEGORY',
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor('type', {
+    header: 'TYPE',
     cell: (info) => info.getValue().toString(),
   }),
   columnHelper.accessor('amount', {
+    header: 'AMOUNT',
     cell: (info) => info.getValue(),
   }),
   columnHelper.accessor('created', {
+    header: 'CREATED',
     cell: (info) => info.getValue(),
   }),
 ];
@@ -99,8 +103,8 @@ const Entry: NextPage<EntryProps> = function Entry({
                           header.getContext(),
                         )}
                         {{
-                          asc: ' 🔼',
-                          desc: ' 🔽',
+                          asc: '🔼',
+                          desc: '🔽',
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                     )}
@@ -132,55 +136,44 @@ const Entry: NextPage<EntryProps> = function Entry({
             })}
         </tbody>
       </table>
-      <div className="flex items-center gap-2">
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          {'<'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>'}
-        </button>
-        <button
-          className="border rounded p-1"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          {'>>'}
-        </button>
+      <Pagination className="flex items-center gap-2">
         <span className="flex items-center gap-1">
-          <div>Page</div>
-          <strong>
+          <p>
             {table.getState().pagination.pageIndex + 1} of{' '}
             {table.getPageCount()}
-          </strong>
+          </p>
         </span>
-        <select
-          value={table.getState().pagination.pageSize}
-          onChange={(e) => {
-            table.setPageSize(Number(e.target.value));
-          }}
-        >
-          {[10, 20, 30, 40, 50].map((pageSize) => (
-            <option key={pageSize} value={pageSize}>
-              Show {pageSize}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div>
+          <button
+            className="border rounded p-1"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<<'}
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            {'<'}
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>'}
+          </button>
+          <button
+            className="border rounded p-1"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            {'>>'}
+          </button>
+        </div>
+      </Pagination>
       <>
         {showModal ? (
           <Modal
@@ -202,35 +195,68 @@ type EntryStyleProps = {
   readonly type?: boolean;
 };
 
-// FIX: make a softer bg
-const EntryWrapper = styled.div<EntryStyleProps>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
-  padding: ${({ theme }) => theme.paddings.dashboard};
-  border-radius: ${({ theme }) => theme.borders.radius};
-  border-bottom: 1px solid ${({ theme }) => theme.border} !important;
-  &:hover {
-    background: ${({ theme }) => theme.background};
+const EntriesWrapper = styled.div<EntryStyleProps>`
+  table {
+    background: ${({ theme }) => theme.backgroundSoft};
+    padding: ${({ theme }) => theme.paddings.dashboard};
+    border-radius: ${({ theme }) => theme.borders.radius};
+    width: 100%;
+    table-layout: fixed;
+    @media (max-width: 650px) {
+      padding: ${({ theme }) => theme.paddings.dashboard} 12px;
+    }
+    thead {
+      text-align: left;
+      th {
+        &::-webkit-scrollbar {
+          height: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: ${({ theme }) => theme.border};
+        }
+        padding-bottom: 12px;
+        border-bottom: 1px solid ${({ theme }) => theme.border};
+        overflow: hidden;
+        cursor: pointer;
+        user-select: none;
+      }
+    }
+    tbody {
+      td {
+        padding: 8px 0;
+        overflow: auto;
+        white-space: nowrap;
+        border-bottom: 1px solid ${({ theme }) => theme.border};
+        &::-webkit-scrollbar {
+          height: 4px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background-color: ${({ theme }) => theme.border};
+        }
+      }
+    }
   }
 `;
 
-const EntriesWrapper = styled.div<EntryStyleProps>`
-  background: ${({ theme }) => theme.backgroundSoft};
-`;
-
-export const ParagraphWrapper = styled.div`
+const Pagination = styled.div<EntryStyleProps>`
   display: flex;
-`;
-
-export const Paragraph = styled.p<EntryStyleProps>`
-  color: ${(props) =>
-    props.type ? ({ theme }) => theme.primary : ({ theme }) => theme.danger};
-  &:last-of-type {
-    font-size: 14px;
-    color: ${({ theme }) => theme.foreground};
-    float: right;
+  gap: 12px;
+  padding: 8px;
+  color: ${({ theme }) => theme.foregroundSoft};
+  div {
+    display: flex;
+    gap: 8px;
+    button {
+      color: ${({ theme }) => theme.foregroundSoft};
+      border-radius: ${({ theme }) => theme.borders.radius};
+      border: 0;
+      font-size: 17px;
+      &:enabled {
+        background: ${({ theme }) => theme.backgroundSoft};
+      }
+      &:disabled {
+        background: ${({ theme }) => theme.background};
+      }
+    }
   }
 `;

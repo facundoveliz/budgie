@@ -4,7 +4,7 @@ export const lightTheme = {
   background: '#cecece',
   backgroundSoft: '#dadada',
   foreground: '#111827',
-  foregroundSoft: '#6b7280',
+  foregroundSoft: '#3a4150',
   primary: '#30b27b',
   secondary: '#2089ff',
   danger: '#e24f44',

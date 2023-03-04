@@ -71,7 +71,7 @@ export const Doughtnut = styled.div`
 `;
 
 export const LineWrapper = styled.div`
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   height: 350px;
   h3 {
     margin-top: 0;
