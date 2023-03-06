@@ -37,6 +37,7 @@ const Home: NextPage = function Home() {
   const [type, setType] = useState(false);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
+  const [savings, setSavings] = useState(0);
   const [expenseData, setExpenseData] = useState([]);
   const [incomeData, setIncomeData] = useState([]);
   const [lineData, setLineData] = useState({});
@@ -139,8 +140,8 @@ const Home: NextPage = function Home() {
     },
   ];
 
-  const handleLineData = (entries) => {
-    const data = entries.reduce(
+  const handleLineData = (e: EntryProp) => {
+    const data = e.reduce(
       (accumulator, entry) => {
         const dt = new Date(entry.created);
         const dtDateOnly = new Date(
@@ -242,11 +243,14 @@ const Home: NextPage = function Home() {
   const handlePrices = async (e: EntryProp) => {
     let inc = 0;
     let exp = 0;
+    let svn = 0;
     e.forEach((en) => {
       en.type ? (inc += en.amount) : (exp += Math.abs(en.amount));
+      en.category === 'Savings' ? (svn = svn + en.amount) : null;
     });
     setIncome(inc);
     setExpense(exp);
+    setSavings(svn);
   };
 
   const getEntryRequest = async () => {
@@ -306,7 +310,7 @@ const Home: NextPage = function Home() {
                 </div>
               </S.Balance>
               <S.Balance>
-                Savings <p>{`$${user!.balance}.00 `}</p>
+                Savings <p>{`$${savings}.00 `}</p>
               </S.Balance>
             </S.BalanceWrapper>
             <S.DoughtnutWrapper>
