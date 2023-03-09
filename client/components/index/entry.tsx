@@ -42,15 +42,20 @@ const columns = [
   }),
   columnHelper.accessor('type', {
     header: 'TYPE',
-    cell: (info) => info.getValue().toString(),
+    cell: (info) => (info.getValue() ? 'Income' : 'Expense'),
   }),
   columnHelper.accessor('amount', {
     header: 'AMOUNT',
-    cell: (info) => info.getValue(),
+    cell: (info) =>
+      info.getValue() > 0 ? (
+        <Income>${info.getValue()}</Income>
+      ) : (
+        <Expense>${info.getValue()}</Expense>
+      ),
   }),
   columnHelper.accessor('created', {
     header: 'CREATED',
-    cell: (info) => info.getValue(),
+    cell: (info) => dateFormat(info.getValue(), 'HH:MM, mmmm d, yy'),
   }),
 ];
 
@@ -103,8 +108,8 @@ const Entry: NextPage<EntryProps> = function Entry({
                           header.getContext(),
                         )}
                         {{
-                          asc: '🔼',
-                          desc: '🔽',
+                          asc: '↑',
+                          desc: '↓',
                         }[header.column.getIsSorted() as string] ?? null}
                       </div>
                     )}
@@ -120,7 +125,19 @@ const Entry: NextPage<EntryProps> = function Entry({
             .rows.slice(0, 10)
             .map((row) => {
               return (
-                <tr key={row.id}>
+                <tr
+                  key={row.id}
+                  onClick={() => {
+                    setSelectedEdit({
+                      id: row.original._id,
+                      category: row.original.category,
+                      amount: row.original.amount,
+                      type: row.original.type,
+                    });
+                    setShowModal((prev) => !prev);
+                    console.log(row);
+                  }}
+                >
                   {row.getVisibleCells().map((cell) => {
                     return (
                       <td key={cell.id}>
@@ -145,28 +162,24 @@ const Entry: NextPage<EntryProps> = function Entry({
         </span>
         <div>
           <button
-            className="border rounded p-1"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
             {'<<'}
           </button>
           <button
-            className="border rounded p-1"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             {'<'}
           </button>
           <button
-            className="border rounded p-1"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
             {'>'}
           </button>
           <button
-            className="border rounded p-1"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
@@ -196,37 +209,56 @@ type EntryStyleProps = {
 };
 
 const EntriesWrapper = styled.div<EntryStyleProps>`
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${({ theme }) => theme.border};
+  }
   table {
-    background: ${({ theme }) => theme.backgroundSoft};
-    padding: ${({ theme }) => theme.paddings.dashboard};
     border-radius: ${({ theme }) => theme.borders.radius};
     width: 100%;
-    table-layout: fixed;
-    @media (max-width: 650px) {
-      padding: ${({ theme }) => theme.paddings.dashboard} 12px;
-    }
+    border-collapse: separate;
+    border-spacing: 0 8px;
     thead {
       text-align: left;
+      color: ${({ theme }) => theme.foregroundSofter};
       th {
+        font-weight: 400;
+        font-size: 15px;
         &::-webkit-scrollbar {
           height: 4px;
         }
         &::-webkit-scrollbar-thumb {
           background-color: ${({ theme }) => theme.border};
         }
-        padding-bottom: 12px;
-        border-bottom: 1px solid ${({ theme }) => theme.border};
+        padding: 18px 12px 0 12px;
         overflow: hidden;
         cursor: pointer;
         user-select: none;
       }
     }
     tbody {
+      tr {
+        background: ${({ theme }) => theme.backgroundSoft};
+        &:hover {
+          background: ${({ theme }) => theme.backgroundSofter};
+        }
+      }
       td {
-        padding: 8px 0;
+        padding: 16px;
         overflow: auto;
         white-space: nowrap;
-        border-bottom: 1px solid ${({ theme }) => theme.border};
+        cursor: pointer;
+        &:first-child {
+          -moz-border-radius: 8px 0 0 8px;
+          -webkit-border-radius: 8px 0 0 8px;
+        }
+        &:last-child {
+          -moz-border-radius: 0 8px 8px 0;
+          -webkit-border-radius: 0 8px 8px 0;
+        }
         &::-webkit-scrollbar {
           height: 4px;
         }
@@ -259,4 +291,11 @@ const Pagination = styled.div<EntryStyleProps>`
       }
     }
   }
+`;
+
+const Income = styled.div<EntryStyleProps>`
+  color: ${({ theme }) => theme.positive};
+`;
+const Expense = styled.div<EntryStyleProps>`
+  color: ${({ theme }) => theme.negative};
 `;

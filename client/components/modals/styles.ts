@@ -22,10 +22,11 @@ export const ModalWrapper = styled.div`
     width: 60%;
   }
   @media (max-width: 600px) {
-    width: 90%;
+    width: 80%;
   }
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: ${({ theme }) => theme.background};
+  padding: 16px;
   color: ${({ theme }) => theme.foreground};
   position: relative;
   z-index: 10;
@@ -48,6 +49,7 @@ export const ModalButtons = styled.div`
   display: flex;
   justify-content: end;
   margin-top: 24px;
+  gap: 12px;
 `;
 
 export const CloseModalButton = styled(MdClose)`

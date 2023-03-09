@@ -49,6 +49,9 @@ const Home: NextPage = function Home() {
       },
       legend: {
         data: ['Income', 'Expense'],
+        textStyle: {
+          color: '#7e7e7e',
+        },
       },
       grid: {
         left: '3%',
@@ -86,8 +89,16 @@ const Home: NextPage = function Home() {
       legend: {
         bottom: '-2%',
         type: 'scroll',
+        pageTextStyle: {
+          color: '#7e7e7e',
+        },
+        pageIconColor: '#7e7e7e',
+        pageIconInactive: '#7e7e7e',
         icon: 'circle',
         width: '80%',
+        textStyle: {
+          color: '#7e7e7e',
+        },
       },
       series: [
         {
@@ -115,8 +126,16 @@ const Home: NextPage = function Home() {
       legend: {
         bottom: '-2%',
         type: 'scroll',
+        pageTextStyle: {
+          color: '#7e7e7e',
+        },
+        pageIconColor: '#7e7e7e',
+        pageIconInactive: '#7e7e7e',
         icon: 'circle',
         width: '80%',
+        textStyle: {
+          color: '#7e7e7e',
+        },
       },
       series: [
         {
