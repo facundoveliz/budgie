@@ -13,12 +13,12 @@ export const Input = styled.input<{
   readonly error?: boolean;
 }>`
   width: 100%;
-  background: ${({ theme }) => theme.background};
+  background: ${({ theme }) => theme.backgroundSoft};
   color: ${({ theme }) => theme.foreground};
   border: 1px solid
     ${(props) =>
     props.error ? ({ theme }) => theme.danger : ({ theme }) => theme.border};
-  border-radius: 4px;
+  border-radius: 8px;
   outline: none;
   box-sizing: border-box;
   padding: 12px 14px;
@@ -29,10 +29,10 @@ export const Input = styled.input<{
 export const Select = styled.select<{
   readonly error?: boolean;
 }>`
-  background: ${({ theme }) => theme.background};
+  background: ${({ theme }) => theme.backgroundSoft};
   color: ${({ theme }) => theme.foreground};
   padding: 14px;
-  border-radius: 4px;
+  border-radius: 8px;
   appearance: none;
   cursor: pointer;
   display: inline-block;

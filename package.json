@@ -8,6 +8,7 @@
     "dev": "concurrently \"yarn server\" \"yarn --cwd ./client client\"",
     "build": "tsc",
     "test": "jest --runInBand ./test",
+    "test-production": "jest --runInBand ./test/*production.test.ts",
     "lint": "eslint . --ext .ts --fix --ignore-pattern client"
   },
   "keywords": [],

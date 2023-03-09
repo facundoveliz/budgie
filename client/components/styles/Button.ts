@@ -6,7 +6,7 @@ export const Button = styled.button`
   border: none;
   cursor: pointer;
   background-color: ${({ theme }) => theme.primary};
-  border-radius: 4px;
+  border-radius: 6px;
     rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
   font-size: 16px;
   &:active {

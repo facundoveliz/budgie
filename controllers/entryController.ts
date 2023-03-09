@@ -33,9 +33,6 @@ export const postEntry = async (req: Request, res: Response) => {
         user: req.user?._id,
       })
 
-      // NOTE: type: plus, expense: minus
-      // if the number is an expense, it will change the value to negative
-      // so it can rest the value of the user balance
       if (!entry.type) {
         entry.amount = -Math.abs(entry.amount)
       }
@@ -68,9 +65,6 @@ export const putEntry = async (req: Request, res: Response) => {
         oldAmount: req.body.oldAmount,
       }
 
-      // NOTE: type: plus, expense: minus
-      // if the number is an expense, it will change the value to negative
-      // so it can rest the value of the user balance
       if (!entry.type) {
         entry.amount = -Math.abs(entry.amount)
       }

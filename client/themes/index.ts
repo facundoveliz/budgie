@@ -1,27 +1,51 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const lightTheme = {
-  background: '#ffffff',
-  backgroundSoft: '#f4f4f4',
+  background: '#cecece',
+  backgroundSoft: '#dadada',
+  backgroundSofter: '#c1c1c1',
   foreground: '#111827',
-  foregroundSoft: '#6b7280',
+  foregroundSoft: '#3a4150',
+  foregroundSofter: '#868686',
   primary: '#30b27b',
   secondary: '#2089ff',
-  danger: '#e24f44',
+  positive: '#59be6e',
+  negative: '#e65348',
+  danger: '#e14e43',
   border: '#bdbdbd',
   divider: '#fff',
+  fonts: {},
+  paddings: {
+    dashboard: '32px',
+  },
+  margins: {},
+  borders: {
+    radius: '8px',
+  },
 };
 
 export const darkTheme = {
   background: '#16181c',
-  backgroundSoft: '#191b1f',
+  backgroundSoft: '#26292f',
+  backgroundSofter: '#31343a',
   foreground: '#ecf9fb',
-  foregroundSoft: '#ecf9fb',
+  foregroundSoft: '#929aa3',
+  foregroundSofter: '#707881',
   primary: '#1bd96a',
   secondary: '#74b6f3',
-  danger: '#e24f44',
-  border: '#404040',
+  positive: '#59be6e',
+  negative: '#e65348',
+  danger: '#e65348',
+  border: '#242424',
   divider: '#fff',
+  fonts: {},
+  paddings: {
+    dashboard: '32px',
+  },
+  margins: {},
+  borders: {
+    radius: '16px',
+  },
 };
 
 export type ThemeType = {
