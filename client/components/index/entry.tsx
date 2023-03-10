@@ -251,6 +251,9 @@ const EntriesWrapper = styled.div<EntryStyleProps>`
         overflow: auto;
         white-space: nowrap;
         cursor: pointer;
+        &:nth-child(1) {
+          min-width: 230px;
+        }
         &:first-child {
           border-radius: 8px 0 0 8px;
           -moz-border-radius: 8px 0 0 8px;
