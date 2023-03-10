@@ -194,6 +194,7 @@ const Home: NextPage = function Home() {
       { created: [], income: [], expense: [] },
     );
     setLineData(data);
+  };
 
   const handleCategoriesData = (e: EntryProp[]) => {
     let finalIncome = [];
