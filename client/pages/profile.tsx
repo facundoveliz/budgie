@@ -65,9 +65,9 @@ const Profile: NextPage = function Profile() {
 
   const onSubmit = (data: IFormInputs) =>
     putUser(data).then((res) => {
-      if (res.toString().length >= 1) {
+      if (res!.toString().length >= 1) {
         setError('email', {
-          message: res.toString(),
+          message: res!.toString(),
         });
       }
     });
