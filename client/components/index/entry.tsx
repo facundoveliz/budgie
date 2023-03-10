@@ -252,10 +252,12 @@ const EntriesWrapper = styled.div<EntryStyleProps>`
         white-space: nowrap;
         cursor: pointer;
         &:first-child {
+          border-radius: 8px 0 0 8px;
           -moz-border-radius: 8px 0 0 8px;
           -webkit-border-radius: 8px 0 0 8px;
         }
         &:last-child {
+          border-radius: 0 8px 8px 0;
           -moz-border-radius: 0 8px 8px 0;
           -webkit-border-radius: 0 8px 8px 0;
         }

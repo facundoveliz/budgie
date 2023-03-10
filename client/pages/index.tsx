@@ -27,6 +27,12 @@ type UserProp = {
   created: Date;
 };
 
+type LineDataProp = {
+  created: string[];
+  income: number[];
+  expense: number[];
+};
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Home: NextPage = function Home() {
@@ -38,9 +44,13 @@ const Home: NextPage = function Home() {
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [savings, setSavings] = useState(0);
-  const [expenseData, setExpenseData] = useState([]);
-  const [incomeData, setIncomeData] = useState([]);
-  const [lineData, setLineData] = useState({});
+  const [expenseData, setExpenseData] = useState({});
+  const [incomeData, setIncomeData] = useState({});
+  const [lineData, setLineData] = useState<LineDataProp>({
+    created: [],
+    income: [],
+    expense: [],
+  });
 
   const options = [
     {
@@ -159,14 +169,15 @@ const Home: NextPage = function Home() {
     },
   ];
 
-  const handleLineData = (e: EntryProp) => {
+  const handleLineData = (e: EntryProp[]) => {
     const data = e.reduce(
-      (accumulator, entry) => {
+      (accumulator: LineDataProp, entry) => {
         const dt = new Date(entry.created);
         const dtDateOnly = new Date(
           dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000,
         );
         const date = format(dtDateOnly, 'd/M/yy');
+        console.log(accumulator);
 
         const index = accumulator.created.indexOf(date);
         if (index === -1) {
@@ -184,6 +195,7 @@ const Home: NextPage = function Home() {
       { created: [], income: [], expense: [] },
     );
     setLineData(data);
+    console.log(data);
   };
 
   const handleCategoriesData = (e: EntryProp[]) => {
@@ -259,13 +271,19 @@ const Home: NextPage = function Home() {
     setIncomeData(finalIncome);
   };
 
-  const handlePrices = async (e: EntryProp) => {
+  const handlePrices = async (e: EntryProp[]) => {
     let inc = 0;
     let exp = 0;
     let svn = 0;
-    e.forEach((en) => {
-      en.type ? (inc += en.amount) : (exp += Math.abs(en.amount));
-      en.category === 'Savings' ? (svn = svn + en.amount) : null;
+    e.map((en) => {
+      if (en.type) {
+        inc += en.amount;
+      } else {
+        exp += Math.abs(en.amount);
+      }
+      if (en.category === 'Savings') {
+        svn = svn + en.amount;
+      }
     });
     setIncome(inc);
     setExpense(exp);
