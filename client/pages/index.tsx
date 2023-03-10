@@ -177,7 +177,6 @@ const Home: NextPage = function Home() {
           dt.valueOf() + dt.getTimezoneOffset() * 60 * 1000,
         );
         const date = format(dtDateOnly, 'd/M/yy');
-        console.log(accumulator);
 
         const index = accumulator.created.indexOf(date);
         if (index === -1) {
@@ -195,8 +194,6 @@ const Home: NextPage = function Home() {
       { created: [], income: [], expense: [] },
     );
     setLineData(data);
-    console.log(data);
-  };
 
   const handleCategoriesData = (e: EntryProp[]) => {
     let finalIncome = [];

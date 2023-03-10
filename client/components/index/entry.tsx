@@ -135,7 +135,6 @@ const Entry: NextPage<EntryProps> = function Entry({
                       type: row.original.type,
                     });
                     setShowModal((prev) => !prev);
-                    console.log(row);
                   }}
                 >
                   {row.getVisibleCells().map((cell) => {
