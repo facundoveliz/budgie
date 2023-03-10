@@ -81,7 +81,7 @@ const Entry: NextPage<EntryProps> = function Entry({
     getPaginationRowModel: getPaginationRowModel(),
     state: {
       sorting,
-    },
+    }, // @ts-ignore
     onSortingChange: setSorting,
   });
 
