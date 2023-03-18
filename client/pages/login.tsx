@@ -56,7 +56,7 @@ const Login: LoginType = function Login() {
     onSuccess: () => {
       window.location.href = '/login';
     },
-    onError: (res) => {
+    onError: (res: any) => {
       if (res.data.msg === 'Invalid email or password') {
         setError('email', {
           message: 'Email already in use',
