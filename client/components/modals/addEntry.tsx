@@ -75,6 +75,7 @@ const Modal: NextPage<ModalProps> = function Modal({
     onSuccess: () => {
       queryClient.invalidateQueries('entries');
       queryClient.invalidateQueries('user');
+      setShowModal(false);
       resetField('amount');
       resetField('category');
     },
@@ -83,7 +84,6 @@ const Modal: NextPage<ModalProps> = function Modal({
   const onSubmit = (data: IFormInputs) => {
     data.type = type;
     postEntriesMutation.mutate(data);
-    setShowModal(false);
   };
 
   const closeModal = (e: React.MouseEvent<HTMLElement>) => {
@@ -137,7 +137,12 @@ const Modal: NextPage<ModalProps> = function Modal({
                 </InputWrapper>
 
                 <ModalButtons>
-                  <Button type="submit">Accept</Button>
+                  <Button
+                    type="submit"
+                    disabled={postEntriesMutation.isLoading}
+                  >
+                    Accept
+                  </Button>
                 </ModalButtons>
               </Form>
             </ModalContent>

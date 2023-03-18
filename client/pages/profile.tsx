@@ -76,7 +76,12 @@ const Profile: NextPage = function Profile() {
   const queryClient = useQueryClient();
 
   const userQuery = useQuery('user', getUserRequest);
-  const deleteUserMutation = useMutation(deleteUser);
+  const deleteUserMutation = useMutation(deleteUser, {
+    onSuccess: () => {
+      localStorage.removeItem('x-auth-token');
+      window.location.href = '/login';
+    },
+  });
   const putUserMutation = useMutation(putUser, {
     onSuccess: () => {
       queryClient.invalidateQueries('user');
@@ -96,8 +101,6 @@ const Profile: NextPage = function Profile() {
 
   const handleDelete = async () => {
     deleteUserMutation.mutate();
-    localStorage.removeItem('x-auth-token');
-    window.location.href = '/login';
   };
 
   if (userQuery.isError) {

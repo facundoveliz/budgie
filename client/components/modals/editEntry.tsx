@@ -71,11 +71,16 @@ const Modal: NextPage<ModalProps> = function Modal({
 
   const queryClient = useQueryClient();
 
-  const deleteEntriesMutation = useMutation(deleteEntries);
+  const deleteEntriesMutation = useMutation(deleteEntries, {
+    onSuccess: () => {
+      setShowModal(false);
+    },
+  });
   const putEntriesMutation = useMutation(putEntries, {
     onSuccess: () => {
       queryClient.invalidateQueries('entries');
       queryClient.invalidateQueries('user');
+      setShowModal(false);
     },
   });
 
@@ -87,12 +92,10 @@ const Modal: NextPage<ModalProps> = function Modal({
       data,
     };
     putEntriesMutation.mutate(entry);
-    setShowModal(false);
   };
 
   const handleDelete = () => {
     deleteEntriesMutation.mutate(selectedEdit.id);
-    setShowModal(false);
   };
 
   const closeModal = (e: React.MouseEvent<HTMLElement>) => {
@@ -156,7 +159,15 @@ const Modal: NextPage<ModalProps> = function Modal({
                 <DangerButton onClick={() => handleDelete()}>
                   Delete
                 </DangerButton>
-                <Button type="submit">Accept</Button>
+                <Button
+                  type="submit"
+                  disabled={
+                    putEntriesMutation.isLoading ||
+                    deleteEntriesMutation.isLoading
+                  }
+                >
+                  Accept
+                </Button>
               </S.ModalButtons>
             </Form>
           </S.ModalContent>
