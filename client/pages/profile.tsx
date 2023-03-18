@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import type { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,8 +13,8 @@ import {
 } from '../components/styles/Form';
 import { Button, DangerButton } from '../components/styles/Button';
 import { deleteUser, getUser, putUser } from '../api/users';
-import { Fetching, Loading } from '../components/styles/Loading';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { Fetching } from '../components/styles/Loading';
 
 type IFormInputs = {
   name: string;
@@ -86,7 +86,7 @@ const Profile: NextPage = function Profile() {
     onSuccess: () => {
       queryClient.invalidateQueries('user');
     },
-    onError: (res) => {
+    onError: (res: any) => {
       if (res.data.msg === 'Invalid email or password') {
         setError('email', {
           message: 'Email already in use',

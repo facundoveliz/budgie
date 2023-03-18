@@ -20,18 +20,15 @@ type EntryProp = {
   created: Date;
 };
 
-type UserProp = {
-  _id: string;
-  email: string;
-  name: string;
-  balance: number;
-  created: Date;
-};
-
 type LineDataProp = {
   created: string[];
   income: number[];
   expense: number[];
+};
+
+type DataProp = {
+  value: number;
+  name: string;
 };
 
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -42,8 +39,8 @@ const Home: NextPage = function Home() {
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [savings, setSavings] = useState(0);
-  const [expenseData, setExpenseData] = useState([]);
-  const [incomeData, setIncomeData] = useState([]);
+  const [expenseData, setExpenseData] = useState<DataProp[]>([]);
+  const [incomeData, setIncomeData] = useState<DataProp[]>([]);
   const [lineData, setLineData] = useState<LineDataProp>({
     created: [],
     income: [],
