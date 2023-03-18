@@ -15,6 +15,7 @@ import {
   Label,
   SubmitWrapper,
 } from '../components/styles/Form';
+import { useMutation } from 'react-query';
 
 interface IFormInputs {
   email: string;
@@ -51,14 +52,22 @@ const Login: LoginType = function Login() {
     },
   });
 
-  const onSubmit = (data: IFormInputs) =>
-    loginUser(data).then((res) => {
-      if (res.toString().length >= 2) {
+  const loginUserMutation = useMutation(loginUser, {
+    onSuccess: () => {
+      window.location.href = '/login';
+    },
+    onError: (res) => {
+      if (res.data.msg === 'Invalid email or password') {
         setError('email', {
-          message: res.toString(),
+          message: 'Email already in use',
         });
       }
-    });
+    },
+  });
+
+  const onSubmit = (data: IFormInputs) => {
+    loginUserMutation.mutate(data);
+  };
 
   useEffect(() => {
     if (localStorage.getItem('x-auth-token')) {
@@ -87,7 +96,9 @@ const Login: LoginType = function Login() {
         </InputWrapper>
 
         <SubmitWrapper direction="column">
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={loginUserMutation.isLoading}>
+            Submit
+          </Button>
           <Link passHref href="/register">
             <p>Create an account</p>
           </Link>

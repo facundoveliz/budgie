@@ -11,6 +11,10 @@ export const Button = styled.button`
   &:active {
     color: none;
   }
+  &:disabled {
+    background-color: ${({ theme }) => theme.foregroundSofter};
+    color: ${({ theme }) => theme.foreground};
+  }
 `;
 
 export const SecondaryButton = styled(Button)`

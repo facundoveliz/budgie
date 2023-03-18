@@ -12,29 +12,19 @@ export async function getUser() {
   return axiosClient.get(usersRoute);
 }
 
-// NOTE: toString is used to avoid typescript errors
 export async function registerUser(data: Data) {
   const res = await axiosClient.post(`${usersRoute}/register`, data);
-  if (res.toString() === 'Invalid email or password') {
-    return res;
-  }
-  return (window.location.href = '/login');
+  return res;
 }
 
 export async function loginUser(data: Data) {
   const res = await axiosClient.post(`${usersRoute}/login`, data);
-  if (res.toString() === 'Invalid email or password') {
-    return res;
-  }
   localStorage.setItem('x-auth-token', res.data.result);
-  return (window.location.href = '/');
 }
 
 export async function putUser(data: Data) {
   const res = await axiosClient.put(usersRoute, data);
-  if (res.toString() === 'Invalid email or password') {
-    return res;
-  }
+  return res;
 }
 
 export async function deleteUser() {

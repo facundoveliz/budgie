@@ -78,7 +78,7 @@ export const SubmitWrapper = styled.div<{
   readonly direction: 'row' | 'column';
 }>`
   display: flex;
-  flex-direction: ${(props) => props.direction};
+  flex-direction: row-reverse;
   justify-content: space-between;
   margin-top: 24px;
   p {

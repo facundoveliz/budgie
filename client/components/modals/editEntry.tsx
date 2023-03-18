@@ -7,6 +7,7 @@ import { Form, InputWrapper, Input, Label, Select } from '../styles/Form';
 import { Button, DangerButton } from '../styles/Button';
 import { putEntries, deleteEntries } from '../../api/entries';
 import * as S from './styles';
+import { useMutation, useQueryClient } from 'react-query';
 
 type IFormInputs = {
   category: string;
@@ -57,8 +58,6 @@ const schema = yup
 const Modal: NextPage<ModalProps> = function Modal({
   setShowModal,
   selectedEdit,
-  getEntryRequest,
-  getUserRequest,
 }: ModalProps) {
   const modalRef = useRef<any>();
 
@@ -70,23 +69,30 @@ const Modal: NextPage<ModalProps> = function Modal({
     resolver: yupResolver(schema),
   });
 
+  const queryClient = useQueryClient();
+
+  const deleteEntriesMutation = useMutation(deleteEntries);
+  const putEntriesMutation = useMutation(putEntries, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('entries');
+      queryClient.invalidateQueries('user');
+    },
+  });
+
   const onSubmit = (data: IFormInputs) => {
     data.type = selectedEdit.type;
     data.oldAmount = selectedEdit.amount;
-
-    putEntries(selectedEdit.id, data).then(() => {
-      getEntryRequest();
-      getUserRequest();
-      setShowModal(false);
-    });
+    const entry = {
+      id: selectedEdit.id,
+      data,
+    };
+    putEntriesMutation.mutate(entry);
+    setShowModal(false);
   };
 
   const handleDelete = () => {
-    deleteEntries(selectedEdit.id).then(() => {
-      getEntryRequest();
-      getUserRequest();
-      setShowModal(false);
-    });
+    deleteEntriesMutation.mutate(selectedEdit.id);
+    setShowModal(false);
   };
 
   const closeModal = (e: React.MouseEvent<HTMLElement>) => {

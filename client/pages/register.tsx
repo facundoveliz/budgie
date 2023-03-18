@@ -15,6 +15,7 @@ import {
   Label,
   SubmitWrapper,
 } from '../components/styles/Form';
+import { useMutation } from 'react-query';
 
 type IFormInputs = {
   name: string;
@@ -51,12 +52,6 @@ const schema = yup
   .required();
 
 const Register: RegisterType = function Register() {
-  useEffect(() => {
-    if (localStorage.getItem('x-auth-token')) {
-      window.location.href = '/';
-    }
-  }, []);
-
   const {
     register,
     handleSubmit,
@@ -66,16 +61,28 @@ const Register: RegisterType = function Register() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IFormInputs) =>
-    registerUser(data)
-      .then((res) => {
-        if (res.toString() === 'Invalid email or password') {
-          setError('email', {
-            message: 'Email already in use',
-          });
-        }
-      })
-      .catch((err) => console.log(err));
+  const registerUserMutation = useMutation(registerUser, {
+    onSuccess: () => {
+      window.location.href = '/login';
+    },
+    onError: (res) => {
+      if (res.data.msg === 'Invalid email or password') {
+        setError('email', {
+          message: 'Email already in use',
+        });
+      }
+    },
+  });
+
+  const onSubmit = (data: IFormInputs) => {
+    registerUserMutation.mutate(data);
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('x-auth-token')) {
+      window.location.href = '/';
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -114,7 +121,9 @@ const Register: RegisterType = function Register() {
         </InputWrapper>
 
         <SubmitWrapper direction="column">
-          <Button type="submit">Register</Button>
+          <Button type="submit" disabled={registerUserMutation.isLoading}>
+            Register
+          </Button>
           <Link passHref href="/login">
             <p>I already have an account</p>
           </Link>

@@ -13,7 +13,8 @@ import {
 } from '../components/styles/Form';
 import { Button, DangerButton } from '../components/styles/Button';
 import { deleteUser, getUser, putUser } from '../api/users';
-import { Loading } from '../components/styles/Loading';
+import { Fetching, Loading } from '../components/styles/Loading';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 type IFormInputs = {
   name: string;
@@ -52,7 +53,6 @@ const schema = yup.object({
 });
 
 const Profile: NextPage = function Profile() {
-  const [loading, setLoading] = useState(true);
   const {
     register,
     handleSubmit,
@@ -63,90 +63,109 @@ const Profile: NextPage = function Profile() {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data: IFormInputs) =>
-    putUser(data).then((res) => {
-      if (res!.toString().length >= 1) {
+  const getUserRequest = async () => {
+    const { data } = await getUser();
+    reset({
+      name: data.result.name,
+      email: data.result.email,
+      password: '',
+      passwordConfirm: '',
+    });
+  };
+
+  const queryClient = useQueryClient();
+
+  const userQuery = useQuery('user', getUserRequest);
+  const deleteUserMutation = useMutation(deleteUser);
+  const putUserMutation = useMutation(putUser, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('user');
+    },
+    onError: (res) => {
+      if (res.data.msg === 'Invalid email or password') {
         setError('email', {
-          message: res!.toString(),
+          message: 'Email already in use',
         });
       }
-    });
+    },
+  });
 
-  const getUserRequest = async () => {
-    setLoading(true);
-    const res = await getUser();
-    if (res) {
-      reset({
-        name: res.data.result.name,
-        email: res.data.result.email,
-        password: '',
-        passwordConfirm: '',
-      });
-      setLoading(false);
-    }
+  const onSubmit = (data: IFormInputs) => {
+    putUserMutation.mutate(data);
   };
 
   const handleDelete = async () => {
-    deleteUser().then(() => {
-      localStorage.removeItem('x-auth-token');
-      window.location.href = '/login';
-    });
+    deleteUserMutation.mutate();
+    localStorage.removeItem('x-auth-token');
+    window.location.href = '/login';
   };
 
-  useEffect(() => {
-    getUserRequest();
-  }, []);
+  if (userQuery.isError) {
+    return <Fetching>An error has ocurred!</Fetching>;
+  }
 
   return (
-    <>
-      {loading ? (
-        <Loading>Loading...</Loading>
+    <Wrapper>
+      <h1>Profile</h1>
+      {userQuery.isLoading ? (
+        <Fetching>Loading...</Fetching>
+      ) : userQuery.isError ? (
+        <Fetching>Loading...</Fetching>
       ) : (
-        <Wrapper>
-          <h1>Profile</h1>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            <InputWrapper>
-              <Label>Username</Label>
-              <Input error={!!errors.password} {...register('name')} />
-              <p>{errors.name?.message}</p>
-            </InputWrapper>
+        <Form onSubmit={handleSubmit(onSubmit)}>
+          <InputWrapper>
+            <Label>Username</Label>
+            <Input error={!!errors.password} {...register('name')} />
+            <p>{errors.name?.message}</p>
+          </InputWrapper>
 
-            <InputWrapper>
-              <Label>Email Adress</Label>
-              <Input error={!!errors.email} {...register('email')} />
-              <p>{errors.email?.message}</p>
-            </InputWrapper>
+          <InputWrapper>
+            <Label>Email Adress</Label>
+            <Input error={!!errors.email} {...register('email')} />
+            <p>{errors.email?.message}</p>
+          </InputWrapper>
 
-            <InputWrapper>
-              <Label>Password</Label>
-              <Input
-                error={!!errors.password}
-                {...register('password')}
-                type="password"
-              />
-              <p>{errors.password?.message}</p>
-            </InputWrapper>
+          <InputWrapper>
+            <Label>Password</Label>
+            <Input
+              error={!!errors.password}
+              {...register('password')}
+              type="password"
+            />
+            <p>{errors.password?.message}</p>
+          </InputWrapper>
 
-            <InputWrapper>
-              <Label>Confirm password</Label>
-              <Input
-                error={!!errors.passwordConfirm}
-                {...register('passwordConfirm')}
-                type="password"
-              />
-              <p>{errors.passwordConfirm?.message}</p>
-            </InputWrapper>
+          <InputWrapper>
+            <Label>Confirm password</Label>
+            <Input
+              error={!!errors.passwordConfirm}
+              {...register('passwordConfirm')}
+              type="password"
+            />
+            <p>{errors.passwordConfirm?.message}</p>
+          </InputWrapper>
 
-            <SubmitWrapper direction="row">
-              <DangerButton onClick={() => handleDelete()}>
-                Delete account
-              </DangerButton>
-              <Button type="submit">Accept</Button>
-            </SubmitWrapper>
-          </Form>
-        </Wrapper>
+          <SubmitWrapper direction="row">
+            <Button
+              type="submit"
+              disabled={
+                putUserMutation.isLoading || deleteUserMutation.isLoading
+              }
+            >
+              Accept
+            </Button>
+            <DangerButton
+              onClick={() => handleDelete()}
+              disabled={
+                putUserMutation.isLoading || deleteUserMutation.isLoading
+              }
+            >
+              Delete account
+            </DangerButton>
+          </SubmitWrapper>
+        </Form>
       )}
-    </>
+    </Wrapper>
   );
 };
 

@@ -13,6 +13,7 @@ import {
   ModalContent,
   ModalWrapper,
 } from './styles';
+import { useMutation, useQueryClient } from 'react-query';
 
 type IFormInputs = {
   category: string;
@@ -55,8 +56,6 @@ const schema = yup
 const Modal: NextPage<ModalProps> = function Modal({
   showModal,
   setShowModal,
-  getEntryRequest,
-  getUserRequest,
   type,
 }: ModalProps) {
   const modalRef = useRef<any>();
@@ -64,18 +63,27 @@ const Modal: NextPage<ModalProps> = function Modal({
   const {
     register,
     handleSubmit,
+    resetField,
     formState: { errors },
   } = useForm<IFormInputs>({
     resolver: yupResolver(schema),
   });
 
+  const queryClient = useQueryClient();
+
+  const postEntriesMutation = useMutation(postEntries, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('entries');
+      queryClient.invalidateQueries('user');
+      resetField('amount');
+      resetField('category');
+    },
+  });
+
   const onSubmit = (data: IFormInputs) => {
     data.type = type;
-    postEntries(data).then(() => {
-      getEntryRequest();
-      getUserRequest();
-      setShowModal(false);
-    });
+    postEntriesMutation.mutate(data);
+    setShowModal(false);
   };
 
   const closeModal = (e: React.MouseEvent<HTMLElement>) => {

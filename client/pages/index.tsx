@@ -8,8 +8,9 @@ import Entry from '../components/index/entry';
 import Modal from '../components/modals/addEntry';
 import { Button, SecondaryButton } from '../components/styles/Button';
 import * as S from '../components/index/styles';
-import { Loading } from '../components/styles/Loading';
+import { Fetching } from '../components/styles/Loading';
 import { format } from 'date-fns';
+import { useQuery } from 'react-query';
 
 type EntryProp = {
   _id: string;
@@ -36,16 +37,13 @@ type LineDataProp = {
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Home: NextPage = function Home() {
-  const [entries, setEntries] = useState<EntryProp[]>([]);
-  const [user, setUser] = useState<UserProp>();
-  const [loading, setLoading] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [type, setType] = useState(false);
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
   const [savings, setSavings] = useState(0);
-  const [expenseData, setExpenseData] = useState({});
-  const [incomeData, setIncomeData] = useState({});
+  const [expenseData, setExpenseData] = useState([]);
+  const [incomeData, setIncomeData] = useState([]);
   const [lineData, setLineData] = useState<LineDataProp>({
     created: [],
     income: [],
@@ -289,97 +287,93 @@ const Home: NextPage = function Home() {
   };
 
   const getEntryRequest = async () => {
-    const res = await getEntries();
-    if (res) {
-      setEntries(res.data.result);
-    }
+    const { data } = await getEntries();
+    return data.result;
   };
 
   const getUserRequest = async () => {
-    setLoading(true);
-    const res = await getUser();
-    if (res) {
-      setUser(res.data.result);
-      setLoading(false);
-    }
+    const { data } = await getUser();
+    return data.result;
   };
 
-  useEffect(() => {
-    getEntryRequest();
-    getUserRequest();
-  }, []);
+  const entries = useQuery('entries', getEntryRequest);
+  const user = useQuery('user', getUserRequest);
 
   useEffect(() => {
-    handleCategoriesData(entries);
-    handleLineData(entries);
-    handlePrices(entries);
-  }, [entries]);
+    if (entries.data) {
+      handleLineData(entries.data);
+      handlePrices(entries.data);
+      handleCategoriesData(entries.data);
+    }
+  }, [entries.data]);
+
+  if (entries.isLoading || user.isLoading) {
+    return <Fetching>Loading...</Fetching>;
+  }
+
+  if (entries.isError || user.isError) {
+    return <Fetching>An error has ocurred!</Fetching>;
+  }
 
   return (
-    <>
-      {loading ? (
-        <Loading>Loading...</Loading>
-      ) : (
-        <S.Wrapper>
-          <S.Grid1>
-            <S.BalanceWrapper>
-              <S.Balance>
-                Account balance <p>{`$${user!.balance}.00 `}</p>
-                <div>
-                  <Button
-                    onClick={() => {
-                      setType(true);
-                      setShowModal((prev) => !prev);
-                    }}
-                  >
-                    Income
-                  </Button>
-                  <SecondaryButton
-                    onClick={() => {
-                      setType(false);
-                      setShowModal((prev) => !prev);
-                    }}
-                  >
-                    Expense
-                  </SecondaryButton>
-                </div>
-              </S.Balance>
-              <S.Balance>
-                Savings <p>{`$${savings}.00 `}</p>
-              </S.Balance>
-            </S.BalanceWrapper>
-            <S.DoughtnutWrapper>
-              <S.Doughtnut>
-                <h3>Total Income</h3>
-                <p>${income}</p>
-                <ReactEcharts option={options[1]} />
-              </S.Doughtnut>
-              <S.Doughtnut>
-                <h3>Total Expenses</h3>
-                <p>${expense}</p>
-                <ReactEcharts option={options[2]} />
-              </S.Doughtnut>
-            </S.DoughtnutWrapper>
-          </S.Grid1>
-          <S.LineWrapper>
-            <h3>Balance history</h3>
-            <ReactEcharts option={options[0]} />
-          </S.LineWrapper>
-          <Entry
-            entries={entries}
-            getEntryRequest={getEntryRequest}
-            getUserRequest={getUserRequest}
-          />
-          <Modal
-            showModal={showModal}
-            setShowModal={setShowModal}
-            getEntryRequest={getEntryRequest}
-            getUserRequest={getUserRequest}
-            type={type}
-          />
-        </S.Wrapper>
-      )}
-    </>
+    <S.Wrapper>
+      <S.Grid1>
+        <S.BalanceWrapper>
+          <S.Balance>
+            Account balance <p>{`$${user.data.balance}.00 `}</p>
+            <div>
+              <Button
+                onClick={() => {
+                  setType(true);
+                  setShowModal((prev) => !prev);
+                }}
+              >
+                Income
+              </Button>
+              <SecondaryButton
+                onClick={() => {
+                  setType(false);
+                  setShowModal((prev) => !prev);
+                }}
+              >
+                Expense
+              </SecondaryButton>
+            </div>
+          </S.Balance>
+          <S.Balance>
+            Savings <p>{`$${savings}.00 `}</p>
+          </S.Balance>
+        </S.BalanceWrapper>
+        <S.DoughtnutWrapper>
+          <S.Doughtnut>
+            <h3>Total Income</h3>
+            <p>${income}</p>
+            <ReactEcharts option={options[1]} />
+          </S.Doughtnut>
+          <S.Doughtnut>
+            <h3>Total Expenses</h3>
+            <p>${expense}</p>
+            <ReactEcharts option={options[2]} />
+          </S.Doughtnut>
+        </S.DoughtnutWrapper>
+      </S.Grid1>
+      <S.LineWrapper>
+        <h3>Balance history</h3>
+        <ReactEcharts option={options[0]} />
+      </S.LineWrapper>
+      <Entry
+        entries={entries.data}
+        getEntryRequest={getEntryRequest}
+        getUserRequest={getUserRequest}
+      />
+      <Modal
+        showModal={showModal}
+        setShowModal={setShowModal}
+        getEntryRequest={getEntryRequest}
+        getUserRequest={getUserRequest}
+        type={type}
+      />
+    </S.Wrapper>
   );
 };
 
