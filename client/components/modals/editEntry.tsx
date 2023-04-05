@@ -37,10 +37,6 @@ const schema = yup
       .string()
       .required('The category is a required field.')
       .oneOf([
-        'Savings',
-        'Salary',
-        'Gift',
-        'Other',
         'Food & Drinks',
         'Shopping',
         'Groceries',
@@ -49,6 +45,7 @@ const schema = yup
         'Life & Entertainment',
         'Home',
         'Gift',
+        'Savings',
         'Other',
       ]),
     amount: yup.number().required('The amount is a required field.'),
@@ -139,6 +136,7 @@ const Modal: NextPage<ModalProps> = function Modal({
                     </option>
                     <option value="Home">Home</option>
                     <option value="Gift">Gift</option>
+                    <option value="Savings">Savings</option>
                   </Select>
                 )}
                 <p>{errors.category?.message}</p>

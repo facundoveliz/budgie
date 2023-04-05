@@ -206,6 +206,7 @@ const Home: NextPage = function Home() {
         'Life & Entertainment',
         'Home',
         'Gift',
+        'Savings',
         'Other',
       ],
     };

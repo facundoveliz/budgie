@@ -41,6 +41,7 @@ export const schema = Yup.object().shape({
         'Life & Entertainment',
         'Home',
         'Gift',
+        'Savings',
         'Other',
       ]),
     }),
