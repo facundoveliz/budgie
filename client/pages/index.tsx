@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import ReactEcharts from 'echarts-for-react';
 import { getEntries } from '../api/entries';
 import { getUser } from '../api/users';
 import Entry from '../components/index/entry';
@@ -32,6 +32,8 @@ type DataProp = {
 };
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+const ReactEcharts = dynamic(() => import('echarts-for-react'), { ssr: false });
 
 const Home: NextPage = function Home() {
   const [showModal, setShowModal] = useState<boolean>(false);
