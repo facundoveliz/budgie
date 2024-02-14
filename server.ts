@@ -20,10 +20,7 @@ const port = process.env.PORT || 8080
 app.listen(port, () => console.log(`Listening on port ${port}...`))
 
 mongoose
-  .connect(
-    (process.env.DATABASE_URI as string)
-      || 'mongodb://127.0.0.1:27017/personal-budget',
-  )
+  .connect(process.env.DATABASE_URI as string)
   .then(() => console.log('MongoDB successfully connected...'))
 
 app.use(notFound)
