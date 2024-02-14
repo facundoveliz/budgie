@@ -8,6 +8,12 @@ import { Entry } from '../models/entryModel'
 
 const router = express.Router()
 
+interface UserUpdates {
+  name?: string;
+  email?: string;
+  password?: string;
+}
+
 export const getUser = async (req: Request, res: Response) => {
   // get data only from the current user
   const user = await User.findById(req.user?._id).select('-password')
@@ -98,18 +104,15 @@ export const loginUser = async (req: Request, res: Response) => {
 }
 
 export const putUser = async (req: Request, res: Response) => {
-  // finds the user and saves the body to newUser for
-  // comparing them if they are the same or for email validation
-  const user = await User.findById(req.user?._id)
-  const newUser = {
-    name: user.name,
-    email: user.email,
-    password: user.password,
-  }
+  // find the user
+  const user = await User.findById(req.user?._id);
 
-  if (req.body.name !== user.name && req.body.name.length >= 1) newUser.name = req.body.name
-  if (req.body.email !== user.email && req.body.name.length >= 1) {
-    // checks if the email is exists
+  // create a new user object with updated fields (only if changed)
+  const updates: UserUpdates = {};
+  if (req.body.name && req.body.name !== user.name) {
+    updates.name = req.body.name;
+  }
+  if (req.body.email && req.body.email !== user.email) {
     const emailCheck = await User.findOne({
       email: req.body.email,
     })
@@ -120,22 +123,21 @@ export const putUser = async (req: Request, res: Response) => {
         msg: 'Invalid email or password',
       })
     }
-    newUser.email = req.body.email
+    updates.email = req.body.email;
   }
-  if (req.body.password.length >= 1) {
-    newUser.password = req.body.password
-    // hash the password
+  if (req.body.password) {
     const salt = await bcrypt.genSalt(10)
-    newUser.password = await bcrypt.hash(newUser.password, salt)
+    updates.password = await bcrypt.hash(req.body.password, salt); // secure hashing
   }
 
-  await User.findByIdAndUpdate(req.user?._id, newUser).then(() => {
+  // update the user
+  await User.findByIdAndUpdate(req.user?._id, updates).then(() => {
     res.status(200).json({
       ok: true,
       msg: 'User updated',
     })
   })
-}
+};
 
 export const deleteUser = async (req: Request, res: Response) => {
   await User.findByIdAndDelete(
