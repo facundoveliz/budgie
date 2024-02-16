@@ -25,7 +25,7 @@ afterAll(async () => {
 let token: string
 let id: string
 
-describe('User Registrarion and Authentication', () => {
+describe('User Registration and Authentication', () => {
   it('should register a new user', async () => {
     const res = await request(app)
       .post('/api/users/register')
@@ -37,6 +37,7 @@ describe('User Registrarion and Authentication', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
+    expect(res.body.msg).toEqual("User created");
   })
 
   it('should login the user', async () => {
@@ -112,6 +113,37 @@ describe('Entry Creation', () => {
     expect(401)
     expect(res.body.ok).toBe(false)
     expect(res.body.msg).toEqual("No token");
+  })
+})
+
+describe('Entry Get', () => {
+  it('should get created entry', async () => {
+    const res = await request(app)
+      .get(`/api/entries`)
+      .expect(200)
+      .set({ Authorization: `Bearer ${token}` })
+
+    expect(res.body).toHaveProperty('ok', true)
+    expect(res.body.msg).toMatch("Entries founded");
+  })
+
+  it('should throw error because the jwt token is invalid', async () => {
+    const res = await request(app)
+      .get('/api/entries')
+      .expect(401)
+      .set({ Authorization: `Bearer ${token}+1` })
+
+    expect(res.body).toHaveProperty('ok', false)
+    expect(res.body.msg).toMatch("Invalid token");
+  })
+
+  it('should throw error because the jwt token doesn\'t exist', async () => {
+    const res = await request(app)
+      .get('/api/entries')
+      .expect(401)
+
+    expect(res.body).toHaveProperty('ok', false)
+    expect(res.body.msg).toMatch("No token");
   })
 })
 
