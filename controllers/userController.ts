@@ -30,9 +30,7 @@ export const registerUser = async (req: Request, res: Response) => {
     .validate(req.body)
     .then(async () => {
       // checks if the email is valid
-      let user = await User.findOne({
-        email: req.body.email,
-      })
+      let user = await User.findOne({ email: req.body.email })
       // if the email exists, the func ends here
       if (user) {
         return res.status(400).json({
@@ -67,24 +65,14 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
   // checks if the email is valid
-  const user = await User.findOne({
-    email: req.body.email,
-  })
-  // if the email doesn't exists, the func ends here
-  if (!user) {
-    return res.status(400).json({
-      ok: false,
-      msg: 'Invalid email or password',
-    })
-  }
+  const user = await User.findOne({ email: req.body.email })
 
-  // compares passwords
-  const validPassword = await bcrypt.compare(req.body.password, user.password)
-  if (!validPassword) {
+  // If user doesn't exist or password is invalid, return error
+  if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
     return res.status(400).json({
       ok: false,
       msg: 'Invalid email or password',
-    })
+    });
   }
 
   // generate token and set it to expire in 30 days
@@ -140,16 +128,13 @@ export const putUser = async (req: Request, res: Response) => {
 };
 
 export const deleteUser = async (req: Request, res: Response) => {
-  await User.findByIdAndDelete(
-    // ensures that the user that is trying
-    // to delete has the same user that the
-    // one who's logged
-    req.user?._id,
-  )
-    // deletes all user entries
-    .then(async () => {
-      await Entry.deleteMany({ user: req.user?._id })
-    })
+  // ensures that the user that is trying
+  // to delete has the same user that the
+  // one who's logged
+  await User.findByIdAndDelete(req.user?._id)
+
+  // deletes all user entries
+  await Entry.deleteMany({ user: req.user?._id })
     .then(() => res.status(200).json({
       ok: true,
       msg: 'User deleted',
