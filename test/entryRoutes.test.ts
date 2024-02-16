@@ -70,7 +70,7 @@ describe('Entry Creation', () => {
     id = res.body.result._id
   })
 
-  it('should throw validation error because has missing data', async () => {
+  it('should throw validation error due to missing data', async () => {
     const res = await request(app)
       .post('/api/entries')
       .send({
@@ -115,8 +115,8 @@ describe('Entry Creation', () => {
   })
 })
 
-describe('PUT /api/entries/:id', () => {
-  it('should edit an entry', async () => {
+describe('Entry Editing', () => {
+  it('should edit an existing entry', async () => {
     const res = await request(app)
       .put(`/api/entries/${id}`)
       .send({
@@ -131,21 +131,7 @@ describe('PUT /api/entries/:id', () => {
     expect(res.body.ok).toBe(true)
   })
 
-  it('should throw validation error because has missing data', async () => {
-    const res = await request(app)
-      .put(`/api/entries/${id}`)
-      .send({
-        category: '',
-        type: true,
-        amount: 420,
-      })
-      .set({ Authorization: `Bearer ${token}` })
-
-    expect(400)
-    expect(res.body.ok).toBe(false)
-  })
-
-  it('should throw validation error because has missing data', async () => {
+  it('should throw validation error due to missing data', async () => {
     const res = await request(app)
       .put(`/api/entries/${id}`)
       .send({
@@ -190,8 +176,8 @@ describe('PUT /api/entries/:id', () => {
   })
 })
 
-describe('DELETE /api/entries/:id', () => {
-  it('should delete an entry', async () => {
+describe('Entry Deletion', () => {
+  it('should delete an existing entry', async () => {
     const res = await request(app)
       .delete(`/api/entries/${id}`)
       .set({ Authorization: `Bearer ${token}` })
@@ -200,7 +186,7 @@ describe('DELETE /api/entries/:id', () => {
     expect(res.body.ok).toBe(true)
   })
 
-  it('should throw bad request error', async () => {
+  it('should throw error due to an invalid entry ID', async () => {
     const res = await request(app)
       .delete('/api/entries/62478cd6f33256ab42165e1z')
       .set({ Authorization: `Bearer ${token}` })
