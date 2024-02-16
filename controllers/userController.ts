@@ -72,7 +72,7 @@ export const loginUser = async (req: Request, res: Response) => {
     return res.status(400).json({
       ok: false,
       msg: 'Invalid email or password',
-    });
+    })
   }
 
   // generate token and set it to expire in 30 days
@@ -93,12 +93,12 @@ export const loginUser = async (req: Request, res: Response) => {
 
 export const putUser = async (req: Request, res: Response) => {
   // find the user
-  const user = await User.findById(req.user?._id);
+  const user = await User.findById(req.user?._id)
 
   // create a new user object with updated fields (only if changed)
-  const updates: UserUpdates = {};
+  const updates: UserUpdates = {}
   if (req.body.name && req.body.name !== user.name) {
-    updates.name = req.body.name;
+    updates.name = req.body.name
   }
   if (req.body.email && req.body.email !== user.email) {
     const emailCheck = await User.findOne({
@@ -111,11 +111,11 @@ export const putUser = async (req: Request, res: Response) => {
         msg: 'Invalid email or password',
       })
     }
-    updates.email = req.body.email;
+    updates.email = req.body.email
   }
   if (req.body.password) {
     const salt = await bcrypt.genSalt(10)
-    updates.password = await bcrypt.hash(req.body.password, salt); // secure hashing
+    updates.password = await bcrypt.hash(req.body.password, salt) // secure hashing
   }
 
   // update the user
@@ -125,7 +125,7 @@ export const putUser = async (req: Request, res: Response) => {
       msg: 'User updated',
     })
   })
-};
+}
 
 export const deleteUser = async (req: Request, res: Response) => {
   // ensures that the user that is trying

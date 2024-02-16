@@ -34,7 +34,7 @@ describe('User Registration', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User created");
+    expect(res.body.msg).toEqual('User created')
   })
 
   it('should throw error because the email already exists', async () => {
@@ -47,10 +47,9 @@ describe('User Registration', () => {
       })
 
     expect(400)
-    expect(res.body.ok).toBe(false);
-    expect(res.body.msg).toEqual("Invalid email or password");
-
-  });
+    expect(res.body.ok).toBe(false)
+    expect(res.body.msg).toEqual('Invalid email or password')
+  })
 
   it('should throw error because the email format is invalid', async () => {
     const res = await request(app)
@@ -61,9 +60,9 @@ describe('User Registration', () => {
         password: 'johnDoePassword',
       })
     expect(400)
-    expect(res.body.ok).toBe(false);
-    expect(res.body.msg).toEqual("Validation error");
-  });
+    expect(res.body.ok).toBe(false)
+    expect(res.body.msg).toEqual('Validation error')
+  })
 
   it('should throw error because the name is empty', async () => {
     const res = await request(app)
@@ -74,9 +73,9 @@ describe('User Registration', () => {
         password: 'johnDoePassword',
       })
     expect(400)
-    expect(res.body.ok).toBe(false);
-    expect(res.body.msg).toEqual("Validation error");
-  });
+    expect(res.body.ok).toBe(false)
+    expect(res.body.msg).toEqual('Validation error')
+  })
 
   it('should throw error because the password is too short', async () => {
     const res = await request(app)
@@ -87,9 +86,9 @@ describe('User Registration', () => {
         password: 'johnDoe',
       })
     expect(400)
-    expect(res.body.ok).toBe(false);
-    expect(res.body.msg).toEqual("Validation error");
-  });
+    expect(res.body.ok).toBe(false)
+    expect(res.body.msg).toEqual('Validation error')
+  })
 })
 
 describe('User Login', () => {
@@ -103,7 +102,7 @@ describe('User Login', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User logged");
+    expect(res.body.msg).toEqual('User logged')
     token = res.body.result
   })
 
@@ -117,7 +116,7 @@ describe('User Login', () => {
 
     expect(400)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Invalid email or password");
+    expect(res.body.msg).toEqual('Invalid email or password')
   })
 
   it('should throw error because the password is incorrect', async () => {
@@ -130,7 +129,7 @@ describe('User Login', () => {
 
     expect(400)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Invalid email or password");
+    expect(res.body.msg).toEqual('Invalid email or password')
   })
 })
 
@@ -142,7 +141,7 @@ describe('Get Current User', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User founded");
+    expect(res.body.msg).toEqual('User founded')
   })
 
   it('should throw error because the jwt token is invalid', async () => {
@@ -152,7 +151,7 @@ describe('Get Current User', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Invalid token");
+    expect(res.body.msg).toEqual('Invalid token')
   })
 
   it('should throw error because the jwt token doesn\'t exist', async () => {
@@ -161,7 +160,7 @@ describe('Get Current User', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("No token");
+    expect(res.body.msg).toEqual('No token')
   })
 })
 
@@ -176,7 +175,7 @@ describe('Update User', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User updated");
+    expect(res.body.msg).toEqual('User updated')
   })
 
   it('should update the email', async () => {
@@ -189,7 +188,7 @@ describe('Update User', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User updated");
+    expect(res.body.msg).toEqual('User updated')
   })
 
   it('should update the pasword', async () => {
@@ -202,7 +201,7 @@ describe('Update User', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User updated");
+    expect(res.body.msg).toEqual('User updated')
   })
 
   // create user for email checking
@@ -217,7 +216,7 @@ describe('Update User', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User created");
+    expect(res.body.msg).toEqual('User created')
   })
 
   it('should throw error because the email already exists', async () => {
@@ -230,7 +229,7 @@ describe('Update User', () => {
 
     expect(400)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Invalid email or password");
+    expect(res.body.msg).toEqual('Invalid email or password')
     token = res.body.result
   })
 })
@@ -247,7 +246,7 @@ describe('Delete User Account', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User logged");
+    expect(res.body.msg).toEqual('User logged')
     token = res.body.result
   })
 
@@ -258,7 +257,7 @@ describe('Delete User Account', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User deleted");
+    expect(res.body.msg).toEqual('User deleted')
   })
 
   it('should throw error because the jwt token doesn\'t exist', async () => {
@@ -267,7 +266,7 @@ describe('Delete User Account', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("No token");
+    expect(res.body.msg).toEqual('No token')
   })
 
   it('should throw error because the jwt token is invalid', async () => {
@@ -277,6 +276,6 @@ describe('Delete User Account', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Invalid token");
+    expect(res.body.msg).toEqual('Invalid token')
   })
 })

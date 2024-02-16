@@ -37,7 +37,7 @@ describe('User Registration and Authentication', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("User created");
+    expect(res.body.msg).toEqual('User created')
   })
 
   it('should login the user', async () => {
@@ -67,7 +67,7 @@ describe('Entry Creation', () => {
 
     expect(200)
     expect(res.body.ok).toBe(true)
-    expect(res.body.msg).toEqual("Entry created");
+    expect(res.body.msg).toEqual('Entry created')
     id = res.body.result._id
   })
 
@@ -83,7 +83,7 @@ describe('Entry Creation', () => {
 
     expect(400)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Validation error");
+    expect(res.body.msg).toEqual('Validation error')
   })
 
   it('should throw error because the jwt token is invalid', async () => {
@@ -98,7 +98,7 @@ describe('Entry Creation', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Invalid token");
+    expect(res.body.msg).toEqual('Invalid token')
   })
 
   it('should throw error because the jwt token doesn\'t exist', async () => {
@@ -112,19 +112,19 @@ describe('Entry Creation', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("No token");
+    expect(res.body.msg).toEqual('No token')
   })
 })
 
 describe('Entry Get', () => {
   it('should get created entry', async () => {
     const res = await request(app)
-      .get(`/api/entries`)
+      .get('/api/entries')
       .expect(200)
       .set({ Authorization: `Bearer ${token}` })
 
     expect(res.body).toHaveProperty('ok', true)
-    expect(res.body.msg).toMatch("Entries founded");
+    expect(res.body.msg).toMatch('Entries founded')
   })
 
   it('should throw error because the jwt token is invalid', async () => {
@@ -134,7 +134,7 @@ describe('Entry Get', () => {
       .set({ Authorization: `Bearer ${token}+1` })
 
     expect(res.body).toHaveProperty('ok', false)
-    expect(res.body.msg).toMatch("Invalid token");
+    expect(res.body.msg).toMatch('Invalid token')
   })
 
   it('should throw error because the jwt token doesn\'t exist', async () => {
@@ -143,7 +143,7 @@ describe('Entry Get', () => {
       .expect(401)
 
     expect(res.body).toHaveProperty('ok', false)
-    expect(res.body.msg).toMatch("No token");
+    expect(res.body.msg).toMatch('No token')
   })
 })
 
@@ -175,7 +175,7 @@ describe('Entry Editing', () => {
 
     expect(400)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Validation error");
+    expect(res.body.msg).toEqual('Validation error')
   })
 
   it('should throw error because the jwt token is invalid', async () => {
@@ -190,7 +190,7 @@ describe('Entry Editing', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("Invalid token");
+    expect(res.body.msg).toEqual('Invalid token')
   })
 
   it('should throw error because the jwt token doesn\'t exist', async () => {
@@ -204,7 +204,7 @@ describe('Entry Editing', () => {
 
     expect(401)
     expect(res.body.ok).toBe(false)
-    expect(res.body.msg).toEqual("No token");
+    expect(res.body.msg).toEqual('No token')
   })
 })
 
