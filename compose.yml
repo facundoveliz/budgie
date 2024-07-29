@@ -1,0 +1,28 @@
+services:
+  server:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - JWT_PRIVATE_KEY=your_jwt_private_key
+      - DATABASE_URI=mongodb://mongo:27017/budgie
+      - DATABASE_URI_TEST=mongodb://mongo:27017/budgie-test
+    depends_on:
+      - mongo
+
+  client:
+    build: ./client
+    restart: always
+    ports:
+      - "4000:4000"
+    depends_on:
+      - server
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongo-data:

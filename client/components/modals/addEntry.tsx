@@ -41,6 +41,7 @@ const schema = yup
         'Transport',
         'Health',
         'Life & Entertainment',
+        'Salary',
         'Home',
         'Gift',
         'Savings',
@@ -90,64 +91,64 @@ const Modal: NextPage<ModalProps> = function Modal({
   };
 
   return (
-    <>
-      {showModal ? (
-        <Background onClick={closeModal} ref={modalRef}>
-          <ModalWrapper>
-            <CloseModalButton
-              aria-label="Close modal"
-              onClick={() => setShowModal((prev) => !prev)}
-            />
-            <ModalContent>
-              <h1>New entry</h1>
-              <Form onSubmit={handleSubmit(onSubmit)}>
-                <InputWrapper>
-                  <Label>Category</Label>
-                  {type ? (
-                    <Select {...register('category')}>
-                      <option value="Other">Other</option>
-                      <option value="Savings">Savings</option>
-                      <option value="Salary">Salary</option>
-                      <option value="Gift">Gift</option>
-                    </Select>
-                  ) : (
-                    <Select {...register('category')}>
-                      <option value="Other">Other</option>
-                      <option value="Food & Drinks">Food & Drinks</option>
-                      <option value="Groceries">Groceries</option>
-                      <option value="Transport">Transport</option>
-                      <option value="Health">Health</option>
-                      <option value="Life & Entertainment">
-                        Life & Entertainment
-                      </option>
-                      <option value="Home">Home</option>
-                      <option value="Gift">Gift</option>
-                      <option value="Savings">Savings</option>
-                    </Select>
-                  )}
-                  <p>{errors.category?.message}</p>
-                </InputWrapper>
+		<>
+			{showModal ? (
+				<Background onClick={closeModal} ref={modalRef}>
+					<ModalWrapper>
+						<CloseModalButton
+							aria-label="Close modal"
+							onClick={() => setShowModal((prev) => !prev)}
+						/>
+						<ModalContent>
+							<h1>New entry</h1>
+							<Form onSubmit={handleSubmit(onSubmit)}>
+								<InputWrapper>
+									<Label>Category</Label>
+									{type ? (
+										<Select {...register('category')}>
+											<option value="Other">Other</option>
+											<option value="Savings">Savings</option>
+											<option value="Salary">Salary</option>
+											<option value="Gift">Gift</option>
+										</Select>
+									) : (
+										<Select {...register('category')}>
+											<option value="Other">Other</option>
+											<option value="Food & Drinks">Food & Drinks</option>
+											<option value="Groceries">Groceries</option>
+											<option value="Transport">Transport</option>
+											<option value="Health">Health</option>
+											<option value="Life & Entertainment">
+												Life & Entertainment
+											</option>
+											<option value="Home">Home</option>
+											<option value="Gift">Gift</option>
+											<option value="Savings">Savings</option>
+										</Select>
+									)}
+									<p>{errors.category?.message}</p>
+								</InputWrapper>
 
-                <InputWrapper>
-                  <Label>Amount</Label>
-                  <Input {...register('amount')} type="number" min="0" />
-                  <p>{errors.amount?.message}</p>
-                </InputWrapper>
+								<InputWrapper>
+									<Label>Amount</Label>
+									<Input {...register('amount')} type="number" min="0" />
+									<p>{errors.amount?.message}</p>
+								</InputWrapper>
 
-                <ModalButtons>
-                  <Button
-                    type="submit"
-                    disabled={postEntriesMutation.isLoading}
-                  >
-                    Accept
-                  </Button>
-                </ModalButtons>
-              </Form>
-            </ModalContent>
-          </ModalWrapper>
-        </Background>
-      ) : null}
-    </>
+								<ModalButtons>
+									<Button
+										type="submit"
+										disabled={postEntriesMutation.isLoading}
+									>
+										Accept
+									</Button>
+								</ModalButtons>
+							</Form>
+						</ModalContent>
+					</ModalWrapper>
+				</Background>
+			) : null}
+		</>
   );
 };
 

@@ -59,7 +59,7 @@ const Login: LoginType = function Login() {
     onError: (res: any) => {
       if (res.data.msg === 'Invalid email or password') {
         setError('email', {
-          message: 'Email already in use',
+          message: 'Invalid email or password',
         });
       }
     },
@@ -76,35 +76,35 @@ const Login: LoginType = function Login() {
   }, []);
 
   return (
-    <Wrapper>
-      <h1>Login</h1>
-      <Form onSubmit={handleSubmit(onSubmit)}>
-        <InputWrapper>
-          <Label>Email Adress</Label>
-          <Input error={!!errors.email} {...register('email')} />
-          <p>{errors.email?.message}</p>
-        </InputWrapper>
+		<Wrapper>
+			<h1>Login</h1>
+			<Form onSubmit={handleSubmit(onSubmit)}>
+				<InputWrapper>
+					<Label>Email Adress</Label>
+					<Input error={!!errors.email} {...register('email')} />
+					<p>{errors.email?.message}</p>
+				</InputWrapper>
 
-        <InputWrapper>
-          <Label>Password</Label>
-          <Input
-            error={!!errors.password}
-            {...register('password')}
-            type="password"
-          />
-          <p>{errors.password?.message}</p>
-        </InputWrapper>
+				<InputWrapper>
+					<Label>Password</Label>
+					<Input
+						error={!!errors.password}
+						{...register('password')}
+						type="password"
+					/>
+					<p>{errors.password?.message}</p>
+				</InputWrapper>
 
-        <SubmitWrapper direction="column">
-          <Button type="submit" disabled={loginUserMutation.isLoading}>
-            Submit
-          </Button>
-          <Link passHref href="/register">
-            <p>Create an account</p>
-          </Link>
-        </SubmitWrapper>
-      </Form>
-    </Wrapper>
+				<SubmitWrapper direction="column">
+					<Button type="submit" disabled={loginUserMutation.isLoading}>
+						Submit
+					</Button>
+					<Link passHref href="/register">
+						<p>Create an account</p>
+					</Link>
+				</SubmitWrapper>
+			</Form>
+		</Wrapper>
   );
 };
 

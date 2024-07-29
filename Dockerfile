@@ -1,11 +1,12 @@
-FROM node
-WORKDIR /usr/app
-COPY package*.json yarn.lock ./
+FROM node:18-alpine
+WORKDIR /usr/src/app
 
-RUN yarn install
-COPY . ./
+COPY package*.json ./
 
-RUN yarn run build
+RUN npm install
+COPY . .
+
+RUN npm run build
 
 WORKDIR ./dist/
 CMD node server.js
