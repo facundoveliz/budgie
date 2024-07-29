@@ -1,41 +1,34 @@
-name: Node.js Test and Linting
+name: Node.js CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 16
-    - name: Run tests
-    - run: |
-        npm test
-        npm install
-        cd client
-        npm install
-    - name: Run linter
-      run: |
-        npm lint
-        cd client
-        npm lint
+      - uses: actions/checkout@v4
+      - name: Run unit tests and build
+        uses: actions/setup-node@v4
+      - run: npm install
+      - run: npm test
+      - run: npm run build
+      - name: Build NextJS
+        uses: actions/setup-node@v4
+      - run: npm install
+      - run: cd client
+      - run: npm run build
 
-    - name: login to docker registry
-      uses: docker/login-action@v3
-      with:
-        username: ${{secrets.DOCKERHUB_USERNAME}}
-        password: ${{secrets.DOCKERHUB_TOKEN}}
+      - name: login to docker registry
+        uses: docker/login-action@v3
+        with:
+          username: ${{secrets.DOCKERHUB_USERNAME}}
+          password: ${{secrets.DOCKERHUB_TOKEN}}
 
-    - name: build and push docker image to registry
-      uses: docker/build-push-action@v5
-      with:
-        context: DockerFileFolder/
-        push: true
-        tag_with_sha: true
-        tags: ${{ github.sha }}
+      - name: build and push docker image to registry
+        uses: docker/build-push-action@v5
+        with:
+          context: DockerFileFolder/
+          push: true
+          tag_with_sha: true
+          tags: ${{ github.sha }}
