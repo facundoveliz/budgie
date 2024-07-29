@@ -7,17 +7,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Run unit tests and build
-        uses: actions/setup-node@v4
-      - run: npm install
-      - run: npm test
-      - run: npm run build
-      - name: Build NextJS
-        uses: actions/setup-node@v4
-      - run: npm install
-      - run: cd client
-      - run: npm run build
+      - name: Git checkout
+        uses: actions/checkout@v4
+
+      - name: Build Node.js
+        uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun run build
 
       - name: login to docker registry
         uses: docker/login-action@v3
