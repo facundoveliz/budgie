@@ -8,3 +8,5 @@ README.md
 !.next/standalone
 .git
 .env
+bun.lockb
+.eslintrc.js

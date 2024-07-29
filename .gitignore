@@ -2,5 +2,3 @@ dist
 node_modules
 .eslintcache
 .env
-.husky
-yarn-error.log
