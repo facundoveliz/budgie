@@ -24,7 +24,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ${{defaultContext}}
+          context: "{{defaultContext}}"
           push: true
           tag_with_sha: true
           tags: ${{ github.sha }}
