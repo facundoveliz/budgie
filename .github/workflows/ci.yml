@@ -20,6 +20,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
       - run: bun run test
         env:
+          JWT_PRIVATE_KEY: password
           DATABASE_URI_TEST: mongodb://localhost:27017/budgie
 
       - name: Build NextJS
