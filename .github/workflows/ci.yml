@@ -13,6 +13,9 @@ jobs:
       - run: bun install
       - run: bun run build
 
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+
       - name: Run unit tests
         uses: oven-sh/setup-bun@v2
       - run: bun run test
