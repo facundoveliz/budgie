@@ -16,6 +16,8 @@ jobs:
       - name: Run unit tests
         uses: oven-sh/setup-bun@v2
       - run: bun run test
+        env:
+          DATABASE_URI_TEST: mongodb://localhost:27017/budgie
 
       - name: Build NextJS
         uses: oven-sh/setup-bun@v2
