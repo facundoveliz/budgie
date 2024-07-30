@@ -20,6 +20,7 @@ jobs:
         uses: supercharge/mongodb-github-action@1.11.0
 
       - name: Run unit tests
+        uses: oven-sh/setup-bun@v2
       - run: bun run test
         env: # just for local testing purpouses
           JWT_PRIVATE_KEY: password
