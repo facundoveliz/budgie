@@ -16,7 +16,7 @@ services:
     build: ./client
     restart: always
     ports:
-      - "80:80"
+      - "8080:80"
     environment:
       - PORT=80
       - NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION=$NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION
