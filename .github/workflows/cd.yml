@@ -48,4 +48,11 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: facundoveliz/budgie:latest
+          tags: facundoveliz/budgie-backend:latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./client
+          push: true
+          tags: facundoveliz/budgie-frontend:latest
