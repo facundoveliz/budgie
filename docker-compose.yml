@@ -3,30 +3,24 @@ services:
   server:
     build: .
     ports:
-      - "3000:3000"
+      - 3000:3000
     environment:
       - PORT=3000
       - JWT_PRIVATE_KEY=$JWT_PRIVATE_KEY
       - DATABASE_URI=$DATABASE_URI
       - DATABASE_URI_TEST=$DATABASE_URI_TEST
-    depends_on:
-      - mongo
 
   client:
-    build: ./client
-    restart: always
-    ports:
-      - "8080:80"
+    build:
+      context: ./client
+      args:
+        - NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION=$NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
     environment:
-      - PORT=80
-      - NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION=$NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION
-    depends_on:
-      - server
-
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-
-volumes:
-  mongo-data:
+      - domain=$DOMAIN
+      - vps_adress=$VPS_ADRESS
+    command: [nginx, '-g', 'daemon off;']
