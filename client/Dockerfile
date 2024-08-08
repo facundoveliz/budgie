@@ -8,7 +8,7 @@ RUN npm install
 FROM node:lts-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY src ./src
+COPY . ./
 COPY public ./public
 COPY package.json next.config.js ./
 RUN npm run build
