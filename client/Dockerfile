@@ -2,7 +2,7 @@
 FROM node:lts-alpine AS deps
 WORKDIR /app
 COPY package*.json .
-RUN npm install
+RUN npm install --force
 
 # build
 FROM node:lts-alpine AS builder
@@ -11,6 +11,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . ./
 COPY public ./public
 COPY package.json next.config.js ./
+
 RUN npm run build
 
 # run

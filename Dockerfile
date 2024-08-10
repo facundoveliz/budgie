@@ -7,5 +7,9 @@ COPY . .
 
 RUN npm run build
 
+# EXPOSE $SERVER_PORT
+# ENV PORT=$SERVER_PORT
+
 WORKDIR ./dist/
 CMD node server.js
+CMD ["node", "server.js"]
