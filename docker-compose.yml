@@ -6,6 +6,8 @@ services:
     container_name: $SERVER_HOST
     ports:
       - $SERVER_PORT:$SERVER_PORT
+    networks:
+      - budgie
 
   nginx:
     build: ./nginx
@@ -17,6 +19,8 @@ services:
       - $NGINX_PORT:$NGINX_PORT
     depends_on:
       - server
+    networks:
+      - budgie
 
   client:
     build: ./client
@@ -28,3 +32,8 @@ services:
       - $CLIENT_PORT:$CLIENT_PORT
     depends_on:
       - server
+    networks:
+      - budgie
+
+networks:
+  budgie:
