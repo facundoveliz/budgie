@@ -48,3 +48,13 @@ jobs:
         run: |
           docker build -t facundoveliz/budgie .
           docker push facundoveliz/budgie
+
+      - name: Deploy to production
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USERNAME }}
+          password: ${{ secrets.PRODUCTION_PASSWORD }}
+          script: |
+            mkdir -p /home/ubuntu/budgie
+            cp -r /app/out /home/ubuntu/budgie

@@ -1,22 +1,7 @@
 services:
-  client:
-    build: ./client
-    image: facundoveliz/budgie-frontend
-    volumes:
-      - budgie:/app/out
-
   server:
     build: .
     env_file: .env
     image: facundoveliz/budgie-backend
-    container_name: $SERVER_HOST
     ports:
       - $SERVER_PORT:$SERVER_PORT
-
-volumes:
-  budgie:
-    driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: .
