@@ -1,4 +1,10 @@
 services:
+  client:
+    build: ./client
+    image: facundoveliz/budgie-frontend
+    volumes:
+      - budgie:/app/out
+
   server:
     build: .
     env_file: .env
@@ -6,34 +12,11 @@ services:
     container_name: $SERVER_HOST
     ports:
       - $SERVER_PORT:$SERVER_PORT
-    networks:
-      - budgie
 
-  nginx:
-    build: ./nginx
-    env_file: .env
-    image: facundoveliz/budgie-nginx
-    container_name: $NGINX_HOST
-    restart: always
-    ports:
-      - $NGINX_PORT:$NGINX_PORT
-    depends_on:
-      - server
-    networks:
-      - budgie
-
-  client:
-    build: ./client
-    env_file: .env
-    restart: always
-    container_name: $CLIENT_HOST
-    image: facundoveliz/budgie-frontend
-    ports:
-      - $CLIENT_PORT:$CLIENT_PORT
-    depends_on:
-      - server
-    networks:
-      - budgie
-
-networks:
+volumes:
   budgie:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: .
