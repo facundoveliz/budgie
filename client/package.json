@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "client": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start -p ${CLIENT_PORT}",
     "lint": "next lint --fix"
   },
