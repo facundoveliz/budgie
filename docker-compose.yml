@@ -1,7 +1,19 @@
 services:
   server:
     build: .
-    env_file: .env
+    container_name: $SERVER_HOST
     image: facundoveliz/budgie-backend
+    env_file: .env
     ports:
       - $SERVER_PORT:$SERVER_PORT
+
+  client:
+    build: ./client
+    container_name: $CLIENT_HOST
+    image: facundoveliz/budgie-frontend
+    env_file: .env
+    restart: always
+    ports:
+      - $CLIENT_PORT:$CLIENT_PORT
+    depends_on:
+      - server
