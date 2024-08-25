@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: budgie-config
+data:
+  SERVER_HOST: 192.168.49.2
+  SERVER_PORT: "3000"
+  CLIENT_HOST: 192.168.49.2
+  CLIENT_PORT: "80"
+  NEXT_PUBLIC_REACT_APP_BASE_URL_PRODUCTION: test
+  JWT_PRIVATE_KEY: password
+  DATABASE_URI: mongodb+srv://facundoveliz9:revac@cluster0.rcvlf.mongodb.net/personal-budget?retryWrites=true&w=majority
+  DATABASE_URI_TEST: mongodb+srv://facundoveliz9:revac@cluster0.rcvlf.mongodb.net/personal-budget-test?retryWrites=true&w=majority

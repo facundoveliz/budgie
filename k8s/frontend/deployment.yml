@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: budgie-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: budgie-frontend
+  template:
+    metadata:
+      labels:
+        app: budgie-frontend
+    spec:
+      containers:
+      - name: budgie-frontend
+        image: facundoveliz/budgie-frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: budgie-config
