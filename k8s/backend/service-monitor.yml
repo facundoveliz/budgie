@@ -1,0 +1,13 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: budgie-backend-service-monitor
+  labels:
+    release: budgie-monitoring
+spec:
+  selector:
+    matchLabels:
+      app: budgie-backend
+  endpoints:
+  - port: "3000"
+    path: /metrics
